@@ -2,7 +2,7 @@
  * ethernetLib.c
  *
  *  Created on: 3 wrz 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #include "ethernetLib.h"
@@ -11,7 +11,7 @@
  * @var uint32_t DHCP_state
  * @brief State of DHCP server finding module
  */
-uint32_t DHCP_state;
+uint32_t dhcpState;
 
 /**
  * @var ETH_HandleTypeDef EthHandle
@@ -19,6 +19,10 @@ uint32_t DHCP_state;
  */
 extern ETH_HandleTypeDef EthHandle;
 
+/**
+ * @var char httpOkHeaderPattern[]
+ * @brief Plain header of 200 HTTP response
+ */
 const char httpOkHeaderPattern[] =
 		"HTTP/1.0 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\nConnection: Closed\r\n\r\n%s";
 /**
@@ -61,6 +65,8 @@ void printAddress(const struct netif* gnetif, uint8_t addressType) {
  */
 uint32_t isEthernetCableConnected() {
 	uint32_t val;
+
+	// reads from PHY register
 	HAL_ETH_ReadPHYRegister(&EthHandle, 1, &val);
 	val = val & (1 << 2);
 	return val;
@@ -72,7 +78,7 @@ uint32_t isEthernetCableConnected() {
  * @param client: pointer to \ref netconn
  * @retval returns \ref ERR_OK if there are no errors
  */
-err_t amplitudeSend(AmplitudeStr* ampStr, struct netconn *client) {
+err_t sendSpectrum(SpectrumStr* ampStr, struct netconn *client) {
 	err_t status;
 
 	if (client != NULL)
@@ -129,6 +135,11 @@ void printContent(struct netbuf* buf) {
 	}
 }
 
+/**
+ * @brief Returns the request type
+ * @param buf: pointer to \ref netbuf structure
+ * @retval GET_REQUEST, PUT_REQUEST or NOT_SUPPORTED_REQUEST
+ */
 uint16_t getRequestType(struct netbuf* buf) {
 	void* data;
 	uint16_t length;
@@ -140,9 +151,15 @@ uint16_t getRequestType(struct netbuf* buf) {
 	else if (strstr(fullMsg, "PUT") != NULL)
 		return PUT_REQUEST;
 	else
-		return UNKNOWN_REQUEST;
+		return NOT_SUPPORTED_REQUEST;
 }
 
+/**
+ * @brief Sens the device configuration to the client
+ * @param config: pointer to \ref StmConfig structure
+ * @param client: pointer to \ref netconn structure (represents endpoint client)
+ * @retval ERR_OK if there are no errors
+ */
 err_t sendConfiguration(StmConfig* config, struct netconn* client) {
 	err_t netStatus;
 
@@ -164,13 +181,11 @@ err_t sendString(struct netconn* client, char* array) {
 	return netconn_write(client, array, strlen(array), NETCONN_NOCOPY);
 }
 
-err_t redirect(struct netconn* client, const char* addr) {
-	char header[128];
-	sprintf(header, "HTTP/1.1 301 Moved Permanently\r\nLocation: %s\r\n\r\n",
-			addr);
-	return sendString(client, header);
-}
-
+/**
+ * @brief Check if the request includes '/config' text
+ * @param buf: pointer to \ref netbuf structure
+ * @retval 1 if request includes '/config'
+ */
 uint8_t isConfigRequest(struct netbuf* buf) {
 	void* data;
 	uint16_t length;

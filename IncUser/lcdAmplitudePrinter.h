@@ -2,7 +2,7 @@
  * lcdAmplitudePrinter.h
  *
  *  Created on: 8 wrz 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #ifndef LCDAMPLITUDEPRINTER_H_
@@ -25,6 +25,6 @@
 #define LCD_HEIGHT 272
 
 /* Functions */
-void lcdAmpPrinterPrint(AmplitudeStr* amp);
+void lcdAmpPrinterPrint(SpectrumStr* amp);
 
 #endif /* LCDAMPLITUDEPRINTER_H_ */

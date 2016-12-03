@@ -2,13 +2,13 @@
  * audioRecording.c
  *
  *  Created on: 3 wrz 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #include "audioRecording.h"
 
 /**
- * @brief The initialization function for audio recording.
+ * @brief Audio recording initialization
  * @param inpuTdevice: AUDIO_RECORDER_INPUT_MICROPHONE or AUDIO_RECORDER_INPUT_LINE
  * @param volume: 0 - mute, 80 - 0 dB, 100 - 17.625 dB
  * @retval AUDIO_OK - no errors
@@ -42,7 +42,7 @@ uint8_t audioRecorderSetVolume(uint8_t volume) {
  * @param audioBufferSize buffer size
  * @param frequency sampling frequency
  */
-void audioRecordingSoundMailFill(SoundMail* soundStructure,
+void audioRecordingSoundMailFill(SoundMailStr* soundStructure,
 		uint16_t* audioBuffer, uint32_t audioBufferSize, uint32_t frequency) {
 	soundStructure->frequency = frequency;
 	soundStructure->soundBufferSize = audioBufferSize;
@@ -57,13 +57,13 @@ void audioRecordingSoundMailFill(SoundMail* soundStructure,
  * @param soundBuffer: pointer to SoundBuffer (destination)
  * @param SoundMail: pointer to SoundMail (source)
  */
-void audioRecordingUpdateSoundBuffer(SoundBuffer* soundBuffer,
-		SoundMail* soundMail) {
+void audioRecordingUpdateSoundBuffer(SoundBufferStr* soundBuffer,
+		SoundMailStr* soundMail) {
 	soundBuffer->frequency = soundMail->frequency;
 
 	for (uint32_t i = 0; i < soundMail->soundBufferSize; i++) {
 		soundBuffer->iterator++;
-		if (soundBuffer->iterator >= soundBuffer->soundBufferSize)
+		if (soundBuffer->iterator >= soundBuffer->size)
 			soundBuffer->iterator = 0;
 		soundBuffer->soundBuffer[soundBuffer->iterator] =
 				soundMail->soundBuffer[i];

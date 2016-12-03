@@ -2,11 +2,14 @@
  * jsonConfiguration.c
  *
  *  Created on: 5 paŸ 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #include "jsonConfiguration.h"
 
+/**
+ * @brief Parses \netbuf (JSON data) to \StmConfig structure
+ */
 void parse(struct netbuf* buf, StmConfig* config) {
 	void* data;
 	uint16_t length;
@@ -24,12 +27,17 @@ void parse(struct netbuf* buf, StmConfig* config) {
 	config->frequencyResolution = cJSON_GetObjectItem(parser,
 			"FrequencyResolution")->valuedouble;
 
-	sscanf(udpEndpoint, "%d.%d.%d.%d", &(config->udpEndpointAddr[0]),
-			&(config->udpEndpointAddr[1]), &(config->udpEndpointAddr[2]),
-			&(config->udpEndpointAddr[3]));
+	sscanf(udpEndpoint, "%d.%d.%d.%d", (int*)&(config->udpEndpointAddr[0]),
+			(int*)&(config->udpEndpointAddr[1]), (int*)&(config->udpEndpointAddr[2]),
+			(int*)&(config->udpEndpointAddr[3]));
 	cJSON_Delete(parser);
 }
 
+/**
+ * @brief Converts \ref StmConfig structure to JSON string
+ * @param config: pointer to \ref StmConfig structure
+ * @param str: pointer to output of the JSON string (must have allocated memory)
+ */
 void stmConfigToString(StmConfig* config, char* str) {
 	cJSON *jsonCreator;
 	jsonCreator = cJSON_CreateObject();
@@ -51,6 +59,11 @@ void stmConfigToString(StmConfig* config, char* str) {
 	cJSON_Delete(jsonCreator);
 }
 
+/**
+ * @brief Copies \ref StmConfig structure to another \ref StmConfig structure
+ * @param destination: pointer (output) to \ref StmConfig structure
+ * @param source: pointer to \ref StmConfig structure
+ */
 void configCopy(StmConfig* destination, StmConfig* source) {
 	destination->amplitudeSamplingDelay = source->amplitudeSamplingDelay;
 	destination->started = source->started;

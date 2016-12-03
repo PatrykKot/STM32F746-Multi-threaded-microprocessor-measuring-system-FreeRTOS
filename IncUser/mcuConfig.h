@@ -1,8 +1,8 @@
 /*
- * mcuConfig.h
+ * mcuConfig.c
  *
  *  Created on: Jul 5, 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #ifndef MCUCONFIG_H_

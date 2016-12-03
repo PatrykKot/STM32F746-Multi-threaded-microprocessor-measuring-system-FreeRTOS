@@ -16,7 +16,7 @@ uint8_t isTaskNull(osThreadId task);
 uint8_t isPoolNull(osPoolId pool);
 uint8_t isMutexNull(osMutexId mutex);
 uint8_t isMailQueueNull(osMailQId mailQueue);
-void printHandleNull(char* taskName);
+void printNullHandle(char* taskName);
 void printHandleOk(char* taskName);
 uint8_t checkTaskHandle(osThreadId task, char* taskName);
 uint8_t checkMutexHandle(osMutexId mutex, char* mutexName);

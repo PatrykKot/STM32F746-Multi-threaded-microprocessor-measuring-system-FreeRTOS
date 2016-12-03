@@ -2,7 +2,7 @@
  * ethernetLib.h
  *
  *  Created on: 3 wrz 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #ifndef ETHERNETLIB_H_
@@ -74,21 +74,28 @@
  */
 #define ETHERNET_AMP_BUFFER_SIZE 256
 
-#define UNKNOWN_REQUEST 0
+/**
+ * HTTP request types
+ */
+#define NOT_SUPPORTED_REQUEST 0
 #define GET_REQUEST 1
 #define PUT_REQUEST 2
+
+/**
+ * UDP streaming port
+ */
+#define UDP_STREAMING_PORT 53426
 
 /* Functions */
 void printAddress(const struct netif* gnetif, uint8_t addressType);
 uint32_t isEthernetCableConnected();
-err_t amplitudeSend(AmplitudeStr* ampStr, struct netconn *client);
+err_t sendSpectrum(SpectrumStr* ampStr, struct netconn *client);
 uint8_t isNetconnStatusOk(err_t status);
 err_t udpSend(struct netconn *client, void* buf, uint32_t buffSize);
 void printContent(struct netbuf* buf);
 uint16_t getRequestType(struct netbuf* buf);
 err_t sendConfiguration(StmConfig* config, struct netconn* client);
 err_t sendString(struct netconn* client, char* array);
-err_t redirect(struct netconn* client, const char* addr);
 uint8_t isConfigRequest(struct netbuf* buf);
 
 #endif /* ETHERNETLIB_H_ */

@@ -2,7 +2,7 @@
  * soundProcessing.c
  *
  *  Created on: 3 wrz 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #include "soundProcessing.h"
@@ -10,11 +10,11 @@
 /**
  * @brief The function calculates the amplitude vector \p amplitudeStr using CMSIS DSP library
  * @param cfft_instance: pointer to \ref arm_cfft_instance_f32
- * @param amplitudeStr: pointer to \ref AmplitudeStr - destination of amplitude vector
+ * @param amplitudeStr: pointer to \ref SpectrumStr - destination of amplitude vector
  * @param sourceBuffer: source buffer of audio samples
  */
 void soundProcessingGetAmplitudeInstance(arm_cfft_instance_f32* cfft_instance,
-		AmplitudeStr* amplitudeStr, float32_t* sourceBuffer) {
+		SpectrumStr* amplitudeStr, float32_t* sourceBuffer) {
 	arm_cfft_f32(cfft_instance, sourceBuffer, 0, 1);
 	arm_cmplx_mag_f32(sourceBuffer, amplitudeStr->amplitudeVector,
 			cfft_instance->fftLen);
@@ -22,36 +22,36 @@ void soundProcessingGetAmplitudeInstance(arm_cfft_instance_f32* cfft_instance,
 
 /**
  * @brief The function initializes \p amplitudeStr (sets the frequency resoultion and amplitude vector size) amd copies sound samples to \p destinationBuffer
- * @param amplitudeStr: pointer to \ref AmplitudeStr (destination)
+ * @param spectrumStr: pointer to \ref SpectrumStr (destination)
  * @param soundBuffer: pointer to \ref SoundBuffer (source)
  * @param destinationBuffer: buffer to temporary hold the audio samples (destination)
  */
-void soundProcessingAmplitudeInit(AmplitudeStr* amplitudeStr,
-		SoundBuffer* soundBuffer, float32_t* destinationBuffer) {
-	amplitudeStr->frequencyResolution = (float32_t) soundBuffer->frequency
-			/ soundBuffer->soundBufferSize * 2;
-	amplitudeStr->vectorSize = soundBuffer->soundBufferSize / 2;
+void soundProcessingAmplitudeInit(SpectrumStr* spectrumStr,
+		SoundBufferStr* soundBuffer, float32_t* destinationBuffer) {
+	spectrumStr->frequencyResolution = (float32_t) soundBuffer->frequency
+			/ soundBuffer->size * 2;
+	spectrumStr->vectorSize = soundBuffer->size / 2;
 
 	uint32_t soundBuffIterator = soundBuffer->iterator + 1;
-	for (uint32_t i = 0; i < soundBuffer->soundBufferSize; i++) {
+	for (uint32_t i = 0; i < soundBuffer->size; i++) {
 		destinationBuffer[i] = soundBuffer->soundBuffer[soundBuffIterator++];
-		if (soundBuffIterator >= soundBuffer->soundBufferSize)
+		if (soundBuffIterator >= soundBuffer->size)
 			soundBuffIterator = 0;
 	}
 }
 
 /**
- * @brief Returns the \ref SingleFreq instance which is representating the frequency with the maximum amplitude found in the amplitude vector
- * @param amplitudeStr: pointer to \ref AmplitudeStr
+ * @brief Returns the \ref SingleFreqStr instance which is representating the frequency with the maximum amplitude found in the amplitude vector
+ * @param amplitudeStr: pointer to \ref SpectrumStr
  * @param from: lowest index
  * @param to: highest index
  *
  * The index range was used because always the first element in the amplitude vector has the highest value.
  * @retval \ref SingleFreq instance
  */
-SingleFreq soundProcessingGetStrongestFrequency(AmplitudeStr* amplitudeStr,
+SingleFreqStr soundProcessingGetStrongestFrequency(SpectrumStr* amplitudeStr,
 		uint32_t from, uint32_t to) {
-	SingleFreq freq;
+	SingleFreqStr freq;
 	float32_t result = amplitudeStr->amplitudeVector[from];
 	uint32_t index = from;
 
@@ -62,7 +62,7 @@ SingleFreq soundProcessingGetStrongestFrequency(AmplitudeStr* amplitudeStr,
 		}
 	}
 
-	freq.amplitudeVal = result;
+	freq.amplitude = result;
 	freq.frequency = (float32_t) index * amplitudeStr->frequencyResolution;
 
 	return freq;
@@ -121,10 +121,12 @@ void soundProcessingGetCfftInstance(arm_cfft_instance_f32* instance,
 }
 
 /**
- * @brief
+ * @brief Copies \ref SpectrumStr structure to another \red SpectrumStr structure
+ * @param source: pointer to \ref SpectrumStr structure
+ * @param destination: pointer (output) to \ref SpectrumStr structure
  */
-void soundProcessingCopyAmplitudeInstance(AmplitudeStr* source,
-		AmplitudeStr* destination) {
+void soundProcessingCopyAmplitudeInstance(SpectrumStr* source,
+		SpectrumStr* destination) {
 	destination->frequencyResolution = source->frequencyResolution;
 	destination->vectorSize = source->vectorSize;
 

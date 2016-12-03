@@ -48,7 +48,7 @@ void Error_Handler(void);
 /* USER CODE END 1 */
 
 /* Variables Initialization */
-struct netif gnetif;
+struct netif ethernetInterfaceHandler;
 ip4_addr_t ipaddr;
 ip4_addr_t netmask;
 ip4_addr_t gw;
@@ -71,15 +71,15 @@ void MX_LWIP_Init(void) {
 	IP4_ADDR(&gw, GW_ADDR0, GW_ADDR1, GW_ADDR2, GW_ADDR3);
 
 	/* add the network interface (IPv4/IPv6) with RTOS */
-	netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init,
+	netif_add(&ethernetInterfaceHandler, &ipaddr, &netmask, &gw, NULL, &ethernetif_init,
 			&tcpip_input);
 
 	/* Registers the default network interface */
-	netif_set_default(&gnetif);
+	netif_set_default(&ethernetInterfaceHandler);
 
 	//if (netif_is_link_up(&gnetif)) {
 		/* When the netif is fully configured this function must be called */
-		netif_set_up(&gnetif);
+		netif_set_up(&ethernetInterfaceHandler);
 	//} else {
 		/* When the netif link is down this function must be called */
 	//	netif_set_down(&gnetif);
@@ -88,11 +88,5 @@ void MX_LWIP_Init(void) {
 
 	/* USER CODE END 3 */
 }
-
-/* USER CODE BEGIN 4 */
-void MX_LWIP_Process(void) {
-	ethernetif_input(&gnetif);
-}
-/* USER CODE END 4 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

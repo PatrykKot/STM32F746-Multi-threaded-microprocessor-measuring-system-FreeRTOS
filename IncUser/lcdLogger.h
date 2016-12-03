@@ -2,7 +2,7 @@
  * logger.h
  *
  *  Created on: Jul 5, 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #ifndef LCDLOGGER_H_

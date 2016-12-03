@@ -2,16 +2,16 @@
  * lcdAmplitudePrinter.c
  *
  *  Created on: 8 wrz 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #include "lcdAmplitudePrinter.h"
 
 /**
  * @brief The function prints the amplitude \p amp on the LCD screen.
- * @param amp: pointer to \ref AmplitudeStr structure
+ * @param amp: pointer to \ref SpectrumStr structure
  */
-void lcdAmpPrinterPrint(AmplitudeStr* amp) {
+void lcdAmpPrinterPrint(SpectrumStr* amp) {
 
 	uint16_t ampVal;
 	uint16_t itCount = LCD_WIDTH;
@@ -20,7 +20,7 @@ void lcdAmpPrinterPrint(AmplitudeStr* amp) {
 
 	static float32_t maxAmp = 1;
 	float32_t newMaxAmp = soundProcessingGetStrongestFrequency(amp, 1,
-			itCount - 1).amplitudeVal;
+			itCount - 1).amplitude;
 	if (newMaxAmp > maxAmp)
 		maxAmp = newMaxAmp;
 

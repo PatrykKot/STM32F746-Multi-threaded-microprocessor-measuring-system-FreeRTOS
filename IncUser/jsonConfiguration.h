@@ -2,7 +2,7 @@
  * jsonConfiguration.h
  *
  *  Created on: 5 paü 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #ifndef JSONCONFIGURATION_H_
@@ -18,6 +18,9 @@
 #define TRUE 1
 #define FALSE 0
 
+/**
+ * @brief Structure represents device configuration
+ */
 typedef struct {
 	uint8_t started;
 	uint8_t udpEndpointAddr[4];
@@ -26,6 +29,7 @@ typedef struct {
 	float32_t frequencyResolution;
 } StmConfig;
 
+/* Functions */
 void parse(struct netbuf* buf, StmConfig* config);
 void stmConfigToString(StmConfig* config, char* str);
 void configCopy(StmConfig* destination, StmConfig* source);

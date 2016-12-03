@@ -2,7 +2,7 @@
  * usrTasks.h
  *
  *  Created on: 14 wrz 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #ifndef USRTASKS_H_
@@ -13,7 +13,6 @@
 #include "audioRecording.h"
 #include "soundProcessing.h"
 #include "lcdAmplitudePrinter.h"
-#include "usrDhcp.h"
 #include "ethernetLib.h"
 #include "mcuConfig.h"
 #include "jsonConfiguration.h"
@@ -22,11 +21,11 @@
 
 #include "cmsis_os.h"
 #include "lwip.h"
-
+/* Functions */
 void threadsInit();
 void osCheck();
 
-/* Threads, mutexes, queues */
+/* OS threads */
 #ifdef LCD_PRINTER_SUPPORT
 void lcdTask(void const * argument);
 #endif
@@ -48,14 +47,15 @@ void initTask(void const * argument);
 #define CONNECTION_TASK_DELAY_TIME 10
 #define HTTP_CONFIG_TASK_DELAY_TIME 100
 
-#define HTTP_HOST_ACCEPT_TIMEOUT 5
+/* Timeouts */
+#define HTTP_HOST_ACCEPT_TIMEOUT 1
 #define HTTP_RECEIVE_TIMEOUT 500
 
-#define MAXIMUM_AUDIO_MESSAGE_QUEUE_SIZE 8
+/* Other */
+#define MAXIMUM_DMA_AUDIO_MESSAGE_QUEUE_SIZE 8
 
 /* Signals */
 #define DHCP_FINISHED_SIGNAL 0x0001
 #define START_SOUND_PROCESSING_SIGNAL 0x0001
-#define SOUND_PROCESSING_STARTED_SIGNAL 0x0001
 
 #endif /* USRTASKS_H_ */

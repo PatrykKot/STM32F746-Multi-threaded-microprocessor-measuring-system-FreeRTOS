@@ -2,14 +2,14 @@
  * main.h
  *
  *  Created on: 3 wrz 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #ifndef MAIN_H_
 #define MAIN_H_
 
 /*
- * All the includes and defines used in main.c
+ * All the includes used in main.c
  */
 #include "stm32f7xx_hal.h"
 #include "cmsis_os.h"

@@ -7,31 +7,7 @@
 
 #include "usrTaskSupport.h"
 
-uint8_t isTaskNull(osThreadId task) {
-	if (task == NULL)
-		return 1;
-	return 0;
-}
-
-uint8_t isPoolNull(osPoolId pool) {
-	if (pool == NULL)
-		return 1;
-	return 0;
-}
-
-uint8_t isMutexNull(osMutexId mutex) {
-	if (mutex == NULL)
-		return 1;
-	return 0;
-}
-
-uint8_t isMailQueueNull(osMailQId mailQueue) {
-	if (mailQueue == NULL)
-		return 1;
-	return 0;
-}
-
-void printHandleNull(char* handleName) {
+void printNullHandle(char* handleName) {
 	char msg[30];
 	sprintf(msg, "%s is NULL", handleName);
 	logErr(msg);
@@ -45,7 +21,7 @@ void printHandleOk(char* handleName) {
 
 uint8_t checkTaskHandle(osThreadId task, char* taskName) {
 	if (isTaskNull(task)) {
-		printHandleNull(taskName);
+		printNullHandle(taskName);
 		return 1;
 	} else {
 		printHandleOk(taskName);
@@ -55,7 +31,7 @@ uint8_t checkTaskHandle(osThreadId task, char* taskName) {
 
 uint8_t checkMutexHandle(osMutexId mutex, char* mutexName) {
 	if (isMutexNull(mutex)) {
-		printHandleNull(mutexName);
+		printNullHandle(mutexName);
 		return 1;
 	} else {
 		printHandleOk(mutexName);
@@ -65,7 +41,7 @@ uint8_t checkMutexHandle(osMutexId mutex, char* mutexName) {
 
 uint8_t checkMailQueueHandle(osMailQId mailQueue, char* mailQueueName) {
 	if (isMailQueueNull(mailQueue)) {
-		printHandleNull(mailQueueName);
+		printNullHandle(mailQueueName);
 		return 1;
 	} else {
 		printHandleOk(mailQueueName);
@@ -75,7 +51,7 @@ uint8_t checkMailQueueHandle(osMailQId mailQueue, char* mailQueueName) {
 
 uint8_t checkPoolHandle(osPoolId pool, char* poolName) {
 	if (isPoolNull(pool)) {
-		printHandleNull(poolName);
+		printNullHandle(poolName);
 		return 1;
 	} else {
 		printHandleOk(poolName);

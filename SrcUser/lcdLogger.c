@@ -2,7 +2,7 @@
  * logger.c
  *
  *  Created on: Jul 5, 2016
- *      Author: Patryk
+ *      Author: Patryk Kotlarz
  */
 
 #include "lcdLogger.h"
