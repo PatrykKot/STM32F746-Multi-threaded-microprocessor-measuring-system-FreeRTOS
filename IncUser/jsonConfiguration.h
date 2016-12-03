@@ -22,16 +22,16 @@
  * @brief Structure represents device configuration
  */
 typedef struct {
-	uint8_t started;
-	uint8_t udpEndpointAddr[4];
-	uint32_t udpEndpointPort;
+	//uint8_t started;
+	//uint8_t udpEndpointAddr[4];
+	//uint32_t udpEndpointPort;
 	uint8_t amplitudeSamplingDelay;
-	float32_t frequencyResolution;
+	uint32_t audioSamplingFrequency;
 } StmConfig;
 
 /* Functions */
-void parse(struct netbuf* buf, StmConfig* config);
+void parseJSON(struct netbuf* buf, StmConfig* config);
 void stmConfigToString(StmConfig* config, char* str);
-void configCopy(StmConfig* destination, StmConfig* source);
+void copyConfig(StmConfig* destination, StmConfig* source);
 
 #endif /* JSONCONFIGURATION_H_ */

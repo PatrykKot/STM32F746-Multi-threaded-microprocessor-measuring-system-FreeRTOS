@@ -19,7 +19,7 @@ extern uint8_t dhcpState;
  */
 extern struct netif ethernetInterfaceHandler;
 
-//StmConfig* configStr;
+StmConfig configStr;
 
 /**
  * @var SoundBuffer* mainSoundBuffer
@@ -32,12 +32,6 @@ SoundBufferStr* mainSoundBuffer;
  * @brief Buffer which holds samples from last DMA interrupt
  */
 uint16_t dmaAudioBuffer[AUDIO_BUFFER_SIZE];
-
-/**
- * @var uint32_t audioSamplingFrequency
- * @brief Audio samping frequency
- */
-uint32_t audioSamplingFrequency = 44100;
 
 /**
  * @var AmplitudeStr* mainSpectrumBuffer
@@ -181,16 +175,19 @@ void initTask(void const * argument) {
 	mainSpectrumBuffer = osPoolCAlloc(spectrumBufferPool_id);
 	mainSoundBuffer = osPoolCAlloc(soundBufferPool_id);
 	mainSoundBuffer->iterator = 0;
-	mainSoundBuffer->frequency = audioSamplingFrequency;
+	mainSoundBuffer->frequency = configStr.audioSamplingFrequency;
 	mainSoundBuffer->size = MAIN_SOUND_BUFFER_MAX_BUFFER_SIZE;
 	for (uint32_t i = 0; i < mainSoundBuffer->size; i++) {
 		mainSoundBuffer->soundBuffer[i] = 0;
 	}
-	//configStr->amplitudeSamplingDelay = CONNECTION_TASK_DELAY_TIME;
+
+	configStr.amplitudeSamplingDelay = CONNECTION_TASK_DELAY_TIME;
+	configStr.audioSamplingFrequency = 44100;
 
 	logMsg("Preparing audio recording");
 	if (audioRecorderInit(AUDIO_RECORDER_INPUT_MICROPHONE,
-	AUDIO_RECORDER_VOLUME_0DB, audioSamplingFrequency) != AUDIO_RECORDER_OK) {
+	AUDIO_RECORDER_VOLUME_0DB,
+			configStr.audioSamplingFrequency) != AUDIO_RECORDER_OK) {
 		logErr("Audio rec init");
 	}
 
@@ -323,7 +320,7 @@ void audioRecorder_FullBufferFilled(void) {
 	// allocating memory for sound mail
 	soundSamples = osMailAlloc(dmaAudioMail_q_id, osWaitForever);
 	audioRecordingSoundMailFill(soundSamples, dmaAudioBuffer,
-	AUDIO_BUFFER_SIZE, audioSamplingFrequency);
+	AUDIO_BUFFER_SIZE, configStr.audioSamplingFrequency);
 
 	// sending mail to queue
 	osStatus status = osMailPut(dmaAudioMail_q_id, soundSamples);
@@ -472,7 +469,7 @@ void streamingTask(void const * argument) {
 	err_t netErr;
 
 	ip_addr_t clientIp;
-	IP4_ADDR(&clientIp, 192, 168, 0, 10);
+	IP4_ADDR(&clientIp, 192, 168, 1, 10);
 
 	// creating UDP socket
 	udpStreamingSocket = netconn_new(NETCONN_UDP);
@@ -491,10 +488,10 @@ void streamingTask(void const * argument) {
 		// setting signal to start sound processing
 		status = osSignalSet(soundProcessingTaskHandle,
 		START_SOUND_PROCESSING_SIGNAL);
-		//osDelay(configStr->amplitudeSamplingDelay);
+		osDelay(configStr.amplitudeSamplingDelay);
 
 		// delay
-		osDelay(10);
+		//osDelay(10);
 
 		// waiting for acces to ethernet interface
 		osStatus status = osMutexWait(ethernetInterfaceMutex_id, osWaitForever);
@@ -586,12 +583,7 @@ void httpConfigTask(void const* argument) {
 					case GET_REQUEST: {
 						if (isConfigRequest(recvBuf)) {
 							// if it is GET config request
-							StmConfig conf;
-							conf.amplitudeSamplingDelay = 50;
-							conf.frequencyResolution = 2312.53;
-							conf.started = 1;
-							conf.udpEndpointPort = 80;
-							sendConfiguration(&conf, newClient);
+							sendConfiguration(&configStr, newClient);
 						}
 						break;
 					}
@@ -599,15 +591,30 @@ void httpConfigTask(void const* argument) {
 						sendHttpOk(newClient);
 						netbuf_delete(recvBuf);
 
+						// receiving JSON data
 						err_t netStatus = netconn_recv(newClient, &recvBuf);
 						if (netStatus == ERR_OK) {
-							StmConfig config;
+							StmConfig tempConfigStr;
 
 							// parsing JSON data to config structure
-							parse(recvBuf, &config);
+							parseJSON(recvBuf, &tempConfigStr);
+
+							// processing new data
+							if(tempConfigStr.amplitudeSamplingDelay != configStr.amplitudeSamplingDelay)
+							{
+								logMsg("Delay changed");
+							}
+							if(tempConfigStr.audioSamplingFrequency != configStr.audioSamplingFrequency)
+							{
+								audioRecorderSetSamplingFrequency(tempConfigStr.audioSamplingFrequency);
+								logMsg("Frequency changed");
+							}
+
+							copyConfig(&configStr, &tempConfigStr);
+							logMsg("Got configuration");
 
 							// copying temporary structure to main config structure
-							//configCopy(configStr, &config);
+							//configCopy(configStr, &tempConfigStr);
 						}
 						break;
 					}

@@ -7,6 +7,12 @@
 
 #include "audioRecording.h"
 
+static uint16_t inputDeviceStat;
+static uint8_t volumeStat;
+static uint32_t audioFreqStat;
+static uint16_t* audioBufferStat;
+static uint32_t audioBufferSizeStat;
+
 /**
  * @brief Audio recording initialization
  * @param inpuTdevice: AUDIO_RECORDER_INPUT_MICROPHONE or AUDIO_RECORDER_INPUT_LINE
@@ -15,6 +21,9 @@
  */
 uint8_t audioRecorderInit(uint16_t inputDevice, uint8_t volume,
 		uint32_t audioFreq) {
+	inputDeviceStat = inputDevice;
+	volumeStat = volume;
+	audioFreqStat = audioFreq;
 	return BSP_AUDIO_IN_Init(inputDevice, volume, audioFreq);
 }
 
@@ -24,6 +33,9 @@ uint8_t audioRecorderInit(uint16_t inputDevice, uint8_t volume,
  */
 uint8_t audioRecorderStartRecording(uint16_t* audioBuffer,
 		uint32_t audioBufferSize) {
+	audioBufferStat = audioBuffer;
+	audioBufferSizeStat = audioBufferSize;
+
 	return BSP_AUDIO_IN_Record(audioBuffer, audioBufferSize);
 }
 
@@ -32,7 +44,21 @@ uint8_t audioRecorderStartRecording(uint16_t* audioBuffer,
  * @retval AUDIO_OK - no errors
  */
 uint8_t audioRecorderSetVolume(uint8_t volume) {
+	volumeStat = volume;
 	return BSP_AUDIO_IN_SetVolume(volume);
+}
+
+uint8_t audioRecorderSetSamplingFrequency(uint32_t frequency) {
+	BSP_AUDIO_IN_Pause();
+	BSP_AUDIO_IN_Stop(CODEC_PDWN_HW);
+	audioFreqStat = frequency;
+
+	uint8_t status = audioRecorderInit(inputDeviceStat, volumeStat,
+			audioFreqStat);
+	if (status != AUDIO_OK)
+		return status;
+
+	return audioRecorderStartRecording(audioBufferStat, audioBufferSizeStat);
 }
 
 /**

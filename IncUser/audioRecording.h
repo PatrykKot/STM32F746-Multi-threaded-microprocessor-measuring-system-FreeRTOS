@@ -85,6 +85,7 @@ uint8_t audioRecorderInit(uint16_t inputDevice, uint8_t volume,
 uint8_t audioRecorderStartRecording(uint16_t* audioBuffer,
 		uint32_t audioBufferSize);
 uint8_t audioRecorderSetVolume(uint8_t volume);
+uint8_t audioRecorderSetSamplingFrequency(uint32_t frequency);
 
 void audioRecordingUpdateSoundBuffer(SoundBufferStr* soundBuffer,
 		SoundMailStr* soundMail);
