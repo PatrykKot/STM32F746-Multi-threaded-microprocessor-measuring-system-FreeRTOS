@@ -177,7 +177,13 @@ err_t sendConfiguration(StmConfig* config, struct netconn* client) {
 	return netStatus;
 }
 
-err_t sendString(struct netconn* client, char* array) {
+err_t sendHttpOk(struct netconn* client) {
+	char response[256];
+	sprintf(response, httpOkHeaderPattern, 0, "");
+	return sendString(client, response);
+}
+
+err_t sendString(struct netconn* client, const char* array) {
 	return netconn_write(client, array, strlen(array), NETCONN_NOCOPY);
 }
 

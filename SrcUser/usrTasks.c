@@ -494,7 +494,7 @@ void streamingTask(void const * argument) {
 		//osDelay(configStr->amplitudeSamplingDelay);
 
 		// delay
-		osDelay(100);
+		osDelay(10);
 
 		// waiting for acces to ethernet interface
 		osStatus status = osMutexWait(ethernetInterfaceMutex_id, osWaitForever);
@@ -558,7 +558,7 @@ void httpConfigTask(void const* argument) {
 	while (1) {
 		// delay
 		osDelay(HTTP_CONFIG_TASK_DELAY_TIME);
-		logMsg("HTTP task");
+		//logMsg("HTTP task");
 
 		// waiting for acces to ethernet interface
 		osStatus status = osMutexWait(ethernetInterfaceMutex_id, osWaitForever);
@@ -569,7 +569,7 @@ void httpConfigTask(void const* argument) {
 			netStatus = netconn_accept(httpServer, &newClient);
 			if (netStatus == ERR_OK) {
 				// if there is a client
-				logMsg("New client");
+				logMsg("Got request");
 
 				struct netbuf* recvBuf;
 				newClient->recv_timeout = HTTP_RECEIVE_TIMEOUT;
@@ -581,36 +581,46 @@ void httpConfigTask(void const* argument) {
 					// encoding HTTP request type
 					uint16_t requestType = getRequestType(recvBuf);
 					logMsgVal("Request type ", requestType);
-					if (requestType == GET_REQUEST) {
-						// if it is GET request
+
+					switch (requestType) {
+					case GET_REQUEST: {
 						if (isConfigRequest(recvBuf)) {
 							// if it is GET config request
-							//sendConfiguration(configStr, newClient);
+							StmConfig conf;
+							conf.amplitudeSamplingDelay = 50;
+							conf.frequencyResolution = 2312.53;
+							conf.started = 1;
+							conf.udpEndpointPort = 80;
+							sendConfiguration(&conf, newClient);
 						}
-					} else {
-						if (requestType == PUT_REQUEST) {
-							// if it is PUT request
-
-							//???
-							netbuf_delete(recvBuf);
-
-							//sendConfiguration(configStr, newClient);
-
-							err_t netStatus = netconn_recv(newClient, &recvBuf);
-							if (netStatus == ERR_OK) {
-								StmConfig config;
-
-								// parsing JSON data to config structure
-								parse(recvBuf, &config);
-
-								// copying temporary structure to main config structure
-								//configCopy(configStr, &config);
-							}
-						}
+						break;
 					}
+					case PUT_REQUEST: {
+						sendHttpOk(newClient);
+						netbuf_delete(recvBuf);
+
+						err_t netStatus = netconn_recv(newClient, &recvBuf);
+						if (netStatus == ERR_OK) {
+							StmConfig config;
+
+							// parsing JSON data to config structure
+							parse(recvBuf, &config);
+
+							// copying temporary structure to main config structure
+							//configCopy(configStr, &config);
+						}
+						break;
+					}
+					default: {
+						logErr("HTTP request");
+						break;
+					}
+					}
+
+					// deleting socket buffer
 					netbuf_delete(recvBuf);
 				} else
-					logErrVal("No data", netStatus);
+					logErrVal("TCP no data", netStatus);
 
 				// closing connectoin
 				netStatus = netconn_close(newClient);

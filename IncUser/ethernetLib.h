@@ -95,7 +95,8 @@ err_t udpSend(struct netconn *client, void* buf, uint32_t buffSize);
 void printContent(struct netbuf* buf);
 uint16_t getRequestType(struct netbuf* buf);
 err_t sendConfiguration(StmConfig* config, struct netconn* client);
-err_t sendString(struct netconn* client, char* array);
+err_t sendHttpOk(struct netconn* client);
+err_t sendString(struct netconn* client, const char* array);
 uint8_t isConfigRequest(struct netbuf* buf);
 
 #endif /* ETHERNETLIB_H_ */
