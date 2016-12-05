@@ -15,6 +15,8 @@
 #include "lcdLogger.h"
 #include "cJSON.h"
 
+#define IP_ADDR_GET(ipaddr,index) ((u32_t)(ipaddr.addr)>>((u32_t)(8*index)))&((u32_t)0xff)
+
 #define TRUE 1
 #define FALSE 0
 
@@ -27,6 +29,8 @@ typedef struct {
 	//uint32_t udpEndpointPort;
 	uint8_t amplitudeSamplingDelay;
 	uint32_t audioSamplingFrequency;
+	ip_addr_t clientIp;
+	uint32_t clientPort;
 } StmConfig;
 
 /* Functions */
@@ -35,3 +39,4 @@ void stmConfigToString(StmConfig* config, char* str);
 void copyConfig(StmConfig* destination, StmConfig* source);
 
 #endif /* JSONCONFIGURATION_H_ */
+

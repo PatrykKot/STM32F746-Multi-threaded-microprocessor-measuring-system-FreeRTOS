@@ -17,19 +17,23 @@ void parseJSON(struct netbuf* buf, StmConfig* config) {
 	char* jsonData = (char*) data;
 
 	cJSON* parser = cJSON_Parse(jsonData);
-	/*config->started = cJSON_GetObjectItem(parser, "Started")->valueint;
-	 char* udpEndpoint =
-	 cJSON_GetObjectItem(parser, "UdpEndpointIP")->valuestring;
-	 config->udpEndpointPort =
+	/*config->started = cJSON_GetObjectItem(parser, "Started")->valueint;*/
+	char* udpEndpoint =
+			cJSON_GetObjectItem(parser, "UdpEndpointIP")->valuestring;
+	/*config->udpEndpointPort =
 	 cJSON_GetObjectItem(parser, "UdpEndpointPort")->valueint;*/
 	config->amplitudeSamplingDelay = cJSON_GetObjectItem(parser,
 			"AmplitudeSamplingDelay")->valueint;
 	config->audioSamplingFrequency = cJSON_GetObjectItem(parser,
-	 "SamplingFrequency")->valueint;
+			"SamplingFrequency")->valueint;
+	config->clientPort =
+			cJSON_GetObjectItem(parser, "UdpEndpointPort")->valueint;
 
-	 /*sscanf(udpEndpoint, "%d.%d.%d.%d", (int*)&(config->udpEndpointAddr[0]),
-	 (int*)&(config->udpEndpointAddr[1]), (int*)&(config->udpEndpointAddr[2]),
-	 (int*)&(config->udpEndpointAddr[3]));*/
+	int ipTab[4];
+	sscanf(udpEndpoint, "%d.%d.%d.%d", &ipTab[0], &ipTab[1], &ipTab[2],
+			&ipTab[3]);
+	IP4_ADDR(&config->clientIp, ipTab[0], ipTab[1], ipTab[2], ipTab[3]);
+
 	cJSON_Delete(parser);
 }
 
@@ -41,19 +45,20 @@ void parseJSON(struct netbuf* buf, StmConfig* config) {
 void stmConfigToString(StmConfig* config, char* str) {
 	cJSON *jsonCreator;
 	jsonCreator = cJSON_CreateObject();
-	/*cJSON_AddBoolToObject(jsonCreator, "Started", config->started);
-	 cJSON_AddNumberToObject(jsonCreator, "UdpEndpointPort",
-	 config->udpEndpointPort);
-	 cJSON_AddNumberToObject(jsonCreator, "FrequencyResolution",
-	 config->frequencyResolution);*/
+	/*cJSON_AddBoolToObject(jsonCreator, "Started", config->started);*/
+	cJSON_AddNumberToObject(jsonCreator, "UdpEndpointPort", config->clientPort);
 	cJSON_AddNumberToObject(jsonCreator, "AmplitudeSamplingDelay",
 			config->amplitudeSamplingDelay);
+	cJSON_AddNumberToObject(jsonCreator, "SamplingFrequency",
+			config->audioSamplingFrequency);
 
-	/*char ip[15];
-	 sprintf(ip, "%d.%d.%d.%d", config->udpEndpointAddr[0],
-	 config->udpEndpointAddr[1], config->udpEndpointAddr[2],
-	 config->udpEndpointAddr[3]);
-	 cJSON_AddStringToObject(jsonCreator, "UdpEndpointIP", ip);*/
+	char ip[15];
+	int ipTab[4];
+	for (uint8_t i = 0; i < 4; i++) {
+		ipTab[i] = IP_ADDR_GET(config->clientIp, i);
+	}
+	sprintf(ip, "%d.%d.%d.%d", ipTab[0], ipTab[1], ipTab[2], ipTab[3]);
+	cJSON_AddStringToObject(jsonCreator, "UdpEndpointIP", ip);
 
 	strcpy(str, cJSON_Print(jsonCreator));
 	cJSON_Delete(jsonCreator);
@@ -67,6 +72,8 @@ void stmConfigToString(StmConfig* config, char* str) {
 void copyConfig(StmConfig* destination, StmConfig* source) {
 	destination->amplitudeSamplingDelay = source->amplitudeSamplingDelay;
 	destination->audioSamplingFrequency = source->audioSamplingFrequency;
+	destination->clientIp.addr = source->clientIp.addr;
+	destination->clientPort = source->clientPort;
 
 	/*destination->started = source->started;
 	 for (uint16_t i = 0; i < 4; i++)

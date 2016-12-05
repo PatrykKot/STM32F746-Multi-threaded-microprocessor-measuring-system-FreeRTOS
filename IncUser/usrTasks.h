@@ -49,7 +49,7 @@ void initTask(void const * argument);
 
 /* Timeouts */
 #define HTTP_HOST_ACCEPT_TIMEOUT 1
-#define HTTP_RECEIVE_TIMEOUT 500
+#define HTTP_RECEIVE_TIMEOUT 1500
 
 /* Other */
 #define MAXIMUM_DMA_AUDIO_MESSAGE_QUEUE_SIZE 8

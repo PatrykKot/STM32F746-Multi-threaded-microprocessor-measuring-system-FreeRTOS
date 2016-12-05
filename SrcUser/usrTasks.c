@@ -183,6 +183,8 @@ void initTask(void const * argument) {
 
 	configStr.amplitudeSamplingDelay = CONNECTION_TASK_DELAY_TIME;
 	configStr.audioSamplingFrequency = 44100;
+	configStr.clientPort = UDP_STREAMING_PORT;
+	IP4_ADDR(&configStr.clientIp, 192, 168, 1, 10);
 
 	logMsg("Preparing audio recording");
 	if (audioRecorderInit(AUDIO_RECORDER_INPUT_MICROPHONE,
@@ -468,9 +470,6 @@ void streamingTask(void const * argument) {
 	err_t status;
 	err_t netErr;
 
-	ip_addr_t clientIp;
-	IP4_ADDR(&clientIp, 192, 168, 1, 10);
-
 	// creating UDP socket
 	udpStreamingSocket = netconn_new(NETCONN_UDP);
 	if (udpStreamingSocket == NULL)
@@ -503,8 +502,8 @@ void streamingTask(void const * argument) {
 			if (status == osOK) {
 
 				// "connecting" to UDP
-				netErr = netconn_connect(udpStreamingSocket, &clientIp,
-				UDP_STREAMING_PORT);
+				netErr = netconn_connect(udpStreamingSocket,
+						&configStr.clientIp, configStr.clientPort);
 				if (netErr)
 					logErrVal("UDP connect", netErr);
 
@@ -566,7 +565,6 @@ void httpConfigTask(void const* argument) {
 			netStatus = netconn_accept(httpServer, &newClient);
 			if (netStatus == ERR_OK) {
 				// if there is a client
-				logMsg("Got request");
 
 				struct netbuf* recvBuf;
 				newClient->recv_timeout = HTTP_RECEIVE_TIMEOUT;
@@ -577,17 +575,21 @@ void httpConfigTask(void const* argument) {
 
 					// encoding HTTP request type
 					uint16_t requestType = getRequestType(recvBuf);
-					logMsgVal("Request type ", requestType);
 
 					switch (requestType) {
 					case GET_REQUEST: {
+						logMsg("GET request");
 						if (isConfigRequest(recvBuf)) {
 							// if it is GET config request
+							logMsg("Config request");
 							sendConfiguration(&configStr, newClient);
+						} else {
+							logErr("Not supported request");
 						}
 						break;
 					}
 					case PUT_REQUEST: {
+						logMsg("PUT request");
 						sendHttpOk(newClient);
 						netbuf_delete(recvBuf);
 
@@ -600,21 +602,51 @@ void httpConfigTask(void const* argument) {
 							parseJSON(recvBuf, &tempConfigStr);
 
 							// processing new data
-							if(tempConfigStr.amplitudeSamplingDelay != configStr.amplitudeSamplingDelay)
-							{
-								logMsg("Delay changed");
+							if (tempConfigStr.amplitudeSamplingDelay
+									!= configStr.amplitudeSamplingDelay) {
+								logMsgVal("New delay ",
+										tempConfigStr.amplitudeSamplingDelay);
 							}
-							if(tempConfigStr.audioSamplingFrequency != configStr.audioSamplingFrequency)
-							{
-								audioRecorderSetSamplingFrequency(tempConfigStr.audioSamplingFrequency);
-								logMsg("Frequency changed");
+							if (tempConfigStr.audioSamplingFrequency
+									!= configStr.audioSamplingFrequency) {
+								audioRecorderSetSamplingFrequency(
+										tempConfigStr.audioSamplingFrequency);
+								logMsgVal("New frequency ",
+										tempConfigStr.audioSamplingFrequency);
+							}
+							if (tempConfigStr.clientIp.addr
+									!= configStr.clientIp.addr) {
+								char text[40];
+								sprintf(text, "New endpoint %d.%d.%d.%d",
+										IP_ADDR_GET(tempConfigStr.clientIp, 0),
+										IP_ADDR_GET(tempConfigStr.clientIp, 1),
+										IP_ADDR_GET(tempConfigStr.clientIp, 2),
+										IP_ADDR_GET(tempConfigStr.clientIp, 3));
+								logMsg(text);
+							}
+							if (tempConfigStr.clientPort
+									!= configStr.clientPort) {
+								logMsgVal("New port ",
+										tempConfigStr.clientPort);
 							}
 
-							copyConfig(&configStr, &tempConfigStr);
-							logMsg("Got configuration");
+							logMsgVal("Delay ",
+									tempConfigStr.amplitudeSamplingDelay);
+							logMsgVal("Freq ",
+									tempConfigStr.audioSamplingFrequency);
+							char text[40];
+							sprintf(text, "Endpoint %d.%d.%d.%d",
+									IP_ADDR_GET(tempConfigStr.clientIp, 0),
+									IP_ADDR_GET(tempConfigStr.clientIp, 1),
+									IP_ADDR_GET(tempConfigStr.clientIp, 2),
+									IP_ADDR_GET(tempConfigStr.clientIp, 3));
+							logMsg(text);
+							logMsgVal("Port ",tempConfigStr.clientPort);
 
 							// copying temporary structure to main config structure
-							//configCopy(configStr, &tempConfigStr);
+							copyConfig(&configStr, &tempConfigStr);
+						} else {
+							logErrVal("PUT status ", netStatus);
 						}
 						break;
 					}

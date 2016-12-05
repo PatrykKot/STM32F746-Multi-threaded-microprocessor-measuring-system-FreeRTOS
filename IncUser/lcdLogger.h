@@ -11,6 +11,7 @@
 #include "stm32746g_discovery_lcd.h"
 #include "stdlib.h"
 #include "arm_math.h"
+#include "jsonConfiguration.h"
 
 /**
  * @def LOG_MAX_ROWS
