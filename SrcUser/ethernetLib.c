@@ -23,8 +23,8 @@ extern ETH_HandleTypeDef EthHandle;
  * @var char httpOkHeaderPattern[]
  * @brief Plain header of 200 HTTP response
  */
-const char httpOkHeaderPattern[] =
-		"HTTP/1.0 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d%s\r\n\r\n%s";
+const char httpHeaderPattern[] =
+		"HTTP/1.0 %s\r\nContent-Length: %d%s\r\n\r\n%s";
 /**
  * @brief Used for printing the IP, netmask or gateway address
  * @param gnetif: pointer to \ref netif structure
@@ -154,18 +154,33 @@ uint16_t getRequestType(struct netbuf* buf) {
 		return NOT_SUPPORTED_REQUEST;
 }
 
-err_t sendData(struct netconn* client, char* requestParameters, char* data) {
-	err_t netStatus;
+void printData(struct netbuf* buf) {
+	void* data;
+	uint16_t length;
+	netbuf_data(buf, &data, &length);
+	char* fullMsg = (char*) data;
 
-	char configResponse[512];
+	uint32_t len = strlen(fullMsg);
+	uint32_t charInLine = 0;
+	uint32_t lastLineEnding = 0;
 
-	sprintf(configResponse, httpOkHeaderPattern, strlen(data),
-			requestParameters, data);
+	for (uint32_t i = 0; i < len; i++) {
+		if ((fullMsg[i] == '\r' && fullMsg[i + 1] == '\n') || (i == len - 1)
+				|| (charInLine > 40)) {
+			char tempMsg[256];
 
-	netStatus = sendString(client, configResponse);
-	if (netStatus != ERR_OK)
-		return netStatus;
-	return netStatus;
+			for (uint32_t j = lastLineEnding; j < i; j++) {
+				tempMsg[j - lastLineEnding] = fullMsg[j];
+			}
+			tempMsg[i - lastLineEnding] = '\0';
+
+			logMsg(tempMsg);
+			lastLineEnding = i + 2;
+			charInLine = 0;
+		} else {
+			charInLine++;
+		}
+	}
 }
 
 /**
@@ -178,12 +193,14 @@ err_t sendConfiguration(StmConfig* config, struct netconn* client,
 		char* requestParameters) {
 	char configContent[256];
 	stmConfigToString(config, configContent);
-	return sendData(client, requestParameters, configContent);
+	return sendHttpResponse(client, "200 OK",requestParameters, configContent);
 }
 
-err_t sendHttpOk(struct netconn* client, char* requestParameters) {
-	char response[256];
-	sprintf(response, httpOkHeaderPattern, 0, requestParameters, "");
+err_t sendHttpResponse(struct netconn* client, char* httpStatus,
+		char* requestParameters, char* content) {
+	char response[512];
+	sprintf(response, httpHeaderPattern, httpStatus, strlen(content),
+			requestParameters, content);
 	return sendString(client, response);
 }
 

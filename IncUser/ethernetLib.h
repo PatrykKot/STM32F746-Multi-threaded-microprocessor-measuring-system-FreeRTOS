@@ -94,9 +94,10 @@ uint8_t isNetconnStatusOk(err_t status);
 err_t udpSend(struct netconn *client, void* buf, uint32_t buffSize);
 void printContent(struct netbuf* buf);
 uint16_t getRequestType(struct netbuf* buf);
-err_t sendData(struct netconn* client, char* requestParameters, char* data);
-err_t sendConfiguration(StmConfig* config, struct netconn* client, char* requestParameters);
-err_t sendHttpOk(struct netconn* client, char* requestParameters);
+err_t sendConfiguration(StmConfig* config, struct netconn* client,
+		char* requestParameters);
+err_t sendHttpResponse(struct netconn* client, char* httpStatus,
+		char* requestParameters, char* content);
 err_t sendString(struct netconn* client, const char* array);
 uint8_t isConfigRequest(struct netbuf* buf);
 

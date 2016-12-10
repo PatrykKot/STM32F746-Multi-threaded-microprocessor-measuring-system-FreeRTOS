@@ -585,6 +585,8 @@ void httpConfigTask(void const* argument) {
 							sendConfiguration(&configStr, newClient,
 									"\r\nConnection: Closed");
 						} else {
+							sendHttpResponse(newClient, "404 Not Found", "\r\nContent-Type: text/html",
+									"<h1>404 Not Found</h1>");
 							logErr("Not supported request");
 						}
 						break;
@@ -594,7 +596,7 @@ void httpConfigTask(void const* argument) {
 						if (isConfigRequest(recvBuf)) {
 							logMsg("Config request");
 
-							sendHttpOk(newClient, "");
+							sendHttpResponse(newClient, "200 OK", "", "");
 							netbuf_delete(recvBuf);
 
 							// receiving JSON data
@@ -654,12 +656,14 @@ void httpConfigTask(void const* argument) {
 								// copying temporary structure to main config structure
 								copyConfig(&configStr, &tempConfigStr);
 								sendConfiguration(&configStr, newClient,
-										"\r\nConnection: Closed");
+										"\r\nConnection: Closed\r\nContent-Type: application/json");
 							} else {
-								logErr("Not supported request");
+								logErr("No PUT data");
 							}
 						} else {
-							logErrVal("PUT status ", netStatus);
+							sendHttpResponse(newClient, "501 Not Implemented", "\r\nContent-Type: text/html",
+									"<h1>501 Not Implemented</h1>");
+							logErr("Not implemented method");
 						}
 						break;
 					}
