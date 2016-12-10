@@ -24,7 +24,7 @@ extern ETH_HandleTypeDef EthHandle;
  * @brief Plain header of 200 HTTP response
  */
 const char httpOkHeaderPattern[] =
-		"HTTP/1.0 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\nConnection: Closed\r\n\r\n%s";
+		"HTTP/1.0 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d%s\r\n\r\n%s";
 /**
  * @brief Used for printing the IP, netmask or gateway address
  * @param gnetif: pointer to \ref netif structure
@@ -154,32 +154,36 @@ uint16_t getRequestType(struct netbuf* buf) {
 		return NOT_SUPPORTED_REQUEST;
 }
 
+err_t sendData(struct netconn* client, char* requestParameters, char* data) {
+	err_t netStatus;
+
+	char configResponse[512];
+
+	sprintf(configResponse, httpOkHeaderPattern, strlen(data),
+			requestParameters, data);
+
+	netStatus = sendString(client, configResponse);
+	if (netStatus != ERR_OK)
+		return netStatus;
+	return netStatus;
+}
+
 /**
  * @brief Sens the device configuration to the client
  * @param config: pointer to \ref StmConfig structure
  * @param client: pointer to \ref netconn structure (represents endpoint client)
  * @retval ERR_OK if there are no errors
  */
-err_t sendConfiguration(StmConfig* config, struct netconn* client) {
-	err_t netStatus;
-
+err_t sendConfiguration(StmConfig* config, struct netconn* client,
+		char* requestParameters) {
 	char configContent[256];
-	char configResponse[512];
-
 	stmConfigToString(config, configContent);
-	sprintf(configResponse, httpOkHeaderPattern, strlen(configContent),
-			configContent);
-
-	netStatus = netconn_write(client, configResponse, strlen(configResponse),
-			NETCONN_NOCOPY);
-	if (netStatus != ERR_OK)
-		return netStatus;
-	return netStatus;
+	return sendData(client, requestParameters, configContent);
 }
 
-err_t sendHttpOk(struct netconn* client) {
+err_t sendHttpOk(struct netconn* client, char* requestParameters) {
 	char response[256];
-	sprintf(response, httpOkHeaderPattern, 0, "");
+	sprintf(response, httpOkHeaderPattern, 0, requestParameters, "");
 	return sendString(client, response);
 }
 

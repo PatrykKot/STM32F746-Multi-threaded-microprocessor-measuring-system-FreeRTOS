@@ -15,7 +15,7 @@
 #include "lcdLogger.h"
 #include "cJSON.h"
 
-#define IP_ADDR_GET(ipaddr,index) ((u32_t)(ipaddr.addr)>>((u32_t)(8*index)))&((u32_t)0xff)
+#define IP_ADDR_GET(ipaddr,index) (int)(((u32_t)(ipaddr.addr)>>((u32_t)(8*index)))&((u32_t)0xff))
 
 #define TRUE 1
 #define FALSE 0
