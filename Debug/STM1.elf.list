@@ -7,23 +7,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00017d28  080001d0  080001d0  000101d0  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       000180c0  08017ef8  08017ef8  00027ef8  2**3
+  2 .rodata       000180b8  08017ef8  08017ef8  00027ef8  2**3
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM          00000008  0802ffb8  0802ffb8  0003ffb8  2**2
+  3 .ARM          00000008  0802ffb0  0802ffb0  0003ffb0  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  4 .init_array   00000004  0802ffc0  0802ffc0  0003ffc0  2**2
+  4 .init_array   00000004  0802ffb8  0802ffb8  0003ffb8  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  5 .fini_array   00000004  0802ffc4  0802ffc4  0003ffc4  2**2
+  5 .fini_array   00000004  0802ffbc  0802ffbc  0003ffbc  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .data         000005f8  20010000  0802ffc8  00040000  2**2
+  6 .data         000005f8  20010000  0802ffc0  00040000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .RxDescripSection 000000a0  200105f8  080305c0  000405f8  2**2
+  7 .RxDescripSection 000000a0  200105f8  080305b8  000405f8  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .RxBUF        00001dc4  20010698  08030660  00040698  2**0
+  8 .RxBUF        00001dc4  20010698  08030658  00040698  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .TxBUF        00001dc4  2001245c  08032424  0004245c  2**0
+  9 .TxBUF        00001dc4  2001245c  0803241c  0004245c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
- 10 .TxDescripSection 000000a0  20014220  080341e8  00044220  2**2
+ 10 .TxDescripSection 000000a0  20014220  080341e0  00044220  2**2
                   CONTENTS, ALLOC, LOAD, DATA
  11 .dtcmram      00000000  20000000  20000000  000442c0  2**0
                   CONTENTS
@@ -35,25 +35,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  15 .ARM.attributes 00000030  00000000  00000000  000442c0  2**0
                   CONTENTS, READONLY
- 16 .debug_info   0004ce3b  00000000  00000000  000442f0  2**0
+ 16 .debug_info   0004ce3c  00000000  00000000  000442f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_abbrev 0000a81a  00000000  00000000  0009112b  2**0
+ 17 .debug_abbrev 0000a81a  00000000  00000000  0009112c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_loc    00029d5d  00000000  00000000  0009b945  2**0
+ 18 .debug_loc    00029d5d  00000000  00000000  0009b946  2**0
                   CONTENTS, READONLY, DEBUGGING
  19 .debug_aranges 000028e8  00000000  00000000  000c56a8  2**3
                   CONTENTS, READONLY, DEBUGGING
  20 .debug_ranges 00003b28  00000000  00000000  000c7f90  2**3
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_line   000173f4  00000000  00000000  000cbab8  2**0
+ 21 .debug_line   000173f5  00000000  00000000  000cbab8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_str    0000dbce  00000000  00000000  000e2eac  2**0
+ 22 .debug_str    0000dbce  00000000  00000000  000e2ead  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .comment      0000007e  00000000  00000000  000f0a7a  2**0
+ 23 .comment      0000007e  00000000  00000000  000f0a7b  2**0
                   CONTENTS, READONLY
- 24 .debug_frame  00008cbc  00000000  00000000  000f0af8  2**2
+ 24 .debug_frame  00008cbc  00000000  00000000  000f0afc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 25 .stabstr      000000df  00000000  00000000  000f97b4  2**0
+ 25 .stabstr      000000df  00000000  00000000  000f97b8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -4566,7 +4566,7 @@ void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hsai)
  8001dcc:	b508      	push	{r3, lr}
   /* Call the record update function to get the next buffer to fill and its size (size is ignored) */
   BSP_AUDIO_IN_TransferComplete_CallBack();
- 8001dce:	f00e fa99 	bl	8010304 <BSP_AUDIO_IN_TransferComplete_CallBack>
+ 8001dce:	f00e fa97 	bl	8010300 <BSP_AUDIO_IN_TransferComplete_CallBack>
  8001dd2:	bd08      	pop	{r3, pc}
 
 08001dd4 <BSP_AUDIO_IN_HalfTransfer_CallBack>:
@@ -10935,7 +10935,7 @@ Reset_Handler:
 
 CopyDataInit:
   ldr  r3, =_sidata
- 8003534:	0802ffc8 	.word	0x0802ffc8
+ 8003534:	0802ffc0 	.word	0x0802ffc0
   ldr  r3, [r3, r1]
   str  r3, [r0, r1]
   adds  r1, r1, #4
@@ -58380,7 +58380,7 @@ err_t sys_mbox_new(sys_mbox_t *mbox, int size)
  800e23c:	b510      	push	{r4, lr}
  800e23e:	4604      	mov	r4, r0
 	(void ) size;
-	
+
 	*mbox = xQueueCreate( archMESG_QUEUE_LENGTH, sizeof( void * ) );
  800e240:	2200      	movs	r2, #0
  800e242:	2104      	movs	r1, #4
@@ -58392,7 +58392,7 @@ err_t sys_mbox_new(sys_mbox_t *mbox, int size)
 #endif /* SYS_STATS */
  if (*mbox == NULL)
   return ERR_MEM;
- 
+
  return ERR_OK;
 }
  800e252:	4240      	negs	r0, r0
@@ -58411,7 +58411,7 @@ void sys_mbox_free(sys_mbox_t *mbox)
  800e25a:	6800      	ldr	r0, [r0, #0]
  800e25c:	f7f9 fb92 	bl	8007984 <uxQueueMessagesWaiting>
 #endif /* SYS_STATS */
-			
+
 		// TODO notify the user of failure.
 	}
 
@@ -58424,7 +58424,7 @@ void sys_mbox_free(sys_mbox_t *mbox)
 }
  800e262:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
 #endif /* SYS_STATS */
-			
+
 		// TODO notify the user of failure.
 	}
 
@@ -58491,7 +58491,7 @@ err_t result;
  800e298:	4621      	mov	r1, r4
  800e29a:	f7f9 f8cd 	bl	8007438 <xQueueGenericSend>
 #endif /* SYS_STATS */
-			
+
    }
 
    return result;
@@ -58526,7 +58526,7 @@ portTickType StartTime, EndTime, Elapsed;
 		msg = &dummyptr;
  800e2bc:	ad01      	add	r5, sp, #4
 	}
-		
+
 	if ( timeout != 0 )
  800e2be:	b167      	cbz	r7, 800e2da <sys_arch_mbox_fetch+0x2e>
 	{
@@ -58538,24 +58538,24 @@ portTickType StartTime, EndTime, Elapsed;
  800e2c8:	f7f9 fa56 	bl	8007778 <xQueueGenericReceive>
  800e2cc:	2801      	cmp	r0, #1
  800e2ce:	d00d      	beq.n	800e2ec <sys_arch_mbox_fetch+0x40>
-			
+
 			return ( Elapsed );
 		}
 		else // timed out blocking for message
 		{
 			*msg = NULL;
  800e2d0:	2300      	movs	r3, #0
-			
+
 			return SYS_ARCH_TIMEOUT;
  800e2d2:	f04f 30ff 	mov.w	r0, #4294967295
-			
+
 			return ( Elapsed );
 		}
 		else // timed out blocking for message
 		{
 			*msg = NULL;
  800e2d6:	602b      	str	r3, [r5, #0]
-			
+
 			return SYS_ARCH_TIMEOUT;
  800e2d8:	e00b      	b.n	800e2f2 <sys_arch_mbox_fetch+0x46>
 		}
@@ -58574,8 +58574,8 @@ portTickType StartTime, EndTime, Elapsed;
  800e2ec:	f7f9 fd7a 	bl	8007de4 <xTaskGetTickCount>
 		Elapsed = (EndTime - StartTime) * portTICK_RATE_MS;
  800e2f0:	1b00      	subs	r0, r0, r4
-		
-		return ( Elapsed ); // return time blocked TODO test	
+
+		return ( Elapsed ); // return time blocked TODO test
 	}
 }
  800e2f2:	b003      	add	sp, #12
@@ -58652,10 +58652,10 @@ err_t sys_sem_new(sys_sem_t *sem, u8_t count)
  800e344:	6828      	ldr	r0, [r5, #0]
  800e346:	b138      	cbz	r0, 800e358 <sys_sem_new+0x32>
       ++lwip_stats.sys.sem.err;
-#endif /* SYS_STATS */	
+#endif /* SYS_STATS */
 		return ERR_MEM;
 	}
-	
+
 	if(count == 0)	// Means it can't be taken
  800e348:	b94c      	cbnz	r4, 800e35e <sys_sem_new+0x38>
 	{
@@ -58668,7 +58668,7 @@ err_t sys_sem_new(sys_sem_t *sem, u8_t count)
 		lwip_stats.sys.sem.max = lwip_stats.sys.sem.used;
 	}
 #endif /* SYS_STATS */
-		
+
 	return ERR_OK;
  800e354:	4620      	mov	r0, r4
  800e356:	bd38      	pop	{r3, r4, r5, pc}
@@ -58676,7 +58676,7 @@ err_t sys_sem_new(sys_sem_t *sem, u8_t count)
 	{
 #if SYS_STATS
       ++lwip_stats.sys.sem.err;
-#endif /* SYS_STATS */	
+#endif /* SYS_STATS */
 		return ERR_MEM;
  800e358:	f04f 30ff 	mov.w	r0, #4294967295
  800e35c:	bd38      	pop	{r3, r4, r5, pc}
@@ -58684,7 +58684,7 @@ err_t sys_sem_new(sys_sem_t *sem, u8_t count)
 		lwip_stats.sys.sem.max = lwip_stats.sys.sem.used;
 	}
 #endif /* SYS_STATS */
-		
+
 	return ERR_OK;
  800e35e:	2000      	movs	r0, #0
 }
@@ -58736,10 +58736,10 @@ portTickType StartTime, EndTime, Elapsed;
 		Elapsed = (EndTime - StartTime) * portTICK_RATE_MS;
  800e398:	1b00      	subs	r0, r0, r4
 
-		return ( Elapsed ); // return time blocked	
+		return ( Elapsed ); // return time blocked
  800e39a:	bd70      	pop	{r4, r5, r6, pc}
-			
-			return (Elapsed); // return time blocked TODO test	
+
+			return (Elapsed); // return time blocked TODO test
 		}
 		else
 		{
@@ -58747,8 +58747,8 @@ portTickType StartTime, EndTime, Elapsed;
  800e39c:	f04f 30ff 	mov.w	r0, #4294967295
 		Elapsed = (EndTime - StartTime) * portTICK_RATE_MS;
 
-		return ( Elapsed ); // return time blocked	
-		
+		return ( Elapsed ); // return time blocked
+
 	}
 }
  800e3a0:	bd70      	pop	{r4, r5, r6, pc}
@@ -58771,7 +58771,7 @@ void sys_sem_signal(sys_sem_t *sem)
 #if SYS_STATS
       --lwip_stats.sys.sem.used;
 #endif /* SYS_STATS */
-			
+
 	vQueueDelete(*sem);
  800e3ae:	6800      	ldr	r0, [r0, #0]
  800e3b0:	f7f9 bb10 	b.w	80079d4 <vQueueDelete>
@@ -58779,13 +58779,13 @@ void sys_sem_signal(sys_sem_t *sem)
 0800e3b4 <sys_sem_valid>:
 }
 /*-----------------------------------------------------------------------------------*/
-int sys_sem_valid(sys_sem_t *sem)                                               
+int sys_sem_valid(sys_sem_t *sem)
 {
  800e3b4:	6800      	ldr	r0, [r0, #0]
   if (*sem == SYS_SEM_NULL)
     return 0;
   else
-    return 1;                                       
+    return 1;
 }
  800e3b6:	3000      	adds	r0, #0
  800e3b8:	bf18      	it	ne
@@ -58794,10 +58794,10 @@ int sys_sem_valid(sys_sem_t *sem)
 
 0800e3be <sys_sem_set_invalid>:
 
-/*-----------------------------------------------------------------------------------*/                                                                                                                                                                
-void sys_sem_set_invalid(sys_sem_t *sem)                                        
-{                                                                               
-  *sem = SYS_SEM_NULL;                                                          
+/*-----------------------------------------------------------------------------------*/
+void sys_sem_set_invalid(sys_sem_t *sem)
+{
+  *sem = SYS_SEM_NULL;
  800e3be:	2300      	movs	r3, #0
  800e3c0:	6003      	str	r3, [r0, #0]
  800e3c2:	4770      	bx	lr
@@ -61486,7 +61486,7 @@ void printAddress(const struct netif* gnetif, uint8_t addressType) {
  800ecc0:	b010      	add	sp, #64	; 0x40
  800ecc2:	bd10      	pop	{r4, pc}
  800ecc4:	0802f4e6 	.word	0x0802f4e6
- 800ecc8:	0802f7ad 	.word	0x0802f7ad
+ 800ecc8:	0802f7b1 	.word	0x0802f7b1
  800eccc:	0802f4de 	.word	0x0802f4de
  800ecd0:	0802f4ee 	.word	0x0802f4ee
 
@@ -61777,7 +61777,7 @@ uint8_t isConfigRequest(struct netbuf* buf) {
  800ee14:	f7fa fc56 	bl	80096c4 <netbuf_data>
 	char* fullMsg = (char*) data;
 
-	if (strstr(fullMsg, "/config") != NULL)
+	if (strstr(fullMsg, " /config ") != NULL)
  800ee18:	4904      	ldr	r1, [pc, #16]	; (800ee2c <isConfigRequest+0x20>)
  800ee1a:	9801      	ldr	r0, [sp, #4]
  800ee1c:	f002 feeb 	bl	8011bf6 <strstr>
@@ -61927,10 +61927,10 @@ void parseJSON(struct netbuf* buf, StmConfig* config) {
 }
  800eeac:	b008      	add	sp, #32
  800eeae:	bd70      	pop	{r4, r5, r6, pc}
- 800eeb0:	0802f51f 	.word	0x0802f51f
- 800eeb4:	0802f52d 	.word	0x0802f52d
- 800eeb8:	0802f544 	.word	0x0802f544
- 800eebc:	0802f556 	.word	0x0802f556
+ 800eeb0:	0802f521 	.word	0x0802f521
+ 800eeb4:	0802f52f 	.word	0x0802f52f
+ 800eeb8:	0802f546 	.word	0x0802f546
+ 800eebc:	0802f558 	.word	0x0802f558
  800eec0:	0802f4fa 	.word	0x0802f4fa
 
 0800eec4 <stmConfigToString>:
@@ -62032,11 +62032,11 @@ void stmConfigToString(StmConfig* config, char* str) {
  800ef6a:	b00a      	add	sp, #40	; 0x28
  800ef6c:	bd70      	pop	{r4, r5, r6, pc}
  800ef6e:	bf00      	nop
- 800ef70:	0802f556 	.word	0x0802f556
- 800ef74:	0802f52d 	.word	0x0802f52d
- 800ef78:	0802f544 	.word	0x0802f544
+ 800ef70:	0802f558 	.word	0x0802f558
+ 800ef74:	0802f52f 	.word	0x0802f52f
+ 800ef78:	0802f546 	.word	0x0802f546
  800ef7c:	0802f4fa 	.word	0x0802f4fa
- 800ef80:	0802f51f 	.word	0x0802f51f
+ 800ef80:	0802f521 	.word	0x0802f521
 
 0800ef84 <copyConfig>:
  * @brief Copies \ref StmConfig structure to another \ref StmConfig structure
@@ -62271,7 +62271,7 @@ void logMsgVal(char* msg, int val) {
  800f086:	f7ff bf87 	b.w	800ef98 <disp>
  800f08a:	bf00      	nop
  800f08c:	20042f88 	.word	0x20042f88
- 800f090:	0802f566 	.word	0x0802f566
+ 800f090:	0802f568 	.word	0x0802f568
 
 0800f094 <logErrVal>:
 /**
@@ -62312,7 +62312,7 @@ void logErrVal(char* msg, int val) {
 	disp(fullMsg, LCD_COLOR_RED);
  800f0b4:	f7ff bf70 	b.w	800ef98 <disp>
  800f0b8:	20042f88 	.word	0x20042f88
- 800f0bc:	0802f566 	.word	0x0802f566
+ 800f0bc:	0802f568 	.word	0x0802f568
  800f0c0:	ffff0000 	.word	0xffff0000
 
 0800f0c4 <MX_LWIP_Init>:
@@ -62437,7 +62437,7 @@ int main(void) {
 
 	/* Initializing threads */
 	threadsInit();
- 800f132:	f001 f8db 	bl	80102ec <threadsInit>
+ 800f132:	f001 f8d9 	bl	80102e8 <threadsInit>
 
 	/* Tasks scheduler start */
 	osKernelStart();
@@ -65541,7 +65541,7 @@ void printNullHandle(char* handleName) {
  800f9e0:	b009      	add	sp, #36	; 0x24
  800f9e2:	f85d fb04 	ldr.w	pc, [sp], #4
  800f9e6:	bf00      	nop
- 800f9e8:	0802f573 	.word	0x0802f573
+ 800f9e8:	0802f575 	.word	0x0802f575
 
 0800f9ec <initTask>:
 // OS TASKS
@@ -65894,58 +65894,58 @@ void initTask(void const * argument) {
  800fbc6:	f7f6 be7e 	b.w	80068c6 <osThreadTerminate>
  800fbca:	bf00      	nop
  800fbcc:	200497f0 	.word	0x200497f0
- 800fbd0:	0802f5c8 	.word	0x0802f5c8
- 800fbd4:	0802fba4 	.word	0x0802fba4
- 800fbd8:	0802f5e3 	.word	0x0802f5e3
- 800fbdc:	0802f5f4 	.word	0x0802f5f4
- 800fbe0:	0802f603 	.word	0x0802f603
+ 800fbd0:	0802f5cc 	.word	0x0802f5cc
+ 800fbd4:	0802fb9c 	.word	0x0802fb9c
+ 800fbd8:	0802f5e7 	.word	0x0802f5e7
+ 800fbdc:	0802f5f8 	.word	0x0802f5f8
+ 800fbe0:	0802f607 	.word	0x0802f607
  800fbe4:	200497e4 	.word	0x200497e4
- 800fbe8:	0802f614 	.word	0x0802f614
- 800fbec:	0802fb80 	.word	0x0802fb80
- 800fbf0:	0802f62e 	.word	0x0802f62e
- 800fbf4:	0802fb98 	.word	0x0802fb98
+ 800fbe8:	0802f618 	.word	0x0802f618
+ 800fbec:	0802fb78 	.word	0x0802fb78
+ 800fbf0:	0802f632 	.word	0x0802f632
+ 800fbf4:	0802fb90 	.word	0x0802fb90
  800fbf8:	200497f4 	.word	0x200497f4
- 800fbfc:	0802f639 	.word	0x0802f639
- 800fc00:	0802fb8c 	.word	0x0802fb8c
+ 800fbfc:	0802f63d 	.word	0x0802f63d
+ 800fc00:	0802fb84 	.word	0x0802fb84
  800fc04:	200497d4 	.word	0x200497d4
- 800fc08:	0802f643 	.word	0x0802f643
- 800fc0c:	0802f64e 	.word	0x0802f64e
- 800fc10:	0802fbb8 	.word	0x0802fbb8
+ 800fc08:	0802f647 	.word	0x0802f647
+ 800fc0c:	0802f652 	.word	0x0802f652
+ 800fc10:	0802fbb0 	.word	0x0802fbb0
  800fc14:	200497e0 	.word	0x200497e0
- 800fc18:	0802f667 	.word	0x0802f667
- 800fc1c:	0802f674 	.word	0x0802f674
- 800fc20:	0802fb7c 	.word	0x0802fb7c
+ 800fc18:	0802f66b 	.word	0x0802f66b
+ 800fc1c:	0802f678 	.word	0x0802f678
+ 800fc20:	0802fb74 	.word	0x0802fb74
  800fc24:	200497dc 	.word	0x200497dc
- 800fc28:	0802f689 	.word	0x0802f689
- 800fc2c:	0802fbec 	.word	0x0802fbec
+ 800fc28:	0802f68d 	.word	0x0802f68d
+ 800fc2c:	0802fbe4 	.word	0x0802fbe4
  800fc30:	200497d8 	.word	0x200497d8
- 800fc34:	0802f693 	.word	0x0802f693
- 800fc38:	0802f5c4 	.word	0x0802f5c4
+ 800fc34:	0802f697 	.word	0x0802f697
+ 800fc38:	0802f5c8 	.word	0x0802f5c8
  800fc3c:	2004981c 	.word	0x2004981c
- 800fc40:	0802f69d 	.word	0x0802f69d
- 800fc44:	0802f6a5 	.word	0x0802f6a5
+ 800fc40:	0802f6a1 	.word	0x0802f6a1
+ 800fc44:	0802f6a9 	.word	0x0802f6a9
  800fc48:	20049814 	.word	0x20049814
  800fc4c:	200497ec 	.word	0x200497ec
  800fc50:	20049800 	.word	0x20049800
- 800fc54:	0802f6c0 	.word	0x0802f6c0
+ 800fc54:	0802f6c4 	.word	0x0802f6c4
  800fc58:	0a01a8c0 	.word	0x0a01a8c0
- 800fc5c:	0802f6da 	.word	0x0802f6da
+ 800fc5c:	0802f6de 	.word	0x0802f6de
  800fc60:	200495d4 	.word	0x200495d4
- 800fc64:	0802f6e9 	.word	0x0802f6e9
- 800fc68:	0802f6fc 	.word	0x0802f6fc
- 800fc6c:	0802f5b0 	.word	0x0802f5b0
+ 800fc64:	0802f6ed 	.word	0x0802f6ed
+ 800fc68:	0802f700 	.word	0x0802f700
+ 800fc6c:	0802f5b4 	.word	0x0802f5b4
  800fc70:	20049810 	.word	0x20049810
- 800fc74:	0802f70f 	.word	0x0802f70f
- 800fc78:	0802f59c 	.word	0x0802f59c
+ 800fc74:	0802f713 	.word	0x0802f713
+ 800fc78:	0802f5a0 	.word	0x0802f5a0
  800fc7c:	200495cc 	.word	0x200495cc
- 800fc80:	0802f71f 	.word	0x0802f71f
- 800fc84:	0802fbc4 	.word	0x0802fbc4
+ 800fc80:	0802f723 	.word	0x0802f723
+ 800fc84:	0802fbbc 	.word	0x0802fbbc
  800fc88:	200497f8 	.word	0x200497f8
- 800fc8c:	0802f729 	.word	0x0802f729
- 800fc90:	0802f588 	.word	0x0802f588
+ 800fc8c:	0802f72d 	.word	0x0802f72d
+ 800fc90:	0802f58c 	.word	0x0802f58c
  800fc94:	200495d0 	.word	0x200495d0
- 800fc98:	0802f735 	.word	0x0802f735
- 800fc9c:	0802f73f 	.word	0x0802f73f
+ 800fc98:	0802f739 	.word	0x0802f739
+ 800fc9c:	0802f743 	.word	0x0802f743
  800fca0:	200497fc 	.word	0x200497fc
 
 0800fca4 <dhcpTask>:
@@ -66215,15 +66215,15 @@ void dhcpTask(void const * argument) {
  800fdb4:	e7fa      	b.n	800fdac <dhcpTask+0x108>
  800fdb6:	bf00      	nop
  800fdb8:	20049314 	.word	0x20049314
- 800fdbc:	0802f750 	.word	0x0802f750
+ 800fdbc:	0802f754 	.word	0x0802f754
  800fdc0:	20049594 	.word	0x20049594
- 800fdc4:	0802f76c 	.word	0x0802f76c
- 800fdc8:	0802f788 	.word	0x0802f788
- 800fdcc:	0802f798 	.word	0x0802f798
- 800fdd0:	0802f7a6 	.word	0x0802f7a6
- 800fdd4:	0802f7b0 	.word	0x0802f7b0
+ 800fdc4:	0802f770 	.word	0x0802f770
+ 800fdc8:	0802f78c 	.word	0x0802f78c
+ 800fdcc:	0802f79c 	.word	0x0802f79c
+ 800fdd0:	0802f7aa 	.word	0x0802f7aa
+ 800fdd4:	0802f7b4 	.word	0x0802f7b4
  800fdd8:	200497fc 	.word	0x200497fc
- 800fddc:	0802f7d0 	.word	0x0802f7d0
+ 800fddc:	0802f7d4 	.word	0x0802f7d4
  800fde0:	0b01a8c0 	.word	0x0b01a8c0
  800fde4:	0101a8c0 	.word	0x0101a8c0
 
@@ -66333,9 +66333,9 @@ void samplingTask(void const * argument) {
  800fe4c:	200497e0 	.word	0x200497e0
  800fe50:	200497d8 	.word	0x200497d8
  800fe54:	200497ec 	.word	0x200497ec
- 800fe58:	0802f7ec 	.word	0x0802f7ec
- 800fe5c:	0802f803 	.word	0x0802f803
- 800fe60:	0802f812 	.word	0x0802f812
+ 800fe58:	0802f7f0 	.word	0x0802f7f0
+ 800fe5c:	0802f807 	.word	0x0802f807
+ 800fe60:	0802f816 	.word	0x0802f816
 
 0800fe64 <soundProcessingTask>:
 }
@@ -66554,14 +66554,14 @@ void soundProcessingTask(void const * argument) {
  800ff34:	200497f4 	.word	0x200497f4
  800ff38:	200497d8 	.word	0x200497d8
  800ff3c:	200497ec 	.word	0x200497ec
- 800ff40:	0802f822 	.word	0x0802f822
+ 800ff40:	0802f826 	.word	0x0802f826
  800ff44:	200497dc 	.word	0x200497dc
  800ff48:	20049814 	.word	0x20049814
- 800ff4c:	0802f84c 	.word	0x0802f84c
- 800ff50:	0802f866 	.word	0x0802f866
- 800ff54:	0802f87c 	.word	0x0802f87c
- 800ff58:	0802f886 	.word	0x0802f886
- 800ff5c:	0802f8a8 	.word	0x0802f8a8
+ 800ff4c:	0802f850 	.word	0x0802f850
+ 800ff50:	0802f86a 	.word	0x0802f86a
+ 800ff54:	0802f880 	.word	0x0802f880
+ 800ff58:	0802f88a 	.word	0x0802f88a
+ 800ff5c:	0802f8ac 	.word	0x0802f8ac
 
 0800ff60 <streamingTask>:
 	struct netconn *udpStreamingSocket = NULL;
@@ -66722,17 +66722,17 @@ void streamingTask(void const * argument) {
  801001c:	480b      	ldr	r0, [pc, #44]	; (801004c <streamingTask+0xec>)
  801001e:	f7ff f839 	bl	800f094 <logErrVal>
  8010022:	e7b9      	b.n	800ff98 <streamingTask+0x38>
- 8010024:	0802f8b3 	.word	0x0802f8b3
+ 8010024:	0802f8b7 	.word	0x0802f8b7
  8010028:	20049598 	.word	0x20049598
- 801002c:	0802f8c3 	.word	0x0802f8c3
+ 801002c:	0802f8c7 	.word	0x0802f8c7
  8010030:	2004981c 	.word	0x2004981c
  8010034:	20049800 	.word	0x20049800
- 8010038:	0802f8cc 	.word	0x0802f8cc
+ 8010038:	0802f8d0 	.word	0x0802f8d0
  801003c:	20049814 	.word	0x20049814
- 8010040:	0802f8d8 	.word	0x0802f8d8
- 8010044:	0802f8e2 	.word	0x0802f8e2
- 8010048:	0802f8fd 	.word	0x0802f8fd
- 801004c:	0802f912 	.word	0x0802f912
+ 8010040:	0802f8dc 	.word	0x0802f8dc
+ 8010044:	0802f8e6 	.word	0x0802f8e6
+ 8010048:	0802f901 	.word	0x0802f901
+ 801004c:	0802f916 	.word	0x0802f916
  8010050:	20049810 	.word	0x20049810
  8010054:	200497dc 	.word	0x200497dc
 
@@ -66781,331 +66781,330 @@ void httpConfigTask(void const* argument) {
 	// binding server to ethernet interface on port 80
 	err_t netStatus = netconn_bind(httpServer,
  8010072:	497c      	ldr	r1, [pc, #496]	; (8010264 <httpConfigTask+0x20c>)
- 8010074:	2250      	movs	r2, #80	; 0x50
- 8010076:	4620      	mov	r0, r4
+ 8010074:	f641 7290 	movw	r2, #8080	; 0x1f90
+ 8010078:	4620      	mov	r0, r4
 
 	// creating TCP server
 	httpServer = netconn_new(NETCONN_TCP);
 	if (httpServer == NULL)
 		logErr("Null TCP");
 	httpServer->recv_timeout = HTTP_HOST_ACCEPT_TIMEOUT;
- 8010078:	61a3      	str	r3, [r4, #24]
+ 801007a:	61a3      	str	r3, [r4, #24]
 
 	// binding server to ethernet interface on port 80
 	err_t netStatus = netconn_bind(httpServer,
- 801007a:	f7f8 fc2d 	bl	80088d8 <netconn_bind>
-			&ethernetInterfaceHandler.ip_addr, 80);
+ 801007c:	f7f8 fc2c 	bl	80088d8 <netconn_bind>
+			&ethernetInterfaceHandler.ip_addr, 8080);
 	if (netStatus != ERR_OK)
- 801007e:	4601      	mov	r1, r0
- 8010080:	b110      	cbz	r0, 8010088 <httpConfigTask+0x30>
+ 8010080:	4601      	mov	r1, r0
+ 8010082:	b110      	cbz	r0, 801008a <httpConfigTask+0x32>
 		logErrVal("TCP bind", netStatus);
- 8010082:	4879      	ldr	r0, [pc, #484]	; (8010268 <httpConfigTask+0x210>)
- 8010084:	f7ff f806 	bl	800f094 <logErrVal>
+ 8010084:	4878      	ldr	r0, [pc, #480]	; (8010268 <httpConfigTask+0x210>)
+ 8010086:	f7ff f805 	bl	800f094 <logErrVal>
 
 	// starting listening
 	netStatus = netconn_listen(httpServer);
- 8010088:	21ff      	movs	r1, #255	; 0xff
- 801008a:	4620      	mov	r0, r4
- 801008c:	f7f8 fc4c 	bl	8008928 <netconn_listen_with_backlog>
+ 801008a:	21ff      	movs	r1, #255	; 0xff
+ 801008c:	4620      	mov	r0, r4
+ 801008e:	f7f8 fc4b 	bl	8008928 <netconn_listen_with_backlog>
 	if (netStatus != ERR_OK)
- 8010090:	4601      	mov	r1, r0
- 8010092:	b110      	cbz	r0, 801009a <httpConfigTask+0x42>
+ 8010092:	4601      	mov	r1, r0
+ 8010094:	b110      	cbz	r0, 801009c <httpConfigTask+0x44>
 		logErrVal("TCP listen", netStatus);
- 8010094:	4875      	ldr	r0, [pc, #468]	; (801026c <httpConfigTask+0x214>)
- 8010096:	f7fe fffd 	bl	800f094 <logErrVal>
+ 8010096:	4875      	ldr	r0, [pc, #468]	; (801026c <httpConfigTask+0x214>)
+ 8010098:	f7fe fffc 	bl	800f094 <logErrVal>
 		// delay
 		osDelay(HTTP_CONFIG_TASK_DELAY_TIME);
 		//logMsg("HTTP task");
 
 		// waiting for acces to ethernet interface
 		osStatus status = osMutexWait(ethernetInterfaceMutex_id, osWaitForever);
- 801009a:	4e75      	ldr	r6, [pc, #468]	; (8010270 <httpConfigTask+0x218>)
- 801009c:	4637      	mov	r7, r6
+ 801009c:	4e74      	ldr	r6, [pc, #464]	; (8010270 <httpConfigTask+0x218>)
+ 801009e:	4637      	mov	r7, r6
 	if (netStatus != ERR_OK)
 		logErrVal("TCP listen", netStatus);
 
 	while (1) {
 		// delay
 		osDelay(HTTP_CONFIG_TASK_DELAY_TIME);
- 801009e:	2064      	movs	r0, #100	; 0x64
- 80100a0:	f7f6 fc16 	bl	80068d0 <osDelay>
+ 80100a0:	2064      	movs	r0, #100	; 0x64
+ 80100a2:	f7f6 fc15 	bl	80068d0 <osDelay>
 		//logMsg("HTTP task");
 
 		// waiting for acces to ethernet interface
 		osStatus status = osMutexWait(ethernetInterfaceMutex_id, osWaitForever);
- 80100a4:	f04f 31ff 	mov.w	r1, #4294967295
- 80100a8:	6830      	ldr	r0, [r6, #0]
- 80100aa:	f7f6 fc67 	bl	800697c <osMutexWait>
+ 80100a6:	f04f 31ff 	mov.w	r1, #4294967295
+ 80100aa:	6830      	ldr	r0, [r6, #0]
+ 80100ac:	f7f6 fc66 	bl	800697c <osMutexWait>
 		if (status == osOK) {
- 80100ae:	4605      	mov	r5, r0
- 80100b0:	2800      	cmp	r0, #0
- 80100b2:	d1f4      	bne.n	801009e <httpConfigTask+0x46>
+ 80100b0:	4605      	mov	r5, r0
+ 80100b2:	2800      	cmp	r0, #0
+ 80100b4:	d1f4      	bne.n	80100a0 <httpConfigTask+0x48>
 			struct netconn *newClient = NULL;
- 80100b4:	a912      	add	r1, sp, #72	; 0x48
- 80100b6:	f841 0d40 	str.w	r0, [r1, #-64]!
+ 80100b6:	a912      	add	r1, sp, #72	; 0x48
+ 80100b8:	f841 0d40 	str.w	r0, [r1, #-64]!
 
 			// accepting incoming client
 			netStatus = netconn_accept(httpServer, &newClient);
- 80100ba:	4620      	mov	r0, r4
- 80100bc:	f7f8 fc46 	bl	800894c <netconn_accept>
+ 80100bc:	4620      	mov	r0, r4
+ 80100be:	f7f8 fc45 	bl	800894c <netconn_accept>
 			if (netStatus == ERR_OK) {
- 80100c0:	2800      	cmp	r0, #0
- 80100c2:	f040 80bc 	bne.w	801023e <httpConfigTask+0x1e6>
+ 80100c2:	2800      	cmp	r0, #0
+ 80100c4:	f040 80bb 	bne.w	801023e <httpConfigTask+0x1e6>
 				// if there is a client
 
 				struct netbuf* recvBuf;
 				newClient->recv_timeout = HTTP_RECEIVE_TIMEOUT;
- 80100c6:	9802      	ldr	r0, [sp, #8]
- 80100c8:	f240 53dc 	movw	r3, #1500	; 0x5dc
+ 80100c8:	9802      	ldr	r0, [sp, #8]
+ 80100ca:	f240 53dc 	movw	r3, #1500	; 0x5dc
 
 				// receiving data from client
 				err_t netStatus = netconn_recv(newClient, &recvBuf);
- 80100cc:	a903      	add	r1, sp, #12
+ 80100ce:	a903      	add	r1, sp, #12
 			netStatus = netconn_accept(httpServer, &newClient);
 			if (netStatus == ERR_OK) {
 				// if there is a client
 
 				struct netbuf* recvBuf;
 				newClient->recv_timeout = HTTP_RECEIVE_TIMEOUT;
- 80100ce:	6183      	str	r3, [r0, #24]
+ 80100d0:	6183      	str	r3, [r0, #24]
 
 				// receiving data from client
 				err_t netStatus = netconn_recv(newClient, &recvBuf);
- 80100d0:	f7f8 fc73 	bl	80089ba <netconn_recv>
+ 80100d2:	f7f8 fc72 	bl	80089ba <netconn_recv>
 				if (netStatus == ERR_OK) {
- 80100d4:	4601      	mov	r1, r0
- 80100d6:	2800      	cmp	r0, #0
- 80100d8:	f040 809f 	bne.w	801021a <httpConfigTask+0x1c2>
+ 80100d6:	4601      	mov	r1, r0
+ 80100d8:	2800      	cmp	r0, #0
+ 80100da:	f040 809e 	bne.w	801021a <httpConfigTask+0x1c2>
 
 					// encoding HTTP request type
 					uint16_t requestType = getRequestType(recvBuf);
- 80100dc:	9803      	ldr	r0, [sp, #12]
- 80100de:	f7fe fe3b 	bl	800ed58 <getRequestType>
+ 80100de:	9803      	ldr	r0, [sp, #12]
+ 80100e0:	f7fe fe3a 	bl	800ed58 <getRequestType>
 
 					switch (requestType) {
- 80100e2:	2801      	cmp	r0, #1
- 80100e4:	d002      	beq.n	80100ec <httpConfigTask+0x94>
- 80100e6:	2802      	cmp	r0, #2
- 80100e8:	d014      	beq.n	8010114 <httpConfigTask+0xbc>
- 80100ea:	e08f      	b.n	801020c <httpConfigTask+0x1b4>
+ 80100e4:	2801      	cmp	r0, #1
+ 80100e6:	d002      	beq.n	80100ee <httpConfigTask+0x96>
+ 80100e8:	2802      	cmp	r0, #2
+ 80100ea:	d00d      	beq.n	8010108 <httpConfigTask+0xb0>
+ 80100ec:	e088      	b.n	8010200 <httpConfigTask+0x1a8>
 					case GET_REQUEST: {
 						logMsg("GET request");
- 80100ec:	4861      	ldr	r0, [pc, #388]	; (8010274 <httpConfigTask+0x21c>)
- 80100ee:	f7fe ffa1 	bl	800f034 <logMsg>
+ 80100ee:	4861      	ldr	r0, [pc, #388]	; (8010274 <httpConfigTask+0x21c>)
+ 80100f0:	f7fe ffa0 	bl	800f034 <logMsg>
 						if (isConfigRequest(recvBuf)) {
- 80100f2:	9803      	ldr	r0, [sp, #12]
- 80100f4:	f7fe fe8a 	bl	800ee0c <isConfigRequest>
- 80100f8:	b120      	cbz	r0, 8010104 <httpConfigTask+0xac>
+ 80100f4:	9803      	ldr	r0, [sp, #12]
+ 80100f6:	f7fe fe89 	bl	800ee0c <isConfigRequest>
+ 80100fa:	2800      	cmp	r0, #0
+ 80100fc:	d078      	beq.n	80101f0 <httpConfigTask+0x198>
 							// if it is GET config request
 							logMsg("Config request");
- 80100fa:	485f      	ldr	r0, [pc, #380]	; (8010278 <httpConfigTask+0x220>)
- 80100fc:	f7fe ff9a 	bl	800f034 <logMsg>
+ 80100fe:	485e      	ldr	r0, [pc, #376]	; (8010278 <httpConfigTask+0x220>)
+ 8010100:	f7fe ff98 	bl	800f034 <logMsg>
 							sendConfiguration(&configStr, newClient,
- 8010100:	4a5e      	ldr	r2, [pc, #376]	; (801027c <httpConfigTask+0x224>)
- 8010102:	e074      	b.n	80101ee <httpConfigTask+0x196>
-									"\r\nConnection: Closed");
-						} else {
-							sendHttpResponse(newClient, "404 Not Found", "\r\nContent-Type: text/html",
- 8010104:	4b5e      	ldr	r3, [pc, #376]	; (8010280 <httpConfigTask+0x228>)
- 8010106:	4a5f      	ldr	r2, [pc, #380]	; (8010284 <httpConfigTask+0x22c>)
- 8010108:	495f      	ldr	r1, [pc, #380]	; (8010288 <httpConfigTask+0x230>)
- 801010a:	9802      	ldr	r0, [sp, #8]
- 801010c:	f7fe fe50 	bl	800edb0 <sendHttpResponse>
-									"<h1>404 Not Found</h1>");
+ 8010104:	4a5d      	ldr	r2, [pc, #372]	; (801027c <httpConfigTask+0x224>)
+ 8010106:	e06c      	b.n	80101e2 <httpConfigTask+0x18a>
 							logErr("Not supported request");
- 8010110:	485e      	ldr	r0, [pc, #376]	; (801028c <httpConfigTask+0x234>)
- 8010112:	e07c      	b.n	801020e <httpConfigTask+0x1b6>
 						}
 						break;
 					}
 					case PUT_REQUEST: {
 						logMsg("PUT request");
- 8010114:	485e      	ldr	r0, [pc, #376]	; (8010290 <httpConfigTask+0x238>)
- 8010116:	f7fe ff8d 	bl	800f034 <logMsg>
+ 8010108:	485d      	ldr	r0, [pc, #372]	; (8010280 <httpConfigTask+0x228>)
+ 801010a:	f7fe ff93 	bl	800f034 <logMsg>
 						if (isConfigRequest(recvBuf)) {
- 801011a:	9803      	ldr	r0, [sp, #12]
- 801011c:	f7fe fe76 	bl	800ee0c <isConfigRequest>
- 8010120:	2800      	cmp	r0, #0
- 8010122:	d06b      	beq.n	80101fc <httpConfigTask+0x1a4>
+ 801010e:	9803      	ldr	r0, [sp, #12]
+ 8010110:	f7fe fe7c 	bl	800ee0c <isConfigRequest>
+ 8010114:	2800      	cmp	r0, #0
+ 8010116:	d06b      	beq.n	80101f0 <httpConfigTask+0x198>
 							logMsg("Config request");
- 8010124:	4854      	ldr	r0, [pc, #336]	; (8010278 <httpConfigTask+0x220>)
- 8010126:	f7fe ff85 	bl	800f034 <logMsg>
+ 8010118:	4857      	ldr	r0, [pc, #348]	; (8010278 <httpConfigTask+0x220>)
+ 801011a:	f7fe ff8b 	bl	800f034 <logMsg>
 
 							sendHttpResponse(newClient, "200 OK", "", "");
- 801012a:	4b5a      	ldr	r3, [pc, #360]	; (8010294 <httpConfigTask+0x23c>)
- 801012c:	495a      	ldr	r1, [pc, #360]	; (8010298 <httpConfigTask+0x240>)
- 801012e:	461a      	mov	r2, r3
- 8010130:	9802      	ldr	r0, [sp, #8]
- 8010132:	f7fe fe3d 	bl	800edb0 <sendHttpResponse>
+ 801011e:	4b59      	ldr	r3, [pc, #356]	; (8010284 <httpConfigTask+0x22c>)
+ 8010120:	4959      	ldr	r1, [pc, #356]	; (8010288 <httpConfigTask+0x230>)
+ 8010122:	461a      	mov	r2, r3
+ 8010124:	9802      	ldr	r0, [sp, #8]
+ 8010126:	f7fe fe43 	bl	800edb0 <sendHttpResponse>
 							netbuf_delete(recvBuf);
- 8010136:	9803      	ldr	r0, [sp, #12]
- 8010138:	f7f9 fa96 	bl	8009668 <netbuf_delete>
+ 801012a:	9803      	ldr	r0, [sp, #12]
+ 801012c:	f7f9 fa9c 	bl	8009668 <netbuf_delete>
 
 							// receiving JSON data
 							err_t netStatus = netconn_recv(newClient, &recvBuf);
- 801013c:	a903      	add	r1, sp, #12
- 801013e:	9802      	ldr	r0, [sp, #8]
- 8010140:	f7f8 fc3b 	bl	80089ba <netconn_recv>
+ 8010130:	a903      	add	r1, sp, #12
+ 8010132:	9802      	ldr	r0, [sp, #8]
+ 8010134:	f7f8 fc41 	bl	80089ba <netconn_recv>
 							if (netStatus == ERR_OK) {
- 8010144:	2800      	cmp	r0, #0
- 8010146:	d157      	bne.n	80101f8 <httpConfigTask+0x1a0>
+ 8010138:	2800      	cmp	r0, #0
+ 801013a:	d157      	bne.n	80101ec <httpConfigTask+0x194>
 								// parsing JSON data to config structure
 								parseJSON(recvBuf, &tempConfigStr);
 
 								// processing new data
 								if (tempConfigStr.amplitudeSamplingDelay
 										!= configStr.amplitudeSamplingDelay) {
- 8010148:	4d54      	ldr	r5, [pc, #336]	; (801029c <httpConfigTask+0x244>)
+ 801013c:	4d53      	ldr	r5, [pc, #332]	; (801028c <httpConfigTask+0x234>)
 							err_t netStatus = netconn_recv(newClient, &recvBuf);
 							if (netStatus == ERR_OK) {
 								StmConfig tempConfigStr;
 
 								// parsing JSON data to config structure
 								parseJSON(recvBuf, &tempConfigStr);
- 801014a:	a904      	add	r1, sp, #16
- 801014c:	9803      	ldr	r0, [sp, #12]
- 801014e:	f7fe fe6f 	bl	800ee30 <parseJSON>
+ 801013e:	a904      	add	r1, sp, #16
+ 8010140:	9803      	ldr	r0, [sp, #12]
+ 8010142:	f7fe fe75 	bl	800ee30 <parseJSON>
 
 								// processing new data
 								if (tempConfigStr.amplitudeSamplingDelay
- 8010152:	f89d 1010 	ldrb.w	r1, [sp, #16]
- 8010156:	782b      	ldrb	r3, [r5, #0]
- 8010158:	428b      	cmp	r3, r1
- 801015a:	d002      	beq.n	8010162 <httpConfigTask+0x10a>
+ 8010146:	f89d 1010 	ldrb.w	r1, [sp, #16]
+ 801014a:	782b      	ldrb	r3, [r5, #0]
+ 801014c:	428b      	cmp	r3, r1
+ 801014e:	d002      	beq.n	8010156 <httpConfigTask+0xfe>
 										!= configStr.amplitudeSamplingDelay) {
 									logMsgVal("New delay ",
- 801015c:	4850      	ldr	r0, [pc, #320]	; (80102a0 <httpConfigTask+0x248>)
- 801015e:	f7fe ff81 	bl	800f064 <logMsgVal>
+ 8010150:	484f      	ldr	r0, [pc, #316]	; (8010290 <httpConfigTask+0x238>)
+ 8010152:	f7fe ff87 	bl	800f064 <logMsgVal>
 											tempConfigStr.amplitudeSamplingDelay);
 								}
 								if (tempConfigStr.audioSamplingFrequency
- 8010162:	9805      	ldr	r0, [sp, #20]
- 8010164:	686b      	ldr	r3, [r5, #4]
- 8010166:	4298      	cmp	r0, r3
- 8010168:	d005      	beq.n	8010176 <httpConfigTask+0x11e>
+ 8010156:	9805      	ldr	r0, [sp, #20]
+ 8010158:	686b      	ldr	r3, [r5, #4]
+ 801015a:	4298      	cmp	r0, r3
+ 801015c:	d005      	beq.n	801016a <httpConfigTask+0x112>
 										!= configStr.audioSamplingFrequency) {
 									audioRecorderSetSamplingFrequency(
- 801016a:	f7fe fd2d 	bl	800ebc8 <audioRecorderSetSamplingFrequency>
+ 801015e:	f7fe fd33 	bl	800ebc8 <audioRecorderSetSamplingFrequency>
 											tempConfigStr.audioSamplingFrequency);
 									logMsgVal("New frequency ",
- 801016e:	9905      	ldr	r1, [sp, #20]
- 8010170:	484c      	ldr	r0, [pc, #304]	; (80102a4 <httpConfigTask+0x24c>)
- 8010172:	f7fe ff77 	bl	800f064 <logMsgVal>
+ 8010162:	9905      	ldr	r1, [sp, #20]
+ 8010164:	484b      	ldr	r0, [pc, #300]	; (8010294 <httpConfigTask+0x23c>)
+ 8010166:	f7fe ff7d 	bl	800f064 <logMsgVal>
 											tempConfigStr.audioSamplingFrequency);
 								}
 								if (tempConfigStr.clientIp.addr
- 8010176:	9a06      	ldr	r2, [sp, #24]
- 8010178:	68ab      	ldr	r3, [r5, #8]
- 801017a:	429a      	cmp	r2, r3
- 801017c:	d00e      	beq.n	801019c <httpConfigTask+0x144>
+ 801016a:	9a06      	ldr	r2, [sp, #24]
+ 801016c:	68ab      	ldr	r3, [r5, #8]
+ 801016e:	429a      	cmp	r2, r3
+ 8010170:	d00e      	beq.n	8010190 <httpConfigTask+0x138>
 										!= configStr.clientIp.addr) {
 									char text[40];
 									sprintf(text, "New endpoint %d.%d.%d.%d",
- 801017e:	0e13      	lsrs	r3, r2, #24
- 8010180:	4949      	ldr	r1, [pc, #292]	; (80102a8 <httpConfigTask+0x250>)
- 8010182:	a808      	add	r0, sp, #32
- 8010184:	9301      	str	r3, [sp, #4]
- 8010186:	f3c2 4307 	ubfx	r3, r2, #16, #8
- 801018a:	9300      	str	r3, [sp, #0]
- 801018c:	f3c2 2307 	ubfx	r3, r2, #8, #8
- 8010190:	b2d2      	uxtb	r2, r2
- 8010192:	f001 fcb5 	bl	8011b00 <sprintf>
+ 8010172:	0e13      	lsrs	r3, r2, #24
+ 8010174:	4948      	ldr	r1, [pc, #288]	; (8010298 <httpConfigTask+0x240>)
+ 8010176:	a808      	add	r0, sp, #32
+ 8010178:	9301      	str	r3, [sp, #4]
+ 801017a:	f3c2 4307 	ubfx	r3, r2, #16, #8
+ 801017e:	9300      	str	r3, [sp, #0]
+ 8010180:	f3c2 2307 	ubfx	r3, r2, #8, #8
+ 8010184:	b2d2      	uxtb	r2, r2
+ 8010186:	f001 fcbb 	bl	8011b00 <sprintf>
 													1),
 											IP_ADDR_GET(tempConfigStr.clientIp,
 													2),
 											IP_ADDR_GET(tempConfigStr.clientIp,
 													3));
 									logMsg(text);
- 8010196:	a808      	add	r0, sp, #32
- 8010198:	f7fe ff4c 	bl	800f034 <logMsg>
+ 801018a:	a808      	add	r0, sp, #32
+ 801018c:	f7fe ff52 	bl	800f034 <logMsg>
 								}
 								if (tempConfigStr.clientPort
- 801019c:	9907      	ldr	r1, [sp, #28]
- 801019e:	68eb      	ldr	r3, [r5, #12]
- 80101a0:	4299      	cmp	r1, r3
- 80101a2:	d002      	beq.n	80101aa <httpConfigTask+0x152>
+ 8010190:	9907      	ldr	r1, [sp, #28]
+ 8010192:	68eb      	ldr	r3, [r5, #12]
+ 8010194:	4299      	cmp	r1, r3
+ 8010196:	d002      	beq.n	801019e <httpConfigTask+0x146>
 										!= configStr.clientPort) {
 									logMsgVal("New port ",
- 80101a4:	4841      	ldr	r0, [pc, #260]	; (80102ac <httpConfigTask+0x254>)
- 80101a6:	f7fe ff5d 	bl	800f064 <logMsgVal>
+ 8010198:	4840      	ldr	r0, [pc, #256]	; (801029c <httpConfigTask+0x244>)
+ 801019a:	f7fe ff63 	bl	800f064 <logMsgVal>
 											tempConfigStr.clientPort);
 								}
 
 								logMsgVal("Delay ",
- 80101aa:	f89d 1010 	ldrb.w	r1, [sp, #16]
- 80101ae:	4840      	ldr	r0, [pc, #256]	; (80102b0 <httpConfigTask+0x258>)
- 80101b0:	f7fe ff58 	bl	800f064 <logMsgVal>
+ 801019e:	f89d 1010 	ldrb.w	r1, [sp, #16]
+ 80101a2:	483f      	ldr	r0, [pc, #252]	; (80102a0 <httpConfigTask+0x248>)
+ 80101a4:	f7fe ff5e 	bl	800f064 <logMsgVal>
 										tempConfigStr.amplitudeSamplingDelay);
 								logMsgVal("Freq ",
- 80101b4:	9905      	ldr	r1, [sp, #20]
- 80101b6:	483f      	ldr	r0, [pc, #252]	; (80102b4 <httpConfigTask+0x25c>)
- 80101b8:	f7fe ff54 	bl	800f064 <logMsgVal>
+ 80101a8:	9905      	ldr	r1, [sp, #20]
+ 80101aa:	483e      	ldr	r0, [pc, #248]	; (80102a4 <httpConfigTask+0x24c>)
+ 80101ac:	f7fe ff5a 	bl	800f064 <logMsgVal>
 										tempConfigStr.audioSamplingFrequency);
 								char text[40];
 								sprintf(text, "Endpoint %d.%d.%d.%d",
 										IP_ADDR_GET(tempConfigStr.clientIp, 0),
- 80101bc:	9a06      	ldr	r2, [sp, #24]
+ 80101b0:	9a06      	ldr	r2, [sp, #24]
 								logMsgVal("Delay ",
 										tempConfigStr.amplitudeSamplingDelay);
 								logMsgVal("Freq ",
 										tempConfigStr.audioSamplingFrequency);
 								char text[40];
 								sprintf(text, "Endpoint %d.%d.%d.%d",
- 80101be:	493e      	ldr	r1, [pc, #248]	; (80102b8 <httpConfigTask+0x260>)
- 80101c0:	a808      	add	r0, sp, #32
- 80101c2:	0e13      	lsrs	r3, r2, #24
- 80101c4:	9301      	str	r3, [sp, #4]
- 80101c6:	f3c2 4307 	ubfx	r3, r2, #16, #8
- 80101ca:	9300      	str	r3, [sp, #0]
- 80101cc:	f3c2 2307 	ubfx	r3, r2, #8, #8
- 80101d0:	b2d2      	uxtb	r2, r2
- 80101d2:	f001 fc95 	bl	8011b00 <sprintf>
+ 80101b2:	493d      	ldr	r1, [pc, #244]	; (80102a8 <httpConfigTask+0x250>)
+ 80101b4:	a808      	add	r0, sp, #32
+ 80101b6:	0e13      	lsrs	r3, r2, #24
+ 80101b8:	9301      	str	r3, [sp, #4]
+ 80101ba:	f3c2 4307 	ubfx	r3, r2, #16, #8
+ 80101be:	9300      	str	r3, [sp, #0]
+ 80101c0:	f3c2 2307 	ubfx	r3, r2, #8, #8
+ 80101c4:	b2d2      	uxtb	r2, r2
+ 80101c6:	f001 fc9b 	bl	8011b00 <sprintf>
 										IP_ADDR_GET(tempConfigStr.clientIp, 0),
 										IP_ADDR_GET(tempConfigStr.clientIp, 1),
 										IP_ADDR_GET(tempConfigStr.clientIp, 2),
 										IP_ADDR_GET(tempConfigStr.clientIp, 3));
 								logMsg(text);
- 80101d6:	a808      	add	r0, sp, #32
- 80101d8:	f7fe ff2c 	bl	800f034 <logMsg>
+ 80101ca:	a808      	add	r0, sp, #32
+ 80101cc:	f7fe ff32 	bl	800f034 <logMsg>
 								logMsgVal("Port ", tempConfigStr.clientPort);
- 80101dc:	9907      	ldr	r1, [sp, #28]
- 80101de:	4837      	ldr	r0, [pc, #220]	; (80102bc <httpConfigTask+0x264>)
- 80101e0:	f7fe ff40 	bl	800f064 <logMsgVal>
+ 80101d0:	9907      	ldr	r1, [sp, #28]
+ 80101d2:	4836      	ldr	r0, [pc, #216]	; (80102ac <httpConfigTask+0x254>)
+ 80101d4:	f7fe ff46 	bl	800f064 <logMsgVal>
 
 								// copying temporary structure to main config structure
 								copyConfig(&configStr, &tempConfigStr);
- 80101e4:	a904      	add	r1, sp, #16
- 80101e6:	482d      	ldr	r0, [pc, #180]	; (801029c <httpConfigTask+0x244>)
- 80101e8:	f7fe fecc 	bl	800ef84 <copyConfig>
+ 80101d8:	a904      	add	r1, sp, #16
+ 80101da:	482c      	ldr	r0, [pc, #176]	; (801028c <httpConfigTask+0x234>)
+ 80101dc:	f7fe fed2 	bl	800ef84 <copyConfig>
 								sendConfiguration(&configStr, newClient,
- 80101ec:	4a34      	ldr	r2, [pc, #208]	; (80102c0 <httpConfigTask+0x268>)
- 80101ee:	9902      	ldr	r1, [sp, #8]
- 80101f0:	482a      	ldr	r0, [pc, #168]	; (801029c <httpConfigTask+0x244>)
- 80101f2:	f7fe fdf9 	bl	800ede8 <sendConfiguration>
- 80101f6:	e00c      	b.n	8010212 <httpConfigTask+0x1ba>
+ 80101e0:	4a33      	ldr	r2, [pc, #204]	; (80102b0 <httpConfigTask+0x258>)
+ 80101e2:	9902      	ldr	r1, [sp, #8]
+ 80101e4:	4829      	ldr	r0, [pc, #164]	; (801028c <httpConfigTask+0x234>)
+ 80101e6:	f7fe fdff 	bl	800ede8 <sendConfiguration>
+ 80101ea:	e012      	b.n	8010212 <httpConfigTask+0x1ba>
 										"\r\nConnection: Closed\r\nContent-Type: application/json");
 							} else {
 								logErr("No PUT data");
- 80101f8:	4832      	ldr	r0, [pc, #200]	; (80102c4 <httpConfigTask+0x26c>)
- 80101fa:	e008      	b.n	801020e <httpConfigTask+0x1b6>
+ 80101ec:	4831      	ldr	r0, [pc, #196]	; (80102b4 <httpConfigTask+0x25c>)
+ 80101ee:	e00e      	b.n	801020e <httpConfigTask+0x1b6>
 							}
 						} else {
-							sendHttpResponse(newClient, "501 Not Implemented", "\r\nContent-Type: text/html",
- 80101fc:	4b32      	ldr	r3, [pc, #200]	; (80102c8 <httpConfigTask+0x270>)
- 80101fe:	4a21      	ldr	r2, [pc, #132]	; (8010284 <httpConfigTask+0x22c>)
- 8010200:	4932      	ldr	r1, [pc, #200]	; (80102cc <httpConfigTask+0x274>)
- 8010202:	9802      	ldr	r0, [sp, #8]
- 8010204:	f7fe fdd4 	bl	800edb0 <sendHttpResponse>
-									"<h1>501 Not Implemented</h1>");
-							logErr("Not implemented method");
- 8010208:	4831      	ldr	r0, [pc, #196]	; (80102d0 <httpConfigTask+0x278>)
- 801020a:	e000      	b.n	801020e <httpConfigTask+0x1b6>
+							sendHttpResponse(newClient, "404 Not Found",
+ 80101f0:	4b31      	ldr	r3, [pc, #196]	; (80102b8 <httpConfigTask+0x260>)
+ 80101f2:	4a32      	ldr	r2, [pc, #200]	; (80102bc <httpConfigTask+0x264>)
+ 80101f4:	4932      	ldr	r1, [pc, #200]	; (80102c0 <httpConfigTask+0x268>)
+ 80101f6:	9802      	ldr	r0, [sp, #8]
+ 80101f8:	f7fe fdda 	bl	800edb0 <sendHttpResponse>
+									"\r\nContent-Type: text/html",
+									"<h1>404 Not Found</h1>");
+							logErr("Not supported request");
+ 80101fc:	4831      	ldr	r0, [pc, #196]	; (80102c4 <httpConfigTask+0x26c>)
+ 80101fe:	e006      	b.n	801020e <httpConfigTask+0x1b6>
 						}
 						break;
 					}
 					default: {
-						logErr("HTTP request");
- 801020c:	4831      	ldr	r0, [pc, #196]	; (80102d4 <httpConfigTask+0x27c>)
+						sendHttpResponse(newClient, "501 Not Implemented",
+ 8010200:	4b31      	ldr	r3, [pc, #196]	; (80102c8 <httpConfigTask+0x270>)
+ 8010202:	4a2e      	ldr	r2, [pc, #184]	; (80102bc <httpConfigTask+0x264>)
+ 8010204:	4931      	ldr	r1, [pc, #196]	; (80102cc <httpConfigTask+0x274>)
+ 8010206:	9802      	ldr	r0, [sp, #8]
+ 8010208:	f7fe fdd2 	bl	800edb0 <sendHttpResponse>
+								"\r\nContent-Type: text/html",
+								"<h1>501 Not Implemented</h1>");
+						logErr("Not implemented method");
+ 801020c:	4830      	ldr	r0, [pc, #192]	; (80102d0 <httpConfigTask+0x278>)
  801020e:	f7fe ff1d 	bl	800f04c <logErr>
 						break;
 					}
@@ -67118,7 +67117,7 @@ void httpConfigTask(void const* argument) {
  8010218:	e002      	b.n	8010220 <httpConfigTask+0x1c8>
 				} else
 					logErrVal("TCP no data", netStatus);
- 801021a:	482f      	ldr	r0, [pc, #188]	; (80102d8 <httpConfigTask+0x280>)
+ 801021a:	482e      	ldr	r0, [pc, #184]	; (80102d4 <httpConfigTask+0x27c>)
  801021c:	f7fe ff3a 	bl	800f094 <logErrVal>
 
 				// closing connectoin
@@ -67129,7 +67128,7 @@ void httpConfigTask(void const* argument) {
  8010226:	4601      	mov	r1, r0
  8010228:	b110      	cbz	r0, 8010230 <httpConfigTask+0x1d8>
 					logErrVal("TCP close", netStatus);
- 801022a:	482c      	ldr	r0, [pc, #176]	; (80102dc <httpConfigTask+0x284>)
+ 801022a:	482b      	ldr	r0, [pc, #172]	; (80102d8 <httpConfigTask+0x280>)
  801022c:	f7fe ff32 	bl	800f094 <logErrVal>
 
 				// free client memory
@@ -67140,14 +67139,14 @@ void httpConfigTask(void const* argument) {
  8010236:	4601      	mov	r1, r0
  8010238:	b138      	cbz	r0, 801024a <httpConfigTask+0x1f2>
 					logErrVal("TCP delete", netStatus);
- 801023a:	4829      	ldr	r0, [pc, #164]	; (80102e0 <httpConfigTask+0x288>)
+ 801023a:	4828      	ldr	r0, [pc, #160]	; (80102dc <httpConfigTask+0x284>)
  801023c:	e003      	b.n	8010246 <httpConfigTask+0x1ee>
 			} else if (netStatus != ERR_TIMEOUT)
  801023e:	3003      	adds	r0, #3
  8010240:	d003      	beq.n	801024a <httpConfigTask+0x1f2>
 				logErrVal("TCP accept", status);
  8010242:	4629      	mov	r1, r5
- 8010244:	4827      	ldr	r0, [pc, #156]	; (80102e4 <httpConfigTask+0x28c>)
+ 8010244:	4826      	ldr	r0, [pc, #152]	; (80102e0 <httpConfigTask+0x288>)
  8010246:	f7fe ff25 	bl	800f094 <logErrVal>
 
 			// releasing ethernet interface mutex
@@ -67157,1143 +67156,1144 @@ void httpConfigTask(void const* argument) {
 			if (status != osOK)
  8010250:	4601      	mov	r1, r0
  8010252:	2800      	cmp	r0, #0
- 8010254:	f43f af23 	beq.w	801009e <httpConfigTask+0x46>
+ 8010254:	f43f af24 	beq.w	80100a0 <httpConfigTask+0x48>
 				logErrVal("Eth mut release", status);
- 8010258:	4823      	ldr	r0, [pc, #140]	; (80102e8 <httpConfigTask+0x290>)
+ 8010258:	4822      	ldr	r0, [pc, #136]	; (80102e4 <httpConfigTask+0x28c>)
  801025a:	f7fe ff1b 	bl	800f094 <logErrVal>
- 801025e:	e71e      	b.n	801009e <httpConfigTask+0x46>
- 8010260:	0802f926 	.word	0x0802f926
+ 801025e:	e71f      	b.n	80100a0 <httpConfigTask+0x48>
+ 8010260:	0802f92a 	.word	0x0802f92a
  8010264:	20049598 	.word	0x20049598
- 8010268:	0802f92f 	.word	0x0802f92f
- 801026c:	0802f938 	.word	0x0802f938
+ 8010268:	0802f933 	.word	0x0802f933
+ 801026c:	0802f93c 	.word	0x0802f93c
  8010270:	2004981c 	.word	0x2004981c
- 8010274:	0802f943 	.word	0x0802f943
- 8010278:	0802f94f 	.word	0x0802f94f
- 801027c:	0802f95e 	.word	0x0802f95e
- 8010280:	0802f973 	.word	0x0802f973
- 8010284:	0802f98a 	.word	0x0802f98a
- 8010288:	0802f9a4 	.word	0x0802f9a4
- 801028c:	0802f9b2 	.word	0x0802f9b2
- 8010290:	0802f9c8 	.word	0x0802f9c8
- 8010294:	0802fc13 	.word	0x0802fc13
- 8010298:	0802f510 	.word	0x0802f510
- 801029c:	20049800 	.word	0x20049800
- 80102a0:	0802f9d4 	.word	0x0802f9d4
- 80102a4:	0802f9df 	.word	0x0802f9df
- 80102a8:	0802f9ee 	.word	0x0802f9ee
- 80102ac:	0802fa07 	.word	0x0802fa07
- 80102b0:	0802fa11 	.word	0x0802fa11
- 80102b4:	0802fa18 	.word	0x0802fa18
- 80102b8:	0802fa1e 	.word	0x0802fa1e
- 80102bc:	0802fa33 	.word	0x0802fa33
- 80102c0:	0802fa39 	.word	0x0802fa39
- 80102c4:	0802fa6e 	.word	0x0802fa6e
- 80102c8:	0802fa7a 	.word	0x0802fa7a
- 80102cc:	0802fa97 	.word	0x0802fa97
- 80102d0:	0802faab 	.word	0x0802faab
- 80102d4:	0802fac2 	.word	0x0802fac2
- 80102d8:	0802facf 	.word	0x0802facf
- 80102dc:	0802fadb 	.word	0x0802fadb
- 80102e0:	0802fae5 	.word	0x0802fae5
- 80102e4:	0802faf0 	.word	0x0802faf0
- 80102e8:	0802fafb 	.word	0x0802fafb
+ 8010274:	0802f947 	.word	0x0802f947
+ 8010278:	0802f953 	.word	0x0802f953
+ 801027c:	0802f962 	.word	0x0802f962
+ 8010280:	0802f9cc 	.word	0x0802f9cc
+ 8010284:	0802fc0b 	.word	0x0802fc0b
+ 8010288:	0802f510 	.word	0x0802f510
+ 801028c:	20049800 	.word	0x20049800
+ 8010290:	0802f9d8 	.word	0x0802f9d8
+ 8010294:	0802f9e3 	.word	0x0802f9e3
+ 8010298:	0802f9f2 	.word	0x0802f9f2
+ 801029c:	0802fa0b 	.word	0x0802fa0b
+ 80102a0:	0802fa15 	.word	0x0802fa15
+ 80102a4:	0802fa1c 	.word	0x0802fa1c
+ 80102a8:	0802fa22 	.word	0x0802fa22
+ 80102ac:	0802fa37 	.word	0x0802fa37
+ 80102b0:	0802fa3d 	.word	0x0802fa3d
+ 80102b4:	0802fa72 	.word	0x0802fa72
+ 80102b8:	0802f977 	.word	0x0802f977
+ 80102bc:	0802f98e 	.word	0x0802f98e
+ 80102c0:	0802f9a8 	.word	0x0802f9a8
+ 80102c4:	0802f9b6 	.word	0x0802f9b6
+ 80102c8:	0802fa7e 	.word	0x0802fa7e
+ 80102cc:	0802fa9b 	.word	0x0802fa9b
+ 80102d0:	0802faaf 	.word	0x0802faaf
+ 80102d4:	0802fac6 	.word	0x0802fac6
+ 80102d8:	0802fad2 	.word	0x0802fad2
+ 80102dc:	0802fadc 	.word	0x0802fadc
+ 80102e0:	0802fae7 	.word	0x0802fae7
+ 80102e4:	0802faf2 	.word	0x0802faf2
 
-080102ec <threadsInit>:
+080102e8 <threadsInit>:
 // FUNCTIONS
 
 /**
  * @brief Function initializes the initialization task
  */
 void threadsInit() {
- 80102ec:	b508      	push	{r3, lr}
+ 80102e8:	b508      	push	{r3, lr}
 	/* Starting OS task initialization */
 	initTaskHandle = osThreadCreate(osThread(initThread), NULL);
- 80102ee:	2100      	movs	r1, #0
- 80102f0:	4802      	ldr	r0, [pc, #8]	; (80102fc <threadsInit+0x10>)
- 80102f2:	f7f6 facd 	bl	8006890 <osThreadCreate>
- 80102f6:	4b02      	ldr	r3, [pc, #8]	; (8010300 <threadsInit+0x14>)
- 80102f8:	6018      	str	r0, [r3, #0]
- 80102fa:	bd08      	pop	{r3, pc}
- 80102fc:	0802fbd8 	.word	0x0802fbd8
- 8010300:	200497fc 	.word	0x200497fc
+ 80102ea:	2100      	movs	r1, #0
+ 80102ec:	4802      	ldr	r0, [pc, #8]	; (80102f8 <threadsInit+0x10>)
+ 80102ee:	f7f6 facf 	bl	8006890 <osThreadCreate>
+ 80102f2:	4b02      	ldr	r3, [pc, #8]	; (80102fc <threadsInit+0x14>)
+ 80102f4:	6018      	str	r0, [r3, #0]
+ 80102f6:	bd08      	pop	{r3, pc}
+ 80102f8:	0802fbd0 	.word	0x0802fbd0
+ 80102fc:	200497fc 	.word	0x200497fc
 
-08010304 <BSP_AUDIO_IN_TransferComplete_CallBack>:
+08010300 <BSP_AUDIO_IN_TransferComplete_CallBack>:
 }
 
 /**
  * @brief Functions called as DMA interrupt
  */
 void audioRecorder_FullBufferFilled(void) {
- 8010304:	b538      	push	{r3, r4, r5, lr}
+ 8010300:	b538      	push	{r3, r4, r5, lr}
 	SoundMailStr *soundSamples;
 
 	// allocating memory for sound mail
 	soundSamples = osMailAlloc(dmaAudioMail_q_id, osWaitForever);
- 8010306:	4c0d      	ldr	r4, [pc, #52]	; (801033c <BSP_AUDIO_IN_TransferComplete_CallBack+0x38>)
- 8010308:	f04f 31ff 	mov.w	r1, #4294967295
- 801030c:	6820      	ldr	r0, [r4, #0]
- 801030e:	f7f6 fc71 	bl	8006bf4 <osMailAlloc>
+ 8010302:	4c0d      	ldr	r4, [pc, #52]	; (8010338 <BSP_AUDIO_IN_TransferComplete_CallBack+0x38>)
+ 8010304:	f04f 31ff 	mov.w	r1, #4294967295
+ 8010308:	6820      	ldr	r0, [r4, #0]
+ 801030a:	f7f6 fc73 	bl	8006bf4 <osMailAlloc>
 	audioRecordingSoundMailFill(soundSamples, dmaAudioBuffer,
- 8010312:	4b0b      	ldr	r3, [pc, #44]	; (8010340 <BSP_AUDIO_IN_TransferComplete_CallBack+0x3c>)
+ 801030e:	4b0b      	ldr	r3, [pc, #44]	; (801033c <BSP_AUDIO_IN_TransferComplete_CallBack+0x3c>)
  */
 void audioRecorder_FullBufferFilled(void) {
 	SoundMailStr *soundSamples;
 
 	// allocating memory for sound mail
 	soundSamples = osMailAlloc(dmaAudioMail_q_id, osWaitForever);
- 8010314:	4605      	mov	r5, r0
+ 8010310:	4605      	mov	r5, r0
 	audioRecordingSoundMailFill(soundSamples, dmaAudioBuffer,
- 8010316:	f44f 7280 	mov.w	r2, #256	; 0x100
- 801031a:	685b      	ldr	r3, [r3, #4]
- 801031c:	4909      	ldr	r1, [pc, #36]	; (8010344 <BSP_AUDIO_IN_TransferComplete_CallBack+0x40>)
- 801031e:	f7fe fc73 	bl	800ec08 <audioRecordingSoundMailFill>
+ 8010312:	f44f 7280 	mov.w	r2, #256	; 0x100
+ 8010316:	685b      	ldr	r3, [r3, #4]
+ 8010318:	4909      	ldr	r1, [pc, #36]	; (8010340 <BSP_AUDIO_IN_TransferComplete_CallBack+0x40>)
+ 801031a:	f7fe fc75 	bl	800ec08 <audioRecordingSoundMailFill>
 	AUDIO_BUFFER_SIZE, configStr.audioSamplingFrequency);
 
 	// sending mail to queue
 	osStatus status = osMailPut(dmaAudioMail_q_id, soundSamples);
- 8010322:	4629      	mov	r1, r5
- 8010324:	6820      	ldr	r0, [r4, #0]
- 8010326:	f7f6 fc6b 	bl	8006c00 <osMailPut>
+ 801031e:	4629      	mov	r1, r5
+ 8010320:	6820      	ldr	r0, [r4, #0]
+ 8010322:	f7f6 fc6d 	bl	8006c00 <osMailPut>
 	if (status != osOK)
- 801032a:	4601      	mov	r1, r0
- 801032c:	b120      	cbz	r0, 8010338 <BSP_AUDIO_IN_TransferComplete_CallBack+0x34>
+ 8010326:	4601      	mov	r1, r0
+ 8010328:	b120      	cbz	r0, 8010334 <BSP_AUDIO_IN_TransferComplete_CallBack+0x34>
 		logErrVal("Audio mail send", status);
- 801032e:	4806      	ldr	r0, [pc, #24]	; (8010348 <BSP_AUDIO_IN_TransferComplete_CallBack+0x44>)
+ 801032a:	4806      	ldr	r0, [pc, #24]	; (8010344 <BSP_AUDIO_IN_TransferComplete_CallBack+0x44>)
 }
- 8010330:	e8bd 4038 	ldmia.w	sp!, {r3, r4, r5, lr}
+ 801032c:	e8bd 4038 	ldmia.w	sp!, {r3, r4, r5, lr}
 	AUDIO_BUFFER_SIZE, configStr.audioSamplingFrequency);
 
 	// sending mail to queue
 	osStatus status = osMailPut(dmaAudioMail_q_id, soundSamples);
 	if (status != osOK)
 		logErrVal("Audio mail send", status);
- 8010334:	f7fe beae 	b.w	800f094 <logErrVal>
- 8010338:	bd38      	pop	{r3, r4, r5, pc}
- 801033a:	bf00      	nop
- 801033c:	200497e0 	.word	0x200497e0
- 8010340:	20049800 	.word	0x20049800
- 8010344:	200495d4 	.word	0x200495d4
- 8010348:	0802fb0b 	.word	0x0802fb0b
+ 8010330:	f7fe beb0 	b.w	800f094 <logErrVal>
+ 8010334:	bd38      	pop	{r3, r4, r5, pc}
+ 8010336:	bf00      	nop
+ 8010338:	200497e0 	.word	0x200497e0
+ 801033c:	20049800 	.word	0x20049800
+ 8010340:	200495d4 	.word	0x200495d4
+ 8010344:	0802fb02 	.word	0x0802fb02
 
-0801034c <cJSON_strcasecmp>:
+08010348 <cJSON_strcasecmp>:
     return global_ep;
 }
 
 /* case insensitive strcmp */
 static int cJSON_strcasecmp(const char *s1, const char *s2)
 {
- 801034c:	b5f0      	push	{r4, r5, r6, r7, lr}
+ 8010348:	b5f0      	push	{r4, r5, r6, r7, lr}
     if (!s1)
- 801034e:	b918      	cbnz	r0, 8010358 <cJSON_strcasecmp+0xc>
+ 801034a:	b918      	cbnz	r0, 8010354 <cJSON_strcasecmp+0xc>
     {
         return (s1 == s2) ? 0 : 1; /* both NULL? */
- 8010350:	1c08      	adds	r0, r1, #0
- 8010352:	bf18      	it	ne
- 8010354:	2001      	movne	r0, #1
- 8010356:	bdf0      	pop	{r4, r5, r6, r7, pc}
+ 801034c:	1c08      	adds	r0, r1, #0
+ 801034e:	bf18      	it	ne
+ 8010350:	2001      	movne	r0, #1
+ 8010352:	bdf0      	pop	{r4, r5, r6, r7, pc}
     }
     if (!s2)
- 8010358:	b349      	cbz	r1, 80103ae <cJSON_strcasecmp+0x62>
+ 8010354:	b349      	cbz	r1, 80103aa <cJSON_strcasecmp+0x62>
     {
         return 1;
     }
     for(; tolower(*s1) == tolower(*s2); ++s1, ++s2)
- 801035a:	4b16      	ldr	r3, [pc, #88]	; (80103b4 <cJSON_strcasecmp+0x68>)
- 801035c:	1e42      	subs	r2, r0, #1
- 801035e:	3901      	subs	r1, #1
- 8010360:	f8d3 e000 	ldr.w	lr, [r3]
- 8010364:	f812 0f01 	ldrb.w	r0, [r2, #1]!
- 8010368:	eb0e 0300 	add.w	r3, lr, r0
- 801036c:	785d      	ldrb	r5, [r3, #1]
- 801036e:	f811 3f01 	ldrb.w	r3, [r1, #1]!
- 8010372:	f005 0503 	and.w	r5, r5, #3
- 8010376:	eb0e 0403 	add.w	r4, lr, r3
- 801037a:	2d01      	cmp	r5, #1
- 801037c:	7864      	ldrb	r4, [r4, #1]
- 801037e:	bf0c      	ite	eq
- 8010380:	f100 0720 	addeq.w	r7, r0, #32
- 8010384:	4607      	movne	r7, r0
- 8010386:	f004 0403 	and.w	r4, r4, #3
- 801038a:	2c01      	cmp	r4, #1
- 801038c:	bf0c      	ite	eq
- 801038e:	f103 0620 	addeq.w	r6, r3, #32
- 8010392:	461e      	movne	r6, r3
- 8010394:	42b7      	cmp	r7, r6
- 8010396:	d102      	bne.n	801039e <cJSON_strcasecmp+0x52>
+ 8010356:	4b16      	ldr	r3, [pc, #88]	; (80103b0 <cJSON_strcasecmp+0x68>)
+ 8010358:	1e42      	subs	r2, r0, #1
+ 801035a:	3901      	subs	r1, #1
+ 801035c:	f8d3 e000 	ldr.w	lr, [r3]
+ 8010360:	f812 0f01 	ldrb.w	r0, [r2, #1]!
+ 8010364:	eb0e 0300 	add.w	r3, lr, r0
+ 8010368:	785d      	ldrb	r5, [r3, #1]
+ 801036a:	f811 3f01 	ldrb.w	r3, [r1, #1]!
+ 801036e:	f005 0503 	and.w	r5, r5, #3
+ 8010372:	eb0e 0403 	add.w	r4, lr, r3
+ 8010376:	2d01      	cmp	r5, #1
+ 8010378:	7864      	ldrb	r4, [r4, #1]
+ 801037a:	bf0c      	ite	eq
+ 801037c:	f100 0720 	addeq.w	r7, r0, #32
+ 8010380:	4607      	movne	r7, r0
+ 8010382:	f004 0403 	and.w	r4, r4, #3
+ 8010386:	2c01      	cmp	r4, #1
+ 8010388:	bf0c      	ite	eq
+ 801038a:	f103 0620 	addeq.w	r6, r3, #32
+ 801038e:	461e      	movne	r6, r3
+ 8010390:	42b7      	cmp	r7, r6
+ 8010392:	d102      	bne.n	801039a <cJSON_strcasecmp+0x52>
     {
         if (*s1 == 0)
- 8010398:	2800      	cmp	r0, #0
- 801039a:	d1e3      	bne.n	8010364 <cJSON_strcasecmp+0x18>
- 801039c:	e008      	b.n	80103b0 <cJSON_strcasecmp+0x64>
+ 8010394:	2800      	cmp	r0, #0
+ 8010396:	d1e3      	bne.n	8010360 <cJSON_strcasecmp+0x18>
+ 8010398:	e008      	b.n	80103ac <cJSON_strcasecmp+0x64>
         {
             return 0;
         }
     }
 
     return tolower(*(const unsigned char *)s1) - tolower(*(const unsigned char *)s2);
- 801039e:	2d01      	cmp	r5, #1
- 80103a0:	bf08      	it	eq
- 80103a2:	3020      	addeq	r0, #32
- 80103a4:	2c01      	cmp	r4, #1
- 80103a6:	bf08      	it	eq
- 80103a8:	3320      	addeq	r3, #32
- 80103aa:	1ac0      	subs	r0, r0, r3
- 80103ac:	bdf0      	pop	{r4, r5, r6, r7, pc}
+ 801039a:	2d01      	cmp	r5, #1
+ 801039c:	bf08      	it	eq
+ 801039e:	3020      	addeq	r0, #32
+ 80103a0:	2c01      	cmp	r4, #1
+ 80103a2:	bf08      	it	eq
+ 80103a4:	3320      	addeq	r3, #32
+ 80103a6:	1ac0      	subs	r0, r0, r3
+ 80103a8:	bdf0      	pop	{r4, r5, r6, r7, pc}
     {
         return (s1 == s2) ? 0 : 1; /* both NULL? */
     }
     if (!s2)
     {
         return 1;
- 80103ae:	2001      	movs	r0, #1
+ 80103aa:	2001      	movs	r0, #1
             return 0;
         }
     }
 
     return tolower(*(const unsigned char *)s1) - tolower(*(const unsigned char *)s2);
 }
- 80103b0:	bdf0      	pop	{r4, r5, r6, r7, pc}
- 80103b2:	bf00      	nop
- 80103b4:	2001008c 	.word	0x2001008c
+ 80103ac:	bdf0      	pop	{r4, r5, r6, r7, pc}
+ 80103ae:	bf00      	nop
+ 80103b0:	2001008c 	.word	0x2001008c
 
-080103b8 <parse_hex4>:
+080103b4 <parse_hex4>:
     return str;
 }
 
 /* parse 4 digit hexadecimal number */
 static unsigned parse_hex4(const char *str)
 {
- 80103b8:	b510      	push	{r4, lr}
+ 80103b4:	b510      	push	{r4, lr}
     unsigned h = 0;
     /* first digit */
     if ((*str >= '0') && (*str <= '9'))
- 80103ba:	7801      	ldrb	r1, [r0, #0]
- 80103bc:	f1a1 0330 	sub.w	r3, r1, #48	; 0x30
- 80103c0:	b2da      	uxtb	r2, r3
- 80103c2:	2a09      	cmp	r2, #9
- 80103c4:	d90c      	bls.n	80103e0 <parse_hex4+0x28>
+ 80103b6:	7801      	ldrb	r1, [r0, #0]
+ 80103b8:	f1a1 0330 	sub.w	r3, r1, #48	; 0x30
+ 80103bc:	b2da      	uxtb	r2, r3
+ 80103be:	2a09      	cmp	r2, #9
+ 80103c0:	d90c      	bls.n	80103dc <parse_hex4+0x28>
     {
         h += (*str) - '0';
     }
     else if ((*str >= 'A') && (*str <= 'F'))
- 80103c6:	f1a1 0341 	sub.w	r3, r1, #65	; 0x41
- 80103ca:	2b05      	cmp	r3, #5
- 80103cc:	d802      	bhi.n	80103d4 <parse_hex4+0x1c>
+ 80103c2:	f1a1 0341 	sub.w	r3, r1, #65	; 0x41
+ 80103c6:	2b05      	cmp	r3, #5
+ 80103c8:	d802      	bhi.n	80103d0 <parse_hex4+0x1c>
     {
         h += 10 + (*str) - 'A';
- 80103ce:	f1a1 0337 	sub.w	r3, r1, #55	; 0x37
- 80103d2:	e005      	b.n	80103e0 <parse_hex4+0x28>
+ 80103ca:	f1a1 0337 	sub.w	r3, r1, #55	; 0x37
+ 80103ce:	e005      	b.n	80103dc <parse_hex4+0x28>
     }
     else if ((*str >= 'a') && (*str <= 'f'))
- 80103d4:	f1a1 0361 	sub.w	r3, r1, #97	; 0x61
- 80103d8:	2b05      	cmp	r3, #5
- 80103da:	d841      	bhi.n	8010460 <parse_hex4+0xa8>
+ 80103d0:	f1a1 0361 	sub.w	r3, r1, #97	; 0x61
+ 80103d4:	2b05      	cmp	r3, #5
+ 80103d6:	d841      	bhi.n	801045c <parse_hex4+0xa8>
     {
         h += 10 + (*str) - 'a';
- 80103dc:	f1a1 0357 	sub.w	r3, r1, #87	; 0x57
+ 80103d8:	f1a1 0357 	sub.w	r3, r1, #87	; 0x57
 
 
     /* second digit */
     h = h << 4;
     str++;
     if ((*str >= '0') && (*str <= '9'))
- 80103e0:	7844      	ldrb	r4, [r0, #1]
+ 80103dc:	7844      	ldrb	r4, [r0, #1]
         return 0;
     }
 
 
     /* second digit */
     h = h << 4;
- 80103e2:	0119      	lsls	r1, r3, #4
+ 80103de:	0119      	lsls	r1, r3, #4
     str++;
     if ((*str >= '0') && (*str <= '9'))
- 80103e4:	f1a4 0330 	sub.w	r3, r4, #48	; 0x30
- 80103e8:	b2da      	uxtb	r2, r3
- 80103ea:	2a09      	cmp	r2, #9
- 80103ec:	d90c      	bls.n	8010408 <parse_hex4+0x50>
+ 80103e0:	f1a4 0330 	sub.w	r3, r4, #48	; 0x30
+ 80103e4:	b2da      	uxtb	r2, r3
+ 80103e6:	2a09      	cmp	r2, #9
+ 80103e8:	d90c      	bls.n	8010404 <parse_hex4+0x50>
     {
         h += (*str) - '0';
     }
     else if ((*str >= 'A') && (*str <= 'F'))
- 80103ee:	f1a4 0341 	sub.w	r3, r4, #65	; 0x41
- 80103f2:	2b05      	cmp	r3, #5
- 80103f4:	d802      	bhi.n	80103fc <parse_hex4+0x44>
+ 80103ea:	f1a4 0341 	sub.w	r3, r4, #65	; 0x41
+ 80103ee:	2b05      	cmp	r3, #5
+ 80103f0:	d802      	bhi.n	80103f8 <parse_hex4+0x44>
     {
         h += 10 + (*str) - 'A';
- 80103f6:	f1a4 0337 	sub.w	r3, r4, #55	; 0x37
- 80103fa:	e005      	b.n	8010408 <parse_hex4+0x50>
+ 80103f2:	f1a4 0337 	sub.w	r3, r4, #55	; 0x37
+ 80103f6:	e005      	b.n	8010404 <parse_hex4+0x50>
     }
     else if ((*str >= 'a') && (*str <= 'f'))
- 80103fc:	f1a4 0361 	sub.w	r3, r4, #97	; 0x61
- 8010400:	2b05      	cmp	r3, #5
- 8010402:	d82d      	bhi.n	8010460 <parse_hex4+0xa8>
+ 80103f8:	f1a4 0361 	sub.w	r3, r4, #97	; 0x61
+ 80103fc:	2b05      	cmp	r3, #5
+ 80103fe:	d82d      	bhi.n	801045c <parse_hex4+0xa8>
     {
         h += 10 + (*str) - 'a';
- 8010404:	f1a4 0357 	sub.w	r3, r4, #87	; 0x57
- 8010408:	440b      	add	r3, r1
+ 8010400:	f1a4 0357 	sub.w	r3, r4, #87	; 0x57
+ 8010404:	440b      	add	r3, r1
     }
 
     /* third digit */
     h = h << 4;
     str++;
     if ((*str >= '0') && (*str <= '9'))
- 801040a:	7881      	ldrb	r1, [r0, #2]
+ 8010406:	7881      	ldrb	r1, [r0, #2]
     {
         return 0;
     }
 
     /* third digit */
     h = h << 4;
- 801040c:	011a      	lsls	r2, r3, #4
+ 8010408:	011a      	lsls	r2, r3, #4
     str++;
     if ((*str >= '0') && (*str <= '9'))
- 801040e:	f1a1 0330 	sub.w	r3, r1, #48	; 0x30
- 8010412:	b2dc      	uxtb	r4, r3
- 8010414:	2c09      	cmp	r4, #9
- 8010416:	d90c      	bls.n	8010432 <parse_hex4+0x7a>
+ 801040a:	f1a1 0330 	sub.w	r3, r1, #48	; 0x30
+ 801040e:	b2dc      	uxtb	r4, r3
+ 8010410:	2c09      	cmp	r4, #9
+ 8010412:	d90c      	bls.n	801042e <parse_hex4+0x7a>
     {
         h += (*str) - '0';
     }
     else if ((*str >= 'A') && (*str <= 'F'))
- 8010418:	f1a1 0341 	sub.w	r3, r1, #65	; 0x41
- 801041c:	2b05      	cmp	r3, #5
- 801041e:	d802      	bhi.n	8010426 <parse_hex4+0x6e>
+ 8010414:	f1a1 0341 	sub.w	r3, r1, #65	; 0x41
+ 8010418:	2b05      	cmp	r3, #5
+ 801041a:	d802      	bhi.n	8010422 <parse_hex4+0x6e>
     {
         h += 10 + (*str) - 'A';
- 8010420:	f1a1 0337 	sub.w	r3, r1, #55	; 0x37
- 8010424:	e005      	b.n	8010432 <parse_hex4+0x7a>
+ 801041c:	f1a1 0337 	sub.w	r3, r1, #55	; 0x37
+ 8010420:	e005      	b.n	801042e <parse_hex4+0x7a>
     }
     else if ((*str >= 'a') && (*str <= 'f'))
- 8010426:	f1a1 0361 	sub.w	r3, r1, #97	; 0x61
- 801042a:	2b05      	cmp	r3, #5
- 801042c:	d818      	bhi.n	8010460 <parse_hex4+0xa8>
+ 8010422:	f1a1 0361 	sub.w	r3, r1, #97	; 0x61
+ 8010426:	2b05      	cmp	r3, #5
+ 8010428:	d818      	bhi.n	801045c <parse_hex4+0xa8>
     {
         h += 10 + (*str) - 'a';
- 801042e:	f1a1 0357 	sub.w	r3, r1, #87	; 0x57
- 8010432:	4413      	add	r3, r2
+ 801042a:	f1a1 0357 	sub.w	r3, r1, #87	; 0x57
+ 801042e:	4413      	add	r3, r2
     }
 
     /* fourth digit */
     h = h << 4;
     str++;
     if ((*str >= '0') && (*str <= '9'))
- 8010434:	78c2      	ldrb	r2, [r0, #3]
- 8010436:	f1a2 0030 	sub.w	r0, r2, #48	; 0x30
+ 8010430:	78c2      	ldrb	r2, [r0, #3]
+ 8010432:	f1a2 0030 	sub.w	r0, r2, #48	; 0x30
     {
         return 0;
     }
 
     /* fourth digit */
     h = h << 4;
- 801043a:	011b      	lsls	r3, r3, #4
+ 8010436:	011b      	lsls	r3, r3, #4
     str++;
     if ((*str >= '0') && (*str <= '9'))
- 801043c:	b2c1      	uxtb	r1, r0
- 801043e:	2909      	cmp	r1, #9
- 8010440:	d90c      	bls.n	801045c <parse_hex4+0xa4>
+ 8010438:	b2c1      	uxtb	r1, r0
+ 801043a:	2909      	cmp	r1, #9
+ 801043c:	d90c      	bls.n	8010458 <parse_hex4+0xa4>
     {
         h += (*str) - '0';
     }
     else if ((*str >= 'A') && (*str <= 'F'))
- 8010442:	f1a2 0141 	sub.w	r1, r2, #65	; 0x41
- 8010446:	2905      	cmp	r1, #5
- 8010448:	d802      	bhi.n	8010450 <parse_hex4+0x98>
+ 801043e:	f1a2 0141 	sub.w	r1, r2, #65	; 0x41
+ 8010442:	2905      	cmp	r1, #5
+ 8010444:	d802      	bhi.n	801044c <parse_hex4+0x98>
     {
         h += 10 + (*str) - 'A';
- 801044a:	f1a2 0037 	sub.w	r0, r2, #55	; 0x37
- 801044e:	e005      	b.n	801045c <parse_hex4+0xa4>
+ 8010446:	f1a2 0037 	sub.w	r0, r2, #55	; 0x37
+ 801044a:	e005      	b.n	8010458 <parse_hex4+0xa4>
     }
     else if ((*str >= 'a') && (*str <= 'f'))
- 8010450:	f1a2 0161 	sub.w	r1, r2, #97	; 0x61
- 8010454:	2905      	cmp	r1, #5
- 8010456:	d803      	bhi.n	8010460 <parse_hex4+0xa8>
+ 801044c:	f1a2 0161 	sub.w	r1, r2, #97	; 0x61
+ 8010450:	2905      	cmp	r1, #5
+ 8010452:	d803      	bhi.n	801045c <parse_hex4+0xa8>
     {
         h += 10 + (*str) - 'a';
- 8010458:	f1a2 0057 	sub.w	r0, r2, #87	; 0x57
- 801045c:	4418      	add	r0, r3
- 801045e:	bd10      	pop	{r4, pc}
+ 8010454:	f1a2 0057 	sub.w	r0, r2, #87	; 0x57
+ 8010458:	4418      	add	r0, r3
+ 801045a:	bd10      	pop	{r4, pc}
     {
         h += 10 + (*str) - 'a';
     }
     else /* invalid */
     {
         return 0;
- 8010460:	2000      	movs	r0, #0
+ 801045c:	2000      	movs	r0, #0
     {
         return 0;
     }
 
     return h;
 }
- 8010462:	bd10      	pop	{r4, pc}
+ 801045e:	bd10      	pop	{r4, pc}
 
-08010464 <parse_string>:
+08010460 <parse_string>:
     0xFC
 };
 
 /* Parse the input text into an unescaped cstring, and populate item. */
 static const char *parse_string(cJSON *item, const char *str, const char **ep)
 {
- 8010464:	e92d 4ff7 	stmdb	sp!, {r0, r1, r2, r4, r5, r6, r7, r8, r9, sl, fp, lr}
- 8010468:	9200      	str	r2, [sp, #0]
- 801046a:	4605      	mov	r5, r0
+ 8010460:	e92d 4ff7 	stmdb	sp!, {r0, r1, r2, r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 8010464:	9200      	str	r2, [sp, #0]
+ 8010466:	4605      	mov	r5, r0
     int len = 0;
     unsigned uc;
     unsigned uc2;
 
     /* not a string! */
     if (*str != '\"')
- 801046c:	780a      	ldrb	r2, [r1, #0]
+ 8010468:	780a      	ldrb	r2, [r1, #0]
     0xFC
 };
 
 /* Parse the input text into an unescaped cstring, and populate item. */
 static const char *parse_string(cJSON *item, const char *str, const char **ep)
 {
- 801046e:	460e      	mov	r6, r1
+ 801046a:	460e      	mov	r6, r1
     const char *ptr = str + 1;
     const char *end_ptr =str + 1;
- 8010470:	f101 0801 	add.w	r8, r1, #1
+ 801046c:	f101 0801 	add.w	r8, r1, #1
     int len = 0;
     unsigned uc;
     unsigned uc2;
 
     /* not a string! */
     if (*str != '\"')
- 8010474:	2a22      	cmp	r2, #34	; 0x22
- 8010476:	d114      	bne.n	80104a2 <parse_string+0x3e>
- 8010478:	4647      	mov	r7, r8
- 801047a:	2000      	movs	r0, #0
- 801047c:	e01c      	b.n	80104b8 <parse_string+0x54>
+ 8010470:	2a22      	cmp	r2, #34	; 0x22
+ 8010472:	d114      	bne.n	801049e <parse_string+0x3e>
+ 8010474:	4647      	mov	r7, r8
+ 8010476:	2000      	movs	r0, #0
+ 8010478:	e01c      	b.n	80104b4 <parse_string+0x54>
         }
         /* escape sequence */
         else
         {
             ptr++;
             switch (*ptr)
- 801047e:	f898 0001 	ldrb.w	r0, [r8, #1]
- 8010482:	286e      	cmp	r0, #110	; 0x6e
- 8010484:	d04c      	beq.n	8010520 <parse_string+0xbc>
- 8010486:	d939      	bls.n	80104fc <parse_string+0x98>
- 8010488:	2874      	cmp	r0, #116	; 0x74
- 801048a:	d04c      	beq.n	8010526 <parse_string+0xc2>
- 801048c:	2875      	cmp	r0, #117	; 0x75
- 801048e:	d13e      	bne.n	801050e <parse_string+0xaa>
+ 801047a:	f898 0001 	ldrb.w	r0, [r8, #1]
+ 801047e:	286e      	cmp	r0, #110	; 0x6e
+ 8010480:	d04c      	beq.n	801051c <parse_string+0xbc>
+ 8010482:	d939      	bls.n	80104f8 <parse_string+0x98>
+ 8010484:	2874      	cmp	r0, #116	; 0x74
+ 8010486:	d04c      	beq.n	8010522 <parse_string+0xc2>
+ 8010488:	2875      	cmp	r0, #117	; 0x75
+ 801048a:	d13e      	bne.n	801050a <parse_string+0xaa>
                 case 't':
                     *ptr2++ = '\t';
                     break;
                 case 'u':
                     /* transcode utf16 to utf8. See RFC2781 and RFC3629. */
                     uc = parse_hex4(ptr + 1); /* get the unicode char. */
- 8010490:	f108 0002 	add.w	r0, r8, #2
- 8010494:	f7ff ff90 	bl	80103b8 <parse_hex4>
+ 801048c:	f108 0002 	add.w	r0, r8, #2
+ 8010490:	f7ff ff90 	bl	80103b4 <parse_hex4>
                     ptr += 4;
- 8010498:	f108 0205 	add.w	r2, r8, #5
+ 8010494:	f108 0205 	add.w	r2, r8, #5
                 case 't':
                     *ptr2++ = '\t';
                     break;
                 case 'u':
                     /* transcode utf16 to utf8. See RFC2781 and RFC3629. */
                     uc = parse_hex4(ptr + 1); /* get the unicode char. */
- 801049c:	4605      	mov	r5, r0
+ 8010498:	4605      	mov	r5, r0
                     ptr += 4;
                     if (ptr >= end_ptr)
- 801049e:	4297      	cmp	r7, r2
- 80104a0:	d845      	bhi.n	801052e <parse_string+0xca>
+ 801049a:	4297      	cmp	r7, r2
+ 801049c:	d845      	bhi.n	801052a <parse_string+0xca>
     unsigned uc2;
 
     /* not a string! */
     if (*str != '\"')
     {
         *ep = str;
- 80104a2:	9b00      	ldr	r3, [sp, #0]
- 80104a4:	601e      	str	r6, [r3, #0]
+ 801049e:	9b00      	ldr	r3, [sp, #0]
+ 80104a0:	601e      	str	r6, [r3, #0]
         if (*end_ptr++ == '\\')
         {
             if (*end_ptr == '\0')
             {
                 /* prevent buffer overflow when last input character is a backslash */
                 return 0;
- 80104a6:	2000      	movs	r0, #0
- 80104a8:	e0b0      	b.n	801060c <parse_string+0x1a8>
+ 80104a2:	2000      	movs	r0, #0
+ 80104a4:	e0b0      	b.n	8010608 <parse_string+0x1a8>
     {
         *ep = str;
         return 0;
     }
 
     while ((*end_ptr != '\"') && *end_ptr && ++len)
- 80104aa:	b162      	cbz	r2, 80104c6 <parse_string+0x62>
+ 80104a6:	b162      	cbz	r2, 80104c2 <parse_string+0x62>
     {
         if (*end_ptr++ == '\\')
- 80104ac:	2a5c      	cmp	r2, #92	; 0x5c
- 80104ae:	d108      	bne.n	80104c2 <parse_string+0x5e>
+ 80104a8:	2a5c      	cmp	r2, #92	; 0x5c
+ 80104aa:	d108      	bne.n	80104be <parse_string+0x5e>
         {
             if (*end_ptr == '\0')
- 80104b0:	787a      	ldrb	r2, [r7, #1]
- 80104b2:	2a00      	cmp	r2, #0
- 80104b4:	d0f7      	beq.n	80104a6 <parse_string+0x42>
+ 80104ac:	787a      	ldrb	r2, [r7, #1]
+ 80104ae:	2a00      	cmp	r2, #0
+ 80104b0:	d0f7      	beq.n	80104a2 <parse_string+0x42>
             {
                 /* prevent buffer overflow when last input character is a backslash */
                 return 0;
             }
             /* Skip escaped quotes. */
             end_ptr++;
- 80104b6:	3702      	adds	r7, #2
+ 80104b2:	3702      	adds	r7, #2
     {
         *ep = str;
         return 0;
     }
 
     while ((*end_ptr != '\"') && *end_ptr && ++len)
- 80104b8:	783a      	ldrb	r2, [r7, #0]
- 80104ba:	3001      	adds	r0, #1
- 80104bc:	2a22      	cmp	r2, #34	; 0x22
- 80104be:	d1f4      	bne.n	80104aa <parse_string+0x46>
- 80104c0:	e001      	b.n	80104c6 <parse_string+0x62>
+ 80104b4:	783a      	ldrb	r2, [r7, #0]
+ 80104b6:	3001      	adds	r0, #1
+ 80104b8:	2a22      	cmp	r2, #34	; 0x22
+ 80104ba:	d1f4      	bne.n	80104a6 <parse_string+0x46>
+ 80104bc:	e001      	b.n	80104c2 <parse_string+0x62>
     {
         if (*end_ptr++ == '\\')
- 80104c2:	3701      	adds	r7, #1
- 80104c4:	e7f8      	b.n	80104b8 <parse_string+0x54>
+ 80104be:	3701      	adds	r7, #1
+ 80104c0:	e7f8      	b.n	80104b4 <parse_string+0x54>
             end_ptr++;
         }
     }
 
     /* This is at most how long we need for the string, roughly. */
     out = (char*)cJSON_malloc(len + 1);
- 80104c6:	4a53      	ldr	r2, [pc, #332]	; (8010614 <parse_string+0x1b0>)
- 80104c8:	6812      	ldr	r2, [r2, #0]
- 80104ca:	4790      	blx	r2
+ 80104c2:	4a53      	ldr	r2, [pc, #332]	; (8010610 <parse_string+0x1b0>)
+ 80104c4:	6812      	ldr	r2, [r2, #0]
+ 80104c6:	4790      	blx	r2
     if (!out)
- 80104cc:	4604      	mov	r4, r0
- 80104ce:	2800      	cmp	r0, #0
- 80104d0:	d0e9      	beq.n	80104a6 <parse_string+0x42>
+ 80104c8:	4604      	mov	r4, r0
+ 80104ca:	2800      	cmp	r0, #0
+ 80104cc:	d0e9      	beq.n	80104a2 <parse_string+0x42>
     {
         return 0;
     }
     item->valuestring = out; /* assign here so out will be deleted during cJSON_Delete() later */
     item->type = cJSON_String;
- 80104d2:	2210      	movs	r2, #16
+ 80104ce:	2210      	movs	r2, #16
                     break;
                 case 'n':
                     *ptr2++ = '\n';
                     break;
                 case 'r':
                     *ptr2++ = '\r';
- 80104d4:	f04f 090d 	mov.w	r9, #13
+ 80104d0:	f04f 090d 	mov.w	r9, #13
         {
             ptr++;
             switch (*ptr)
             {
                 case 'b':
                     *ptr2++ = '\b';
- 80104d8:	f04f 0a08 	mov.w	sl, #8
+ 80104d4:	f04f 0a08 	mov.w	sl, #8
                     break;
                 case 'f':
                     *ptr2++ = '\f';
- 80104dc:	f04f 0b0c 	mov.w	fp, #12
+ 80104d8:	f04f 0b0c 	mov.w	fp, #12
     out = (char*)cJSON_malloc(len + 1);
     if (!out)
     {
         return 0;
     }
     item->valuestring = out; /* assign here so out will be deleted during cJSON_Delete() later */
- 80104e0:	6128      	str	r0, [r5, #16]
+ 80104dc:	6128      	str	r0, [r5, #16]
     item->type = cJSON_String;
- 80104e2:	60ea      	str	r2, [r5, #12]
+ 80104de:	60ea      	str	r2, [r5, #12]
 
     ptr = str + 1;
     ptr2 = out;
     /* loop through the string literal */
     while (ptr < end_ptr)
- 80104e4:	45b8      	cmp	r8, r7
- 80104e6:	f080 8088 	bcs.w	80105fa <parse_string+0x196>
+ 80104e0:	45b8      	cmp	r8, r7
+ 80104e2:	f080 8088 	bcs.w	80105f6 <parse_string+0x196>
     {
         if (*ptr != '\\')
- 80104ea:	4642      	mov	r2, r8
- 80104ec:	f812 0b01 	ldrb.w	r0, [r2], #1
- 80104f0:	285c      	cmp	r0, #92	; 0x5c
- 80104f2:	d0c4      	beq.n	801047e <parse_string+0x1a>
+ 80104e6:	4642      	mov	r2, r8
+ 80104e8:	f812 0b01 	ldrb.w	r0, [r2], #1
+ 80104ec:	285c      	cmp	r0, #92	; 0x5c
+ 80104ee:	d0c4      	beq.n	801047a <parse_string+0x1a>
         {
             *ptr2++ = *ptr++;
- 80104f4:	7020      	strb	r0, [r4, #0]
- 80104f6:	4690      	mov	r8, r2
- 80104f8:	3401      	adds	r4, #1
- 80104fa:	e7f3      	b.n	80104e4 <parse_string+0x80>
+ 80104f0:	7020      	strb	r0, [r4, #0]
+ 80104f2:	4690      	mov	r8, r2
+ 80104f4:	3401      	adds	r4, #1
+ 80104f6:	e7f3      	b.n	80104e0 <parse_string+0x80>
         }
         /* escape sequence */
         else
         {
             ptr++;
             switch (*ptr)
- 80104fc:	2862      	cmp	r0, #98	; 0x62
- 80104fe:	f104 0301 	add.w	r3, r4, #1
- 8010502:	d009      	beq.n	8010518 <parse_string+0xb4>
- 8010504:	2866      	cmp	r0, #102	; 0x66
- 8010506:	d173      	bne.n	80105f0 <parse_string+0x18c>
+ 80104f8:	2862      	cmp	r0, #98	; 0x62
+ 80104fa:	f104 0301 	add.w	r3, r4, #1
+ 80104fe:	d009      	beq.n	8010514 <parse_string+0xb4>
+ 8010500:	2866      	cmp	r0, #102	; 0x66
+ 8010502:	d173      	bne.n	80105ec <parse_string+0x18c>
             {
                 case 'b':
                     *ptr2++ = '\b';
                     break;
                 case 'f':
                     *ptr2++ = '\f';
- 8010508:	f884 b000 	strb.w	fp, [r4]
- 801050c:	e006      	b.n	801051c <parse_string+0xb8>
+ 8010504:	f884 b000 	strb.w	fp, [r4]
+ 8010508:	e006      	b.n	8010518 <parse_string+0xb8>
         }
         /* escape sequence */
         else
         {
             ptr++;
             switch (*ptr)
- 801050e:	2872      	cmp	r0, #114	; 0x72
- 8010510:	d16e      	bne.n	80105f0 <parse_string+0x18c>
+ 801050a:	2872      	cmp	r0, #114	; 0x72
+ 801050c:	d16e      	bne.n	80105ec <parse_string+0x18c>
                     break;
                 case 'n':
                     *ptr2++ = '\n';
                     break;
                 case 'r':
                     *ptr2++ = '\r';
- 8010512:	f884 9000 	strb.w	r9, [r4]
- 8010516:	e06c      	b.n	80105f2 <parse_string+0x18e>
+ 801050e:	f884 9000 	strb.w	r9, [r4]
+ 8010512:	e06c      	b.n	80105ee <parse_string+0x18e>
         {
             ptr++;
             switch (*ptr)
             {
                 case 'b':
                     *ptr2++ = '\b';
- 8010518:	f884 a000 	strb.w	sl, [r4]
+ 8010514:	f884 a000 	strb.w	sl, [r4]
                     break;
                 case 'f':
                     *ptr2++ = '\f';
- 801051c:	461c      	mov	r4, r3
+ 8010518:	461c      	mov	r4, r3
                     break;
- 801051e:	e069      	b.n	80105f4 <parse_string+0x190>
+ 801051a:	e069      	b.n	80105f0 <parse_string+0x190>
                 case 'n':
                     *ptr2++ = '\n';
- 8010520:	f04f 030a 	mov.w	r3, #10
- 8010524:	e001      	b.n	801052a <parse_string+0xc6>
+ 801051c:	f04f 030a 	mov.w	r3, #10
+ 8010520:	e001      	b.n	8010526 <parse_string+0xc6>
                     break;
                 case 'r':
                     *ptr2++ = '\r';
                     break;
                 case 't':
                     *ptr2++ = '\t';
- 8010526:	f04f 0309 	mov.w	r3, #9
- 801052a:	7023      	strb	r3, [r4, #0]
- 801052c:	e061      	b.n	80105f2 <parse_string+0x18e>
+ 8010522:	f04f 0309 	mov.w	r3, #9
+ 8010526:	7023      	strb	r3, [r4, #0]
+ 8010528:	e061      	b.n	80105ee <parse_string+0x18e>
                         /* invalid */
                         *ep = str;
                         return 0;
                     }
                     /* check for invalid. */
                     if (((uc >= 0xDC00) && (uc <= 0xDFFF)) || (uc == 0))
- 801052e:	f5a0 405c 	sub.w	r0, r0, #56320	; 0xdc00
- 8010532:	f5b0 6f80 	cmp.w	r0, #1024	; 0x400
- 8010536:	d3b4      	bcc.n	80104a2 <parse_string+0x3e>
- 8010538:	2d00      	cmp	r5, #0
- 801053a:	d0b2      	beq.n	80104a2 <parse_string+0x3e>
+ 801052a:	f5a0 405c 	sub.w	r0, r0, #56320	; 0xdc00
+ 801052e:	f5b0 6f80 	cmp.w	r0, #1024	; 0x400
+ 8010532:	d3b4      	bcc.n	801049e <parse_string+0x3e>
+ 8010534:	2d00      	cmp	r5, #0
+ 8010536:	d0b2      	beq.n	801049e <parse_string+0x3e>
                         *ep = str;
                         return 0;
                     }
 
                     /* UTF16 surrogate pairs. */
                     if ((uc >= 0xD800) && (uc<=0xDBFF))
- 801053c:	f5a5 4058 	sub.w	r0, r5, #55296	; 0xd800
- 8010540:	f5b0 6f80 	cmp.w	r0, #1024	; 0x400
- 8010544:	d21f      	bcs.n	8010586 <parse_string+0x122>
+ 8010538:	f5a5 4058 	sub.w	r0, r5, #55296	; 0xd800
+ 801053c:	f5b0 6f80 	cmp.w	r0, #1024	; 0x400
+ 8010540:	d21f      	bcs.n	8010582 <parse_string+0x122>
                     {
                         if ((ptr + 6) > end_ptr)
- 8010546:	f108 020b 	add.w	r2, r8, #11
- 801054a:	4297      	cmp	r7, r2
- 801054c:	9201      	str	r2, [sp, #4]
- 801054e:	d3a8      	bcc.n	80104a2 <parse_string+0x3e>
+ 8010542:	f108 020b 	add.w	r2, r8, #11
+ 8010546:	4297      	cmp	r7, r2
+ 8010548:	9201      	str	r2, [sp, #4]
+ 801054a:	d3a8      	bcc.n	801049e <parse_string+0x3e>
                         {
                             /* invalid */
                             *ep = str;
                             return 0;
                         }
                         if ((ptr[1] != '\\') || (ptr[2] != 'u'))
- 8010550:	f898 0006 	ldrb.w	r0, [r8, #6]
- 8010554:	285c      	cmp	r0, #92	; 0x5c
- 8010556:	d1a4      	bne.n	80104a2 <parse_string+0x3e>
- 8010558:	f898 0007 	ldrb.w	r0, [r8, #7]
- 801055c:	2875      	cmp	r0, #117	; 0x75
- 801055e:	d1a0      	bne.n	80104a2 <parse_string+0x3e>
+ 801054c:	f898 0006 	ldrb.w	r0, [r8, #6]
+ 8010550:	285c      	cmp	r0, #92	; 0x5c
+ 8010552:	d1a4      	bne.n	801049e <parse_string+0x3e>
+ 8010554:	f898 0007 	ldrb.w	r0, [r8, #7]
+ 8010558:	2875      	cmp	r0, #117	; 0x75
+ 801055a:	d1a0      	bne.n	801049e <parse_string+0x3e>
                         {
                             /* missing second-half of surrogate. */
                             *ep = str;
                             return 0;
                         }
                         uc2 = parse_hex4(ptr + 3);
- 8010560:	f108 0008 	add.w	r0, r8, #8
- 8010564:	f7ff ff28 	bl	80103b8 <parse_hex4>
+ 801055c:	f108 0008 	add.w	r0, r8, #8
+ 8010560:	f7ff ff28 	bl	80103b4 <parse_hex4>
                         ptr += 6; /* \uXXXX */
                         if ((uc2 < 0xDC00) || (uc2 > 0xDFFF))
- 8010568:	f5a0 435c 	sub.w	r3, r0, #56320	; 0xdc00
- 801056c:	f5b3 6f80 	cmp.w	r3, #1024	; 0x400
- 8010570:	d297      	bcs.n	80104a2 <parse_string+0x3e>
+ 8010564:	f5a0 435c 	sub.w	r3, r0, #56320	; 0xdc00
+ 8010568:	f5b3 6f80 	cmp.w	r3, #1024	; 0x400
+ 801056c:	d297      	bcs.n	801049e <parse_string+0x3e>
                             /* invalid second-half of surrogate. */
                             *ep = str;
                             return 0;
                         }
                         /* calculate unicode codepoint from the surrogate pair */
                         uc = 0x10000 + (((uc & 0x3FF) << 10) | (uc2 & 0x3FF));
- 8010572:	02ab      	lsls	r3, r5, #10
- 8010574:	4d28      	ldr	r5, [pc, #160]	; (8010618 <parse_string+0x1b4>)
- 8010576:	f3c0 0009 	ubfx	r0, r0, #0, #10
- 801057a:	9a01      	ldr	r2, [sp, #4]
- 801057c:	401d      	ands	r5, r3
- 801057e:	4305      	orrs	r5, r0
- 8010580:	f505 3580 	add.w	r5, r5, #65536	; 0x10000
- 8010584:	e004      	b.n	8010590 <parse_string+0x12c>
+ 801056e:	02ab      	lsls	r3, r5, #10
+ 8010570:	4d28      	ldr	r5, [pc, #160]	; (8010614 <parse_string+0x1b4>)
+ 8010572:	f3c0 0009 	ubfx	r0, r0, #0, #10
+ 8010576:	9a01      	ldr	r2, [sp, #4]
+ 8010578:	401d      	ands	r5, r3
+ 801057a:	4305      	orrs	r5, r0
+ 801057c:	f505 3580 	add.w	r5, r5, #65536	; 0x10000
+ 8010580:	e004      	b.n	801058c <parse_string+0x12c>
 
                     /* encode as UTF8
                      * takes at maximum 4 bytes to encode:
                      * 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
                     len = 4;
                     if (uc < 0x80)
- 8010586:	2d7f      	cmp	r5, #127	; 0x7f
- 8010588:	d908      	bls.n	801059c <parse_string+0x138>
+ 8010582:	2d7f      	cmp	r5, #127	; 0x7f
+ 8010584:	d908      	bls.n	8010598 <parse_string+0x138>
                     {
                         /* normal ascii, encoding 0xxxxxxx */
                         len = 1;
                     }
                     else if (uc < 0x800)
- 801058a:	f5b5 6f00 	cmp.w	r5, #2048	; 0x800
- 801058e:	d307      	bcc.n	80105a0 <parse_string+0x13c>
+ 8010586:	f5b5 6f00 	cmp.w	r5, #2048	; 0x800
+ 801058a:	d307      	bcc.n	801059c <parse_string+0x13c>
                         len = 2;
                     }
                     else if (uc < 0x10000)
                     {
                         /* three bytes, encoding 1110xxxx 10xxxxxx 10xxxxxx */
                         len = 3;
- 8010590:	f5b5 3f80 	cmp.w	r5, #65536	; 0x10000
- 8010594:	bf2c      	ite	cs
- 8010596:	2304      	movcs	r3, #4
- 8010598:	2303      	movcc	r3, #3
- 801059a:	e002      	b.n	80105a2 <parse_string+0x13e>
+ 801058c:	f5b5 3f80 	cmp.w	r5, #65536	; 0x10000
+ 8010590:	bf2c      	ite	cs
+ 8010592:	2304      	movcs	r3, #4
+ 8010594:	2303      	movcc	r3, #3
+ 8010596:	e002      	b.n	801059e <parse_string+0x13e>
                      * 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
                     len = 4;
                     if (uc < 0x80)
                     {
                         /* normal ascii, encoding 0xxxxxxx */
                         len = 1;
- 801059c:	2301      	movs	r3, #1
- 801059e:	e000      	b.n	80105a2 <parse_string+0x13e>
+ 8010598:	2301      	movs	r3, #1
+ 801059a:	e000      	b.n	801059e <parse_string+0x13e>
                     }
                     else if (uc < 0x800)
                     {
                         /* two bytes, encoding 110xxxxx 10xxxxxx */
                         len = 2;
- 80105a0:	2302      	movs	r3, #2
+ 801059c:	2302      	movs	r3, #2
                         /* three bytes, encoding 1110xxxx 10xxxxxx 10xxxxxx */
                         len = 3;
                     }
                     ptr2 += len;
 
                     switch (len) {
- 80105a2:	2b03      	cmp	r3, #3
+ 801059e:	2b03      	cmp	r3, #3
                     else if (uc < 0x10000)
                     {
                         /* three bytes, encoding 1110xxxx 10xxxxxx 10xxxxxx */
                         len = 3;
                     }
                     ptr2 += len;
- 80105a4:	eb04 0003 	add.w	r0, r4, r3
+ 80105a0:	eb04 0003 	add.w	r0, r4, r3
 
                     switch (len) {
- 80105a8:	d00c      	beq.n	80105c4 <parse_string+0x160>
- 80105aa:	2b04      	cmp	r3, #4
- 80105ac:	d002      	beq.n	80105b4 <parse_string+0x150>
- 80105ae:	2b02      	cmp	r3, #2
- 80105b0:	d116      	bne.n	80105e0 <parse_string+0x17c>
- 80105b2:	e00e      	b.n	80105d2 <parse_string+0x16e>
+ 80105a4:	d00c      	beq.n	80105c0 <parse_string+0x160>
+ 80105a6:	2b04      	cmp	r3, #4
+ 80105a8:	d002      	beq.n	80105b0 <parse_string+0x150>
+ 80105aa:	2b02      	cmp	r3, #2
+ 80105ac:	d116      	bne.n	80105dc <parse_string+0x17c>
+ 80105ae:	e00e      	b.n	80105ce <parse_string+0x16e>
                         case 4:
                             /* 10xxxxxx */
                             *--ptr2 = ((uc | 0x80) & 0xBF);
- 80105b4:	f005 0e3f 	and.w	lr, r5, #63	; 0x3f
+ 80105b0:	f005 0e3f 	and.w	lr, r5, #63	; 0x3f
                             uc >>= 6;
- 80105b8:	09ad      	lsrs	r5, r5, #6
+ 80105b4:	09ad      	lsrs	r5, r5, #6
                     ptr2 += len;
 
                     switch (len) {
                         case 4:
                             /* 10xxxxxx */
                             *--ptr2 = ((uc | 0x80) & 0xBF);
- 80105ba:	f06e 0e7f 	orn	lr, lr, #127	; 0x7f
- 80105be:	f800 ec01 	strb.w	lr, [r0, #-1]
- 80105c2:	1ce0      	adds	r0, r4, #3
+ 80105b6:	f06e 0e7f 	orn	lr, lr, #127	; 0x7f
+ 80105ba:	f800 ec01 	strb.w	lr, [r0, #-1]
+ 80105be:	1ce0      	adds	r0, r4, #3
                             uc >>= 6;
                         case 3:
                             /* 10xxxxxx */
                             *--ptr2 = ((uc | 0x80) & 0xBF);
- 80105c4:	f005 043f 	and.w	r4, r5, #63	; 0x3f
- 80105c8:	3801      	subs	r0, #1
+ 80105c0:	f005 043f 	and.w	r4, r5, #63	; 0x3f
+ 80105c4:	3801      	subs	r0, #1
                             uc >>= 6;
- 80105ca:	09ad      	lsrs	r5, r5, #6
+ 80105c6:	09ad      	lsrs	r5, r5, #6
                             /* 10xxxxxx */
                             *--ptr2 = ((uc | 0x80) & 0xBF);
                             uc >>= 6;
                         case 3:
                             /* 10xxxxxx */
                             *--ptr2 = ((uc | 0x80) & 0xBF);
- 80105cc:	f064 047f 	orn	r4, r4, #127	; 0x7f
- 80105d0:	7004      	strb	r4, [r0, #0]
+ 80105c8:	f064 047f 	orn	r4, r4, #127	; 0x7f
+ 80105cc:	7004      	strb	r4, [r0, #0]
                             uc >>= 6;
                         case 2:
                             /* 10xxxxxx */
                             *--ptr2 = ((uc | 0x80) & 0xBF);
- 80105d2:	f005 043f 	and.w	r4, r5, #63	; 0x3f
- 80105d6:	3801      	subs	r0, #1
+ 80105ce:	f005 043f 	and.w	r4, r5, #63	; 0x3f
+ 80105d2:	3801      	subs	r0, #1
                             uc >>= 6;
- 80105d8:	09ad      	lsrs	r5, r5, #6
+ 80105d4:	09ad      	lsrs	r5, r5, #6
                             /* 10xxxxxx */
                             *--ptr2 = ((uc | 0x80) & 0xBF);
                             uc >>= 6;
                         case 2:
                             /* 10xxxxxx */
                             *--ptr2 = ((uc | 0x80) & 0xBF);
- 80105da:	f064 047f 	orn	r4, r4, #127	; 0x7f
- 80105de:	7004      	strb	r4, [r0, #0]
+ 80105d6:	f064 047f 	orn	r4, r4, #127	; 0x7f
+ 80105da:	7004      	strb	r4, [r0, #0]
                             uc >>= 6;
                         case 1:
                             /* depending on the length in bytes this determines the
                              * encoding ofthe first UTF8 byte */
                             *--ptr2 = (uc | firstByteMark[len]);
- 80105e0:	490e      	ldr	r1, [pc, #56]	; (801061c <parse_string+0x1b8>)
- 80105e2:	5ccc      	ldrb	r4, [r1, r3]
- 80105e4:	4325      	orrs	r5, r4
+ 80105dc:	490e      	ldr	r1, [pc, #56]	; (8010618 <parse_string+0x1b8>)
+ 80105de:	5ccc      	ldrb	r4, [r1, r3]
+ 80105e0:	4325      	orrs	r5, r4
                     }
                     ptr2 += len;
- 80105e6:	1e5c      	subs	r4, r3, #1
+ 80105e2:	1e5c      	subs	r4, r3, #1
                             *--ptr2 = ((uc | 0x80) & 0xBF);
                             uc >>= 6;
                         case 1:
                             /* depending on the length in bytes this determines the
                              * encoding ofthe first UTF8 byte */
                             *--ptr2 = (uc | firstByteMark[len]);
- 80105e8:	f800 5c01 	strb.w	r5, [r0, #-1]
+ 80105e4:	f800 5c01 	strb.w	r5, [r0, #-1]
                     }
                     ptr2 += len;
- 80105ec:	4404      	add	r4, r0
+ 80105e8:	4404      	add	r4, r0
                     break;
- 80105ee:	e001      	b.n	80105f4 <parse_string+0x190>
+ 80105ea:	e001      	b.n	80105f0 <parse_string+0x190>
                 default:
                     *ptr2++ = *ptr;
- 80105f0:	7020      	strb	r0, [r4, #0]
- 80105f2:	3401      	adds	r4, #1
+ 80105ec:	7020      	strb	r0, [r4, #0]
+ 80105ee:	3401      	adds	r4, #1
                     break;
             }
             ptr++;
- 80105f4:	f102 0801 	add.w	r8, r2, #1
- 80105f8:	e774      	b.n	80104e4 <parse_string+0x80>
+ 80105f0:	f102 0801 	add.w	r8, r2, #1
+ 80105f4:	e774      	b.n	80104e0 <parse_string+0x80>
         }
     }
     *ptr2 = '\0';
- 80105fa:	2200      	movs	r2, #0
- 80105fc:	7022      	strb	r2, [r4, #0]
+ 80105f6:	2200      	movs	r2, #0
+ 80105f8:	7022      	strb	r2, [r4, #0]
     if (*ptr == '\"')
- 80105fe:	f898 2000 	ldrb.w	r2, [r8]
- 8010602:	2a22      	cmp	r2, #34	; 0x22
+ 80105fa:	f898 2000 	ldrb.w	r2, [r8]
+ 80105fe:	2a22      	cmp	r2, #34	; 0x22
     {
         ptr++;
- 8010604:	bf0c      	ite	eq
- 8010606:	f108 0001 	addeq.w	r0, r8, #1
- 801060a:	4640      	movne	r0, r8
+ 8010600:	bf0c      	ite	eq
+ 8010602:	f108 0001 	addeq.w	r0, r8, #1
+ 8010606:	4640      	movne	r0, r8
     }
 
     return ptr;
 }
- 801060c:	b003      	add	sp, #12
- 801060e:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 8010612:	bf00      	nop
- 8010614:	20010088 	.word	0x20010088
- 8010618:	000ffc00 	.word	0x000ffc00
- 801061c:	0802fbf0 	.word	0x0802fbf0
+ 8010608:	b003      	add	sp, #12
+ 801060a:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 801060e:	bf00      	nop
+ 8010610:	20010088 	.word	0x20010088
+ 8010614:	000ffc00 	.word	0x000ffc00
+ 8010618:	0802fbe8 	.word	0x0802fbe8
 
-08010620 <skip>:
+0801061c <skip>:
 static const char *parse_object(cJSON *item, const char *value, const char **ep);
 static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p);
 
 /* Utility to jump whitespace and cr/lf */
 static const char *skip(const char *in)
 {
- 8010620:	4603      	mov	r3, r0
- 8010622:	4618      	mov	r0, r3
+ 801061c:	4603      	mov	r3, r0
+ 801061e:	4618      	mov	r0, r3
     while (in && *in && ((unsigned char)*in<=32))
- 8010624:	b123      	cbz	r3, 8010630 <skip+0x10>
- 8010626:	7802      	ldrb	r2, [r0, #0]
- 8010628:	3301      	adds	r3, #1
- 801062a:	3a01      	subs	r2, #1
- 801062c:	2a1f      	cmp	r2, #31
- 801062e:	d9f8      	bls.n	8010622 <skip+0x2>
+ 8010620:	b123      	cbz	r3, 801062c <skip+0x10>
+ 8010622:	7802      	ldrb	r2, [r0, #0]
+ 8010624:	3301      	adds	r3, #1
+ 8010626:	3a01      	subs	r2, #1
+ 8010628:	2a1f      	cmp	r2, #31
+ 801062a:	d9f8      	bls.n	801061e <skip+0x2>
     {
         in++;
     }
 
     return in;
 }
- 8010630:	4770      	bx	lr
+ 801062c:	4770      	bx	lr
 	...
 
-08010634 <cJSON_New_Item>:
+08010630 <cJSON_New_Item>:
 }
 
 /* Internal constructor. */
 static cJSON *cJSON_New_Item(void)
 {
     cJSON* node = (cJSON*)cJSON_malloc(sizeof(cJSON));
- 8010634:	4b06      	ldr	r3, [pc, #24]	; (8010650 <cJSON_New_Item+0x1c>)
- 8010636:	2028      	movs	r0, #40	; 0x28
+ 8010630:	4b06      	ldr	r3, [pc, #24]	; (801064c <cJSON_New_Item+0x1c>)
+ 8010632:	2028      	movs	r0, #40	; 0x28
     cJSON_free = (hooks->free_fn) ? hooks->free_fn : free;
 }
 
 /* Internal constructor. */
 static cJSON *cJSON_New_Item(void)
 {
- 8010638:	b510      	push	{r4, lr}
+ 8010634:	b510      	push	{r4, lr}
     cJSON* node = (cJSON*)cJSON_malloc(sizeof(cJSON));
- 801063a:	681b      	ldr	r3, [r3, #0]
- 801063c:	4798      	blx	r3
+ 8010636:	681b      	ldr	r3, [r3, #0]
+ 8010638:	4798      	blx	r3
     if (node)
- 801063e:	4604      	mov	r4, r0
- 8010640:	b118      	cbz	r0, 801064a <cJSON_New_Item+0x16>
+ 801063a:	4604      	mov	r4, r0
+ 801063c:	b118      	cbz	r0, 8010646 <cJSON_New_Item+0x16>
     {
         memset(node, 0, sizeof(cJSON));
- 8010642:	2228      	movs	r2, #40	; 0x28
- 8010644:	2100      	movs	r1, #0
- 8010646:	f001 fa07 	bl	8011a58 <memset>
+ 801063e:	2228      	movs	r2, #40	; 0x28
+ 8010640:	2100      	movs	r1, #0
+ 8010642:	f001 fa09 	bl	8011a58 <memset>
     }
 
     return node;
 }
- 801064a:	4620      	mov	r0, r4
- 801064c:	bd10      	pop	{r4, pc}
- 801064e:	bf00      	nop
- 8010650:	20010088 	.word	0x20010088
+ 8010646:	4620      	mov	r0, r4
+ 8010648:	bd10      	pop	{r4, pc}
+ 801064a:	bf00      	nop
+ 801064c:	20010088 	.word	0x20010088
 
-08010654 <ensure>:
+08010650 <ensure>:
     int offset;
 } printbuffer;
 
 /* realloc printbuffer if necessary to have at least "needed" bytes more */
 static char* ensure(printbuffer *p, int needed)
 {
- 8010654:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8010650:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
     char *newbuffer;
     int newsize;
     if (!p || !p->buffer)
- 8010656:	4605      	mov	r5, r0
- 8010658:	2800      	cmp	r0, #0
- 801065a:	d02f      	beq.n	80106bc <ensure+0x68>
- 801065c:	6800      	ldr	r0, [r0, #0]
- 801065e:	2800      	cmp	r0, #0
- 8010660:	d02c      	beq.n	80106bc <ensure+0x68>
+ 8010652:	4605      	mov	r5, r0
+ 8010654:	2800      	cmp	r0, #0
+ 8010656:	d02f      	beq.n	80106b8 <ensure+0x68>
+ 8010658:	6800      	ldr	r0, [r0, #0]
+ 801065a:	2800      	cmp	r0, #0
+ 801065c:	d02c      	beq.n	80106b8 <ensure+0x68>
     {
         return 0;
     }
     needed += p->offset;
- 8010662:	68ab      	ldr	r3, [r5, #8]
+ 801065e:	68ab      	ldr	r3, [r5, #8]
     if (needed <= p->length)
- 8010664:	686a      	ldr	r2, [r5, #4]
+ 8010660:	686a      	ldr	r2, [r5, #4]
     int newsize;
     if (!p || !p->buffer)
     {
         return 0;
     }
     needed += p->offset;
- 8010666:	185c      	adds	r4, r3, r1
+ 8010662:	185c      	adds	r4, r3, r1
     if (needed <= p->length)
- 8010668:	4294      	cmp	r4, r2
- 801066a:	dc01      	bgt.n	8010670 <ensure+0x1c>
+ 8010664:	4294      	cmp	r4, r2
+ 8010666:	dc01      	bgt.n	801066c <ensure+0x1c>
     {
         return p->buffer + p->offset;
- 801066c:	4418      	add	r0, r3
- 801066e:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 8010668:	4418      	add	r0, r3
+ 801066a:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
 }
 
 /* calculate the next largest power of 2 */
 static int pow2gt (int x)
 {
     --x;
- 8010670:	3c01      	subs	r4, #1
+ 801066c:	3c01      	subs	r4, #1
     {
         return p->buffer + p->offset;
     }
 
     newsize = pow2gt(needed);
     newbuffer = (char*)cJSON_malloc(newsize);
- 8010672:	4b13      	ldr	r3, [pc, #76]	; (80106c0 <ensure+0x6c>)
- 8010674:	4f13      	ldr	r7, [pc, #76]	; (80106c4 <ensure+0x70>)
+ 801066e:	4b13      	ldr	r3, [pc, #76]	; (80106bc <ensure+0x6c>)
+ 8010670:	4f13      	ldr	r7, [pc, #76]	; (80106c0 <ensure+0x70>)
 /* calculate the next largest power of 2 */
 static int pow2gt (int x)
 {
     --x;
 
     x |= x >> 1;
- 8010676:	ea44 0464 	orr.w	r4, r4, r4, asr #1
+ 8010672:	ea44 0464 	orr.w	r4, r4, r4, asr #1
     {
         return p->buffer + p->offset;
     }
 
     newsize = pow2gt(needed);
     newbuffer = (char*)cJSON_malloc(newsize);
- 801067a:	681b      	ldr	r3, [r3, #0]
+ 8010676:	681b      	ldr	r3, [r3, #0]
 static int pow2gt (int x)
 {
     --x;
 
     x |= x >> 1;
     x |= x >> 2;
- 801067c:	ea44 04a4 	orr.w	r4, r4, r4, asr #2
+ 8010678:	ea44 04a4 	orr.w	r4, r4, r4, asr #2
     x |= x >> 4;
- 8010680:	ea44 1424 	orr.w	r4, r4, r4, asr #4
+ 801067c:	ea44 1424 	orr.w	r4, r4, r4, asr #4
     x |= x >> 8;
- 8010684:	ea44 2424 	orr.w	r4, r4, r4, asr #8
+ 8010680:	ea44 2424 	orr.w	r4, r4, r4, asr #8
     x |= x >> 16;
 
     return x + 1;
- 8010688:	ea44 4424 	orr.w	r4, r4, r4, asr #16
- 801068c:	3401      	adds	r4, #1
+ 8010684:	ea44 4424 	orr.w	r4, r4, r4, asr #16
+ 8010688:	3401      	adds	r4, #1
     {
         return p->buffer + p->offset;
     }
 
     newsize = pow2gt(needed);
     newbuffer = (char*)cJSON_malloc(newsize);
- 801068e:	4620      	mov	r0, r4
- 8010690:	4798      	blx	r3
+ 801068a:	4620      	mov	r0, r4
+ 801068c:	4798      	blx	r3
     if (!newbuffer)
- 8010692:	4606      	mov	r6, r0
- 8010694:	b930      	cbnz	r0, 80106a4 <ensure+0x50>
+ 801068e:	4606      	mov	r6, r0
+ 8010690:	b930      	cbnz	r0, 80106a0 <ensure+0x50>
     {
         cJSON_free(p->buffer);
- 8010696:	6828      	ldr	r0, [r5, #0]
- 8010698:	683b      	ldr	r3, [r7, #0]
- 801069a:	4798      	blx	r3
+ 8010692:	6828      	ldr	r0, [r5, #0]
+ 8010694:	683b      	ldr	r3, [r7, #0]
+ 8010696:	4798      	blx	r3
         p->length = 0;
- 801069c:	606e      	str	r6, [r5, #4]
+ 8010698:	606e      	str	r6, [r5, #4]
         p->buffer = 0;
- 801069e:	602e      	str	r6, [r5, #0]
+ 801069a:	602e      	str	r6, [r5, #0]
 
         return 0;
- 80106a0:	4630      	mov	r0, r6
- 80106a2:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 801069c:	4630      	mov	r0, r6
+ 801069e:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     }
     if (newbuffer)
     {
         memcpy(newbuffer, p->buffer, p->length);
- 80106a4:	e895 0006 	ldmia.w	r5, {r1, r2}
- 80106a8:	f001 f9cb 	bl	8011a42 <memcpy>
+ 80106a0:	e895 0006 	ldmia.w	r5, {r1, r2}
+ 80106a4:	f001 f9cd 	bl	8011a42 <memcpy>
     }
     cJSON_free(p->buffer);
- 80106ac:	6828      	ldr	r0, [r5, #0]
- 80106ae:	683b      	ldr	r3, [r7, #0]
- 80106b0:	4798      	blx	r3
+ 80106a8:	6828      	ldr	r0, [r5, #0]
+ 80106aa:	683b      	ldr	r3, [r7, #0]
+ 80106ac:	4798      	blx	r3
     p->length = newsize;
     p->buffer = newbuffer;
 
     return newbuffer + p->offset;
- 80106b2:	68a8      	ldr	r0, [r5, #8]
+ 80106ae:	68a8      	ldr	r0, [r5, #8]
     if (newbuffer)
     {
         memcpy(newbuffer, p->buffer, p->length);
     }
     cJSON_free(p->buffer);
     p->length = newsize;
- 80106b4:	606c      	str	r4, [r5, #4]
+ 80106b0:	606c      	str	r4, [r5, #4]
     p->buffer = newbuffer;
- 80106b6:	602e      	str	r6, [r5, #0]
+ 80106b2:	602e      	str	r6, [r5, #0]
 
     return newbuffer + p->offset;
- 80106b8:	4430      	add	r0, r6
- 80106ba:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 80106b4:	4430      	add	r0, r6
+ 80106b6:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
 }
- 80106bc:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
- 80106be:	bf00      	nop
- 80106c0:	20010088 	.word	0x20010088
- 80106c4:	20010084 	.word	0x20010084
+ 80106b8:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 80106ba:	bf00      	nop
+ 80106bc:	20010088 	.word	0x20010088
+ 80106c0:	20010084 	.word	0x20010084
 
-080106c8 <cJSON_strdup>:
+080106c4 <cJSON_strdup>:
 
 static void *(*cJSON_malloc)(size_t sz) = malloc;
 static void (*cJSON_free)(void *ptr) = free;
 
 static char* cJSON_strdup(const char* str)
 {
- 80106c8:	b570      	push	{r4, r5, r6, lr}
- 80106ca:	4606      	mov	r6, r0
+ 80106c4:	b570      	push	{r4, r5, r6, lr}
+ 80106c6:	4606      	mov	r6, r0
     size_t len;
     char* copy;
 
     len = strlen(str) + 1;
- 80106cc:	f7ef fe00 	bl	80002d0 <strlen>
+ 80106c8:	f7ef fe02 	bl	80002d0 <strlen>
     if (!(copy = (char*)cJSON_malloc(len)))
- 80106d0:	4b06      	ldr	r3, [pc, #24]	; (80106ec <cJSON_strdup+0x24>)
+ 80106cc:	4b06      	ldr	r3, [pc, #24]	; (80106e8 <cJSON_strdup+0x24>)
 static char* cJSON_strdup(const char* str)
 {
     size_t len;
     char* copy;
 
     len = strlen(str) + 1;
- 80106d2:	1c44      	adds	r4, r0, #1
+ 80106ce:	1c44      	adds	r4, r0, #1
     if (!(copy = (char*)cJSON_malloc(len)))
- 80106d4:	681b      	ldr	r3, [r3, #0]
- 80106d6:	4620      	mov	r0, r4
- 80106d8:	4798      	blx	r3
- 80106da:	4605      	mov	r5, r0
- 80106dc:	b118      	cbz	r0, 80106e6 <cJSON_strdup+0x1e>
+ 80106d0:	681b      	ldr	r3, [r3, #0]
+ 80106d2:	4620      	mov	r0, r4
+ 80106d4:	4798      	blx	r3
+ 80106d6:	4605      	mov	r5, r0
+ 80106d8:	b118      	cbz	r0, 80106e2 <cJSON_strdup+0x1e>
     {
         return 0;
     }
     memcpy(copy, str, len);
- 80106de:	4622      	mov	r2, r4
- 80106e0:	4631      	mov	r1, r6
- 80106e2:	f001 f9ae 	bl	8011a42 <memcpy>
+ 80106da:	4622      	mov	r2, r4
+ 80106dc:	4631      	mov	r1, r6
+ 80106de:	f001 f9b0 	bl	8011a42 <memcpy>
 
     return copy;
 }
- 80106e6:	4628      	mov	r0, r5
- 80106e8:	bd70      	pop	{r4, r5, r6, pc}
- 80106ea:	bf00      	nop
- 80106ec:	20010088 	.word	0x20010088
+ 80106e2:	4628      	mov	r0, r5
+ 80106e4:	bd70      	pop	{r4, r5, r6, pc}
+ 80106e6:	bf00      	nop
+ 80106e8:	20010088 	.word	0x20010088
 
-080106f0 <update>:
+080106ec <update>:
     return newbuffer + p->offset;
 }
 
 /* calculate the new length of the string in a printbuffer */
 static int update(const printbuffer *p)
 {
- 80106f0:	b510      	push	{r4, lr}
+ 80106ec:	b510      	push	{r4, lr}
     char *str;
     if (!p || !p->buffer)
- 80106f2:	b140      	cbz	r0, 8010706 <update+0x16>
- 80106f4:	6803      	ldr	r3, [r0, #0]
- 80106f6:	b12b      	cbz	r3, 8010704 <update+0x14>
+ 80106ee:	b140      	cbz	r0, 8010702 <update+0x16>
+ 80106f0:	6803      	ldr	r3, [r0, #0]
+ 80106f2:	b12b      	cbz	r3, 8010700 <update+0x14>
     {
         return 0;
     }
     str = p->buffer + p->offset;
- 80106f8:	6884      	ldr	r4, [r0, #8]
+ 80106f4:	6884      	ldr	r4, [r0, #8]
 
     return p->offset + strlen(str);
- 80106fa:	1918      	adds	r0, r3, r4
- 80106fc:	f7ef fde8 	bl	80002d0 <strlen>
- 8010700:	4420      	add	r0, r4
- 8010702:	bd10      	pop	{r4, pc}
+ 80106f6:	1918      	adds	r0, r3, r4
+ 80106f8:	f7ef fdea 	bl	80002d0 <strlen>
+ 80106fc:	4420      	add	r0, r4
+ 80106fe:	bd10      	pop	{r4, pc}
 static int update(const printbuffer *p)
 {
     char *str;
     if (!p || !p->buffer)
     {
         return 0;
- 8010704:	4618      	mov	r0, r3
+ 8010700:	4618      	mov	r0, r3
     }
     str = p->buffer + p->offset;
 
     return p->offset + strlen(str);
 }
- 8010706:	bd10      	pop	{r4, pc}
+ 8010702:	bd10      	pop	{r4, pc}
+ 8010704:	0000      	movs	r0, r0
+	...
 
 08010708 <print_number>:
 
@@ -68329,7 +68329,7 @@ static char *print_number(const cJSON *item, printbuffer *p)
             str = ensure(p, 2);
  8010724:	2102      	movs	r1, #2
  8010726:	4620      	mov	r0, r4
- 8010728:	f7ff ff94 	bl	8010654 <ensure>
+ 8010728:	f7ff ff92 	bl	8010650 <ensure>
  801072c:	e003      	b.n	8010736 <print_number+0x2e>
         }
         else
@@ -68381,7 +68381,7 @@ static char *print_number(const cJSON *item, printbuffer *p)
             str = ensure(p, 21);
  801077e:	2115      	movs	r1, #21
  8010780:	4620      	mov	r0, r4
- 8010782:	f7ff ff67 	bl	8010654 <ensure>
+ 8010782:	f7ff ff65 	bl	8010650 <ensure>
  8010786:	e003      	b.n	8010790 <print_number+0x88>
         }
         else
@@ -68415,7 +68415,7 @@ static char *print_number(const cJSON *item, printbuffer *p)
             str = ensure(p, 64);
  80107a2:	2140      	movs	r1, #64	; 0x40
  80107a4:	4620      	mov	r0, r4
- 80107a6:	f7ff ff55 	bl	8010654 <ensure>
+ 80107a6:	f7ff ff53 	bl	8010650 <ensure>
  80107aa:	e003      	b.n	80107b4 <print_number+0xac>
         }
         else
@@ -68521,14 +68521,14 @@ static char *print_number(const cJSON *item, printbuffer *p)
  8010870:	00000000 	.word	0x00000000
  8010874:	41cdcd65 	.word	0x41cdcd65
  8010878:	20010088 	.word	0x20010088
- 801087c:	0802fbf7 	.word	0x0802fbf7
+ 801087c:	0802fbef 	.word	0x0802fbef
  8010880:	3cb00000 	.word	0x3cb00000
  8010884:	c1e00000 	.word	0xc1e00000
  8010888:	0802f503 	.word	0x0802f503
- 801088c:	0802fbf9 	.word	0x0802fbf9
- 8010890:	0802fbfe 	.word	0x0802fbfe
- 8010894:	0802fc03 	.word	0x0802fc03
- 8010898:	0802fc06 	.word	0x0802fc06
+ 801088c:	0802fbf1 	.word	0x0802fbf1
+ 8010890:	0802fbf6 	.word	0x0802fbf6
+ 8010894:	0802fbfb 	.word	0x0802fbfb
+ 8010898:	0802fbfe 	.word	0x0802fbfe
 
 0801089c <print_string_ptr>:
     return ptr;
@@ -68558,7 +68558,7 @@ static char *print_string_ptr(const char *str, printbuffer *p)
             out = ensure(p, 3);
  80108b0:	2103      	movs	r1, #3
  80108b2:	4628      	mov	r0, r5
- 80108b4:	f7ff fece 	bl	8010654 <ensure>
+ 80108b4:	f7ff fecc 	bl	8010650 <ensure>
  80108b8:	e003      	b.n	80108c2 <print_string_ptr+0x26>
         }
         else
@@ -68645,7 +68645,7 @@ static char *print_string_ptr(const char *str, printbuffer *p)
         {
             out = ensure(p, len + 3);
  8010904:	4628      	mov	r0, r5
- 8010906:	f7ff fea5 	bl	8010654 <ensure>
+ 8010906:	f7ff fea3 	bl	8010650 <ensure>
  801090a:	e003      	b.n	8010914 <print_string_ptr+0x78>
         }
         else
@@ -68749,7 +68749,7 @@ static char *print_string_ptr(const char *str, printbuffer *p)
     {
         out = ensure(p, len + 3);
  8010958:	4628      	mov	r0, r5
- 801095a:	f7ff fe7b 	bl	8010654 <ensure>
+ 801095a:	f7ff fe79 	bl	8010650 <ensure>
  801095e:	e003      	b.n	8010968 <print_string_ptr+0xcc>
     }
     else
@@ -68921,9 +68921,9 @@ static char *print_string_ptr(const char *str, printbuffer *p)
  80109e6:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  80109ea:	bf00      	nop
  80109ec:	20010088 	.word	0x20010088
- 80109f0:	0802fc09 	.word	0x0802fc09
- 80109f4:	0802fc0c 	.word	0x0802fc0c
- 80109f8:	0802fc14 	.word	0x0802fc14
+ 80109f0:	0802fc01 	.word	0x0802fc01
+ 80109f4:	0802fc04 	.word	0x0802fc04
+ 80109f8:	0802fc0c 	.word	0x0802fc0c
  80109fc:	00000000 	.word	0x00000000
 
 08010a00 <parse_value>:
@@ -69028,7 +69028,7 @@ static const char *parse_value(cJSON *item, const char *value, const char **ep)
     if (*value == '\"')
     {
         return parse_string(item, value, ep);
- 8010a62:	f7ff bcff 	b.w	8010464 <parse_string>
+ 8010a62:	f7ff bcfd 	b.w	8010460 <parse_string>
     }
     if ((*value == '-') || ((*value >= '0') && (*value <= '9')))
  8010a66:	2b2d      	cmp	r3, #45	; 0x2d
@@ -69364,7 +69364,7 @@ static const char *parse_number(cJSON *item, const char *num)
     item->type = cJSON_Array;
  8010bbe:	60eb      	str	r3, [r5, #12]
     value = skip(value + 1);
- 8010bc0:	f7ff fd2e 	bl	8010620 <skip>
+ 8010bc0:	f7ff fd2c 	bl	801061c <skip>
     if (*value == ']')
  8010bc4:	7803      	ldrb	r3, [r0, #0]
         *ep = value;
@@ -69383,7 +69383,7 @@ static const char *parse_number(cJSON *item, const char *num)
     }
 
     item->child = child = cJSON_New_Item();
- 8010bcc:	f7ff fd32 	bl	8010634 <cJSON_New_Item>
+ 8010bcc:	f7ff fd30 	bl	8010630 <cJSON_New_Item>
  8010bd0:	4607      	mov	r7, r0
  8010bd2:	60a8      	str	r0, [r5, #8]
     if (!item->child)
@@ -69396,12 +69396,12 @@ static const char *parse_number(cJSON *item, const char *num)
     /* skip any spacing, get the value. */
     value = skip(parse_value(child, skip(value), ep));
  8010bda:	4620      	mov	r0, r4
- 8010bdc:	f7ff fd20 	bl	8010620 <skip>
+ 8010bdc:	f7ff fd1e 	bl	801061c <skip>
  8010be0:	4632      	mov	r2, r6
  8010be2:	4601      	mov	r1, r0
  8010be4:	4638      	mov	r0, r7
  8010be6:	f7ff ff0b 	bl	8010a00 <parse_value>
- 8010bea:	f7ff fd19 	bl	8010620 <skip>
+ 8010bea:	f7ff fd17 	bl	801061c <skip>
     if (!value)
  8010bee:	4604      	mov	r4, r0
  8010bf0:	2800      	cmp	r0, #0
@@ -69418,7 +69418,7 @@ static const char *parse_number(cJSON *item, const char *num)
     {
         cJSON *new_item;
         if (!(new_item = cJSON_New_Item()))
- 8010bfc:	f7ff fd1a 	bl	8010634 <cJSON_New_Item>
+ 8010bfc:	f7ff fd18 	bl	8010630 <cJSON_New_Item>
  8010c00:	4605      	mov	r5, r0
  8010c02:	2800      	cmp	r0, #0
  8010c04:	f000 8097 	beq.w	8010d36 <parse_value+0x336>
@@ -69436,12 +69436,12 @@ static const char *parse_number(cJSON *item, const char *num)
         /* go to the next comma */
         value = skip(parse_value(child, skip(value + 1), ep));
  8010c0c:	1c60      	adds	r0, r4, #1
- 8010c0e:	f7ff fd07 	bl	8010620 <skip>
+ 8010c0e:	f7ff fd05 	bl	801061c <skip>
  8010c12:	4632      	mov	r2, r6
  8010c14:	4601      	mov	r1, r0
  8010c16:	4628      	mov	r0, r5
  8010c18:	f7ff fef2 	bl	8010a00 <parse_value>
- 8010c1c:	f7ff fd00 	bl	8010620 <skip>
+ 8010c1c:	f7ff fcfe 	bl	801061c <skip>
         if (!value)
  8010c20:	4604      	mov	r4, r0
  8010c22:	2800      	cmp	r0, #0
@@ -69482,7 +69482,7 @@ static const char *parse_number(cJSON *item, const char *num)
     item->type = cJSON_Object;
  8010c3a:	60eb      	str	r3, [r5, #12]
     value = skip(value + 1);
- 8010c3c:	f7ff fcf0 	bl	8010620 <skip>
+ 8010c3c:	f7ff fcee 	bl	801061c <skip>
     if (*value == '}')
  8010c40:	7803      	ldrb	r3, [r0, #0]
         *ep = value;
@@ -69503,7 +69503,7 @@ static const char *parse_number(cJSON *item, const char *num)
     }
 
     child = cJSON_New_Item();
- 8010c4c:	f7ff fcf2 	bl	8010634 <cJSON_New_Item>
+ 8010c4c:	f7ff fcf0 	bl	8010630 <cJSON_New_Item>
  8010c50:	4607      	mov	r7, r0
     item->child = child;
  8010c52:	60a8      	str	r0, [r5, #8]
@@ -69516,12 +69516,12 @@ static const char *parse_number(cJSON *item, const char *num)
     /* parse first key */
     value = skip(parse_string(child, skip(value), ep));
  8010c58:	4620      	mov	r0, r4
- 8010c5a:	f7ff fce1 	bl	8010620 <skip>
+ 8010c5a:	f7ff fcdf 	bl	801061c <skip>
  8010c5e:	4632      	mov	r2, r6
  8010c60:	4601      	mov	r1, r0
  8010c62:	4638      	mov	r0, r7
- 8010c64:	f7ff fbfe 	bl	8010464 <parse_string>
- 8010c68:	f7ff fcda 	bl	8010620 <skip>
+ 8010c64:	f7ff fbfc 	bl	8010460 <parse_string>
+ 8010c68:	f7ff fcd8 	bl	801061c <skip>
     if (!value)
  8010c6c:	2800      	cmp	r0, #0
  8010c6e:	d062      	beq.n	8010d36 <parse_value+0x336>
@@ -69558,12 +69558,12 @@ static const char *parse_number(cJSON *item, const char *num)
     /* skip any spacing, get the value. */
     value = skip(parse_value(child, skip(value + 1), ep));
  8010c84:	3001      	adds	r0, #1
- 8010c86:	f7ff fccb 	bl	8010620 <skip>
+ 8010c86:	f7ff fcc9 	bl	801061c <skip>
  8010c8a:	4632      	mov	r2, r6
  8010c8c:	4601      	mov	r1, r0
  8010c8e:	4638      	mov	r0, r7
  8010c90:	f7ff feb6 	bl	8010a00 <parse_value>
- 8010c94:	f7ff fcc4 	bl	8010620 <skip>
+ 8010c94:	f7ff fcc2 	bl	801061c <skip>
     if (!value)
  8010c98:	4680      	mov	r8, r0
  8010c9a:	2800      	cmp	r0, #0
@@ -69579,7 +69579,7 @@ static const char *parse_number(cJSON *item, const char *num)
     {
         cJSON *new_item;
         if (!(new_item = cJSON_New_Item()))
- 8010ca6:	f7ff fcc5 	bl	8010634 <cJSON_New_Item>
+ 8010ca6:	f7ff fcc3 	bl	8010630 <cJSON_New_Item>
  8010caa:	4605      	mov	r5, r0
  8010cac:	2800      	cmp	r0, #0
  8010cae:	d042      	beq.n	8010d36 <parse_value+0x336>
@@ -69596,12 +69596,12 @@ static const char *parse_number(cJSON *item, const char *num)
         child = new_item;
         value = skip(parse_string(child, skip(value + 1), ep));
  8010cb4:	f108 0001 	add.w	r0, r8, #1
- 8010cb8:	f7ff fcb2 	bl	8010620 <skip>
+ 8010cb8:	f7ff fcb0 	bl	801061c <skip>
  8010cbc:	4632      	mov	r2, r6
  8010cbe:	4601      	mov	r1, r0
  8010cc0:	4628      	mov	r0, r5
- 8010cc2:	f7ff fbcf 	bl	8010464 <parse_string>
- 8010cc6:	f7ff fcab 	bl	8010620 <skip>
+ 8010cc2:	f7ff fbcd 	bl	8010460 <parse_string>
+ 8010cc6:	f7ff fca9 	bl	801061c <skip>
         if (!value)
  8010cca:	b3a0      	cbz	r0, 8010d36 <parse_value+0x336>
         {
@@ -69636,12 +69636,12 @@ static const char *parse_number(cJSON *item, const char *num)
         /* skip any spacing, get the value. */
         value = skip(parse_value(child, skip(value + 1), ep));
  8010cdc:	3001      	adds	r0, #1
- 8010cde:	f7ff fc9f 	bl	8010620 <skip>
+ 8010cde:	f7ff fc9d 	bl	801061c <skip>
  8010ce2:	4632      	mov	r2, r6
  8010ce4:	4601      	mov	r1, r0
  8010ce6:	4628      	mov	r0, r5
  8010ce8:	f7ff fe8a 	bl	8010a00 <parse_value>
- 8010cec:	f7ff fc98 	bl	8010620 <skip>
+ 8010cec:	f7ff fc96 	bl	801061c <skip>
         if (!value)
  8010cf0:	4680      	mov	r8, r0
  8010cf2:	b300      	cbz	r0, 8010d36 <parse_value+0x336>
@@ -69671,9 +69671,9 @@ static const char *parse_number(cJSON *item, const char *num)
  8010d14:	bff00000 	.word	0xbff00000
  8010d18:	00000000 	.word	0x00000000
  8010d1c:	40240000 	.word	0x40240000
- 8010d20:	0802fbf9 	.word	0x0802fbf9
- 8010d24:	0802fc1a 	.word	0x0802fc1a
- 8010d28:	0802fc20 	.word	0x0802fc20
+ 8010d20:	0802fbf1 	.word	0x0802fbf1
+ 8010d24:	0802fc12 	.word	0x0802fc12
+ 8010d28:	0802fc18 	.word	0x0802fc18
  8010d2c:	40240000 	.word	0x40240000
  8010d30:	3ff00000 	.word	0x3ff00000
     if (*value == '{')
@@ -69736,7 +69736,7 @@ static char *print_array(const cJSON *item, int depth, int fmt, printbuffer *p)
             out = ensure(p, 3);
  8010d5e:	2103      	movs	r1, #3
  8010d60:	4620      	mov	r0, r4
- 8010d62:	f7ff fc77 	bl	8010654 <ensure>
+ 8010d62:	f7ff fc75 	bl	8010650 <ensure>
  8010d66:	e003      	b.n	8010d70 <print_array.isra.3+0x30>
         }
         else
@@ -69781,7 +69781,7 @@ static char *print_array(const cJSON *item, int depth, int fmt, printbuffer *p)
         i = p->offset;
  8010d8c:	9301      	str	r3, [sp, #4]
         ptr = ensure(p, 1);
- 8010d8e:	f7ff fc61 	bl	8010654 <ensure>
+ 8010d8e:	f7ff fc5f 	bl	8010650 <ensure>
         if (!ptr)
  8010d92:	2800      	cmp	r0, #0
  8010d94:	f000 8097 	beq.w	8010ec6 <print_array.isra.3+0x186>
@@ -69842,7 +69842,7 @@ static char *print_array(const cJSON *item, int depth, int fmt, printbuffer *p)
  8010dc8:	f000 f8be 	bl	8010f48 <print_value>
             p->offset = update(p);
  8010dcc:	4620      	mov	r0, r4
- 8010dce:	f7ff fc8f 	bl	80106f0 <update>
+ 8010dce:	f7ff fc8d 	bl	80106ec <update>
             if (child->next)
  8010dd2:	682b      	ldr	r3, [r5, #0]
 
@@ -69859,7 +69859,7 @@ static char *print_array(const cJSON *item, int depth, int fmt, printbuffer *p)
                 ptr = ensure(p, len + 1);
  8010dd8:	4649      	mov	r1, r9
  8010dda:	4620      	mov	r0, r4
- 8010ddc:	f7ff fc3a 	bl	8010654 <ensure>
+ 8010ddc:	f7ff fc38 	bl	8010650 <ensure>
                 if (!ptr)
  8010de0:	2800      	cmp	r0, #0
  8010de2:	d070      	beq.n	8010ec6 <print_array.isra.3+0x186>
@@ -69899,7 +69899,7 @@ static char *print_array(const cJSON *item, int depth, int fmt, printbuffer *p)
         ptr = ensure(p, 2);
  8010e00:	2102      	movs	r1, #2
  8010e02:	4620      	mov	r0, r4
- 8010e04:	f7ff fc26 	bl	8010654 <ensure>
+ 8010e04:	f7ff fc24 	bl	8010650 <ensure>
         if (!ptr)
  8010e08:	2800      	cmp	r0, #0
  8010e0a:	d05c      	beq.n	8010ec6 <print_array.isra.3+0x186>
@@ -70227,7 +70227,7 @@ static char *print_array(const cJSON *item, int depth, int fmt, printbuffer *p)
  8010f36:	b005      	add	sp, #20
  8010f38:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  8010f3c:	20010088 	.word	0x20010088
- 8010f40:	0802fc25 	.word	0x0802fc25
+ 8010f40:	0802fc1d 	.word	0x0802fc1d
  8010f44:	20010084 	.word	0x20010084
 
 08010f48 <print_value>:
@@ -70277,7 +70277,7 @@ static char *print_value(const cJSON *item, int depth, int fmt, printbuffer *p)
                 out = ensure(p, 5);
  8010f6c:	2105      	movs	r1, #5
  8010f6e:	4618      	mov	r0, r3
- 8010f70:	f7ff fb70 	bl	8010654 <ensure>
+ 8010f70:	f7ff fb6e 	bl	8010650 <ensure>
                 if (out)
  8010f74:	4604      	mov	r4, r0
  8010f76:	2800      	cmp	r0, #0
@@ -70292,7 +70292,7 @@ static char *print_value(const cJSON *item, int depth, int fmt, printbuffer *p)
                 out = ensure(p, 6);
  8010f7e:	2106      	movs	r1, #6
  8010f80:	4618      	mov	r0, r3
- 8010f82:	f7ff fb67 	bl	8010654 <ensure>
+ 8010f82:	f7ff fb65 	bl	8010650 <ensure>
                 if (out)
  8010f86:	4604      	mov	r4, r0
  8010f88:	2800      	cmp	r0, #0
@@ -70307,7 +70307,7 @@ static char *print_value(const cJSON *item, int depth, int fmt, printbuffer *p)
                 out = ensure(p, 5);
  8010f90:	2105      	movs	r1, #5
  8010f92:	4618      	mov	r0, r3
- 8010f94:	f7ff fb5e 	bl	8010654 <ensure>
+ 8010f94:	f7ff fb5c 	bl	8010650 <ensure>
                 if (out)
  8010f98:	4604      	mov	r4, r0
  8010f9a:	b390      	cbz	r0, 8011002 <print_value+0xba>
@@ -70401,7 +70401,7 @@ static char *print_string(const cJSON *item, printbuffer *p)
                 break;
             case cJSON_False:
                 out = cJSON_strdup("false");
- 8010fdc:	f7ff bb74 	b.w	80106c8 <cJSON_strdup>
+ 8010fdc:	f7ff bb72 	b.w	80106c4 <cJSON_strdup>
                 break;
             case cJSON_True:
                 out = cJSON_strdup("true");
@@ -70479,9 +70479,9 @@ static char *print_value(const cJSON *item, int depth, int fmt, printbuffer *p)
 }
  8011008:	bd70      	pop	{r4, r5, r6, pc}
  801100a:	bf00      	nop
- 801100c:	0802fbf9 	.word	0x0802fbf9
- 8011010:	0802fc1a 	.word	0x0802fc1a
- 8011014:	0802fc20 	.word	0x0802fc20
+ 801100c:	0802fbf1 	.word	0x0802fbf1
+ 8011010:	0802fc12 	.word	0x0802fc12
+ 8011014:	0802fc18 	.word	0x0802fc18
 
 08011018 <print_object.isra.2>:
     *ep = value;
@@ -70555,7 +70555,7 @@ static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p)
  8011044:	e000      	b.n	8011048 <print_object.isra.2+0x30>
  8011046:	2103      	movs	r1, #3
  8011048:	4620      	mov	r0, r4
- 801104a:	f7ff fb03 	bl	8010654 <ensure>
+ 801104a:	f7ff fb01 	bl	8010650 <ensure>
  801104e:	e007      	b.n	8011060 <print_object.isra.2+0x48>
         }
         else
@@ -70652,7 +70652,7 @@ static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p)
  80110aa:	2701      	moveq	r7, #1
         ptr = ensure(p, len + 1);
  80110ac:	1c79      	adds	r1, r7, #1
- 80110ae:	f7ff fad1 	bl	8010654 <ensure>
+ 80110ae:	f7ff facf 	bl	8010650 <ensure>
         if (!ptr)
  80110b2:	2800      	cmp	r0, #0
  80110b4:	f000 810c 	beq.w	80112d0 <print_object.isra.2+0x2b8>
@@ -70728,7 +70728,7 @@ static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p)
                 ptr = ensure(p, depth);
  80110f0:	4639      	mov	r1, r7
  80110f2:	4620      	mov	r0, r4
- 80110f4:	f7ff faae 	bl	8010654 <ensure>
+ 80110f4:	f7ff faac 	bl	8010650 <ensure>
                 if (!ptr)
  80110f8:	2800      	cmp	r0, #0
  80110fa:	f000 80e9 	beq.w	80112d0 <print_object.isra.2+0x2b8>
@@ -70758,7 +70758,7 @@ static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p)
  8011116:	f7ff fbc1 	bl	801089c <print_string_ptr>
             p->offset = update(p);
  801111a:	4620      	mov	r0, r4
- 801111c:	f7ff fae8 	bl	80106f0 <update>
+ 801111c:	f7ff fae6 	bl	80106ec <update>
 
             len = fmt ? 2 : 1;
             ptr = ensure(p, len);
@@ -70774,7 +70774,7 @@ static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p)
             len = fmt ? 2 : 1;
             ptr = ensure(p, len);
  8011124:	4620      	mov	r0, r4
- 8011126:	f7ff fa95 	bl	8010654 <ensure>
+ 8011126:	f7ff fa93 	bl	8010650 <ensure>
             if (!ptr)
  801112a:	2800      	cmp	r0, #0
  801112c:	f000 80d0 	beq.w	80112d0 <print_object.isra.2+0x2b8>
@@ -70813,7 +70813,7 @@ static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p)
  801114a:	f7ff fefd 	bl	8010f48 <print_value>
             p->offset = update(p);
  801114e:	4620      	mov	r0, r4
- 8011150:	f7ff face 	bl	80106f0 <update>
+ 8011150:	f7ff facc 	bl	80106ec <update>
 
             /* print comma if not last */
             len = (fmt ? 1 : 0) + (child->next ? 1 : 0);
@@ -70845,7 +70845,7 @@ static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p)
             ptr = ensure(p, len + 1);
  8011166:	1c59      	adds	r1, r3, #1
  8011168:	9300      	str	r3, [sp, #0]
- 801116a:	f7ff fa73 	bl	8010654 <ensure>
+ 801116a:	f7ff fa71 	bl	8010650 <ensure>
             if (!ptr)
  801116e:	2800      	cmp	r0, #0
  8011170:	f000 80ae 	beq.w	80112d0 <print_object.isra.2+0x2b8>
@@ -70898,7 +70898,7 @@ static char *print_object(const cJSON *item, int depth, int fmt, printbuffer *p)
  80111a0:	e000      	b.n	80111a4 <print_object.isra.2+0x18c>
  80111a2:	2102      	movs	r1, #2
  80111a4:	4620      	mov	r0, r4
- 80111a6:	f7ff fa55 	bl	8010654 <ensure>
+ 80111a6:	f7ff fa53 	bl	8010650 <ensure>
         if (!ptr)
  80111aa:	2800      	cmp	r0, #0
  80111ac:	f000 8090 	beq.w	80112d0 <print_object.isra.2+0x2b8>
@@ -71492,7 +71492,7 @@ cJSON *cJSON_ParseWithOpts(const char *value, const char **return_parse_end, int
  801143e:	460e      	movne	r6, r1
  8011440:	460f      	mov	r7, r1
     cJSON *c = cJSON_New_Item();
- 8011442:	f7ff f8f7 	bl	8010634 <cJSON_New_Item>
+ 8011442:	f7ff f8f5 	bl	8010630 <cJSON_New_Item>
     *ep = 0;
     if (!c) /* memory fail */
  8011446:	4604      	mov	r4, r0
@@ -71511,7 +71511,7 @@ cJSON *cJSON_ParseWithOpts(const char *value, const char **return_parse_end, int
 
     end = parse_value(c, skip(value), ep);
  801144e:	4628      	mov	r0, r5
- 8011450:	f7ff f8e6 	bl	8010620 <skip>
+ 8011450:	f7ff f8e4 	bl	801061c <skip>
  8011454:	4632      	mov	r2, r6
  8011456:	4601      	mov	r1, r0
  8011458:	4620      	mov	r0, r4
@@ -71535,7 +71535,7 @@ cJSON *cJSON_ParseWithOpts(const char *value, const char **return_parse_end, int
  8011472:	d00b      	beq.n	801148c <cJSON_ParseWithOpts+0x60>
     {
         end = skip(end);
- 8011474:	f7ff f8d4 	bl	8010620 <skip>
+ 8011474:	f7ff f8d2 	bl	801061c <skip>
         if (*end)
  8011478:	7803      	ldrb	r3, [r0, #0]
     }
@@ -71610,7 +71610,7 @@ cJSON *cJSON_GetObjectItem(const cJSON *object, const char *string)
  80114b6:	b13c      	cbz	r4, 80114c8 <cJSON_GetObjectItem+0x1a>
  80114b8:	4629      	mov	r1, r5
  80114ba:	6a20      	ldr	r0, [r4, #32]
- 80114bc:	f7fe ff46 	bl	801034c <cJSON_strcasecmp>
+ 80114bc:	f7fe ff44 	bl	8010348 <cJSON_strcasecmp>
  80114c0:	b110      	cbz	r0, 80114c8 <cJSON_GetObjectItem+0x1a>
     {
         c = c->next;
@@ -71692,7 +71692,7 @@ void   cJSON_AddItemToObject(cJSON *object, const char *string, cJSON *item)
     }
     item->string = cJSON_strdup(string);
  80114f8:	4630      	mov	r0, r6
- 80114fa:	f7ff f8e5 	bl	80106c8 <cJSON_strdup>
+ 80114fa:	f7ff f8e3 	bl	80106c4 <cJSON_strdup>
 
     cJSON_AddItemToArray(object,item);
  80114fe:	4621      	mov	r1, r4
@@ -71729,7 +71729,7 @@ cJSON *cJSON_CreateNumber(double num)
  8011514:	b513      	push	{r0, r1, r4, lr}
  8011516:	ed8d 0b00 	vstr	d0, [sp]
     cJSON *item = cJSON_New_Item();
- 801151a:	f7ff f88b 	bl	8010634 <cJSON_New_Item>
+ 801151a:	f7ff f889 	bl	8010630 <cJSON_New_Item>
     if(item)
  801151e:	4604      	mov	r4, r0
  8011520:	b150      	cbz	r0, 8011538 <cJSON_CreateNumber+0x24>
@@ -71766,7 +71766,7 @@ cJSON *cJSON_CreateString(const char *string)
  801153e:	b538      	push	{r3, r4, r5, lr}
  8011540:	4605      	mov	r5, r0
     cJSON *item = cJSON_New_Item();
- 8011542:	f7ff f877 	bl	8010634 <cJSON_New_Item>
+ 8011542:	f7ff f875 	bl	8010630 <cJSON_New_Item>
     if(item)
  8011546:	4604      	mov	r4, r0
  8011548:	b160      	cbz	r0, 8011564 <cJSON_CreateString+0x26>
@@ -71776,7 +71776,7 @@ cJSON *cJSON_CreateString(const char *string)
  801154c:	60c3      	str	r3, [r0, #12]
         item->valuestring = cJSON_strdup(string);
  801154e:	4628      	mov	r0, r5
- 8011550:	f7ff f8ba 	bl	80106c8 <cJSON_strdup>
+ 8011550:	f7ff f8b8 	bl	80106c4 <cJSON_strdup>
  8011554:	4605      	mov	r5, r0
  8011556:	6120      	str	r0, [r4, #16]
         if(!item->valuestring)
@@ -71813,7 +71813,7 @@ cJSON *cJSON_CreateObject(void)
 {
  8011568:	b508      	push	{r3, lr}
     cJSON *item = cJSON_New_Item();
- 801156a:	f7ff f863 	bl	8010634 <cJSON_New_Item>
+ 801156a:	f7ff f861 	bl	8010630 <cJSON_New_Item>
     if (item)
  801156e:	b108      	cbz	r0, 8011574 <cJSON_CreateObject+0xc>
     {
@@ -71855,10 +71855,10 @@ cJSON *cJSON_CreateObject(void)
  80115ae:	3501      	adds	r5, #1
  80115b0:	e7f8      	b.n	80115a4 <__libc_init_array+0x2c>
  80115b2:	bd70      	pop	{r4, r5, r6, pc}
- 80115b4:	0802ffc0 	.word	0x0802ffc0
- 80115b8:	0802ffc0 	.word	0x0802ffc0
- 80115bc:	0802ffc4 	.word	0x0802ffc4
- 80115c0:	0802ffc0 	.word	0x0802ffc0
+ 80115b4:	0802ffb8 	.word	0x0802ffb8
+ 80115b8:	0802ffb8 	.word	0x0802ffb8
+ 80115bc:	0802ffbc 	.word	0x0802ffbc
+ 80115c0:	0802ffb8 	.word	0x0802ffb8
 
 080115c4 <malloc>:
  80115c4:	4b02      	ldr	r3, [pc, #8]	; (80115d0 <malloc+0xc>)
@@ -72803,7 +72803,7 @@ cJSON *cJSON_CreateObject(void)
  8011ee2:	bf00      	nop
  8011ee4:	f3af 8000 	nop.w
 	...
- 8011ef0:	0802fd49 	.word	0x0802fd49
+ 8011ef0:	0802fd41 	.word	0x0802fd41
  8011ef4:	f015 0f10 	tst.w	r5, #16
  8011ef8:	f107 0304 	add.w	r3, r7, #4
  8011efc:	d002      	beq.n	8011f04 <_svfprintf_r+0x2d4>
@@ -73101,7 +73101,7 @@ cJSON *cJSON_CreateObject(void)
  8012200:	e006      	b.n	8012210 <_svfprintf_r+0x5e0>
  8012202:	bf00      	nop
  8012204:	7fefffff 	.word	0x7fefffff
- 8012208:	0802fd5a 	.word	0x0802fd5a
+ 8012208:	0802fd52 	.word	0x0802fd52
  801220c:	4606      	mov	r6, r0
  801220e:	4637      	mov	r7, r6
  8012210:	454e      	cmp	r6, r9
@@ -73428,9 +73428,9 @@ cJSON *cJSON_CreateObject(void)
  80124e2:	3e10      	subs	r6, #16
  80124e4:	e7e5      	b.n	80124b2 <_svfprintf_r+0x882>
  80124e6:	bf00      	nop
- 80124e8:	0802fd6b 	.word	0x0802fd6b
- 80124ec:	0802fd29 	.word	0x0802fd29
- 80124f0:	0802fbf7 	.word	0x0802fbf7
+ 80124e8:	0802fd63 	.word	0x0802fd63
+ 80124ec:	0802fd21 	.word	0x0802fd21
+ 80124f0:	0802fbef 	.word	0x0802fbef
  80124f4:	9b19      	ldr	r3, [sp, #100]	; 0x64
  80124f6:	2b00      	cmp	r3, #0
  80124f8:	dc7c      	bgt.n	80125f4 <_svfprintf_r+0x9c4>
@@ -73718,8 +73718,8 @@ cJSON *cJSON_CreateObject(void)
  8012772:	441e      	add	r6, r3
  8012774:	9621      	str	r6, [sp, #132]	; 0x84
  8012776:	e642      	b.n	80123fe <_svfprintf_r+0x7ce>
- 8012778:	0802fbf7 	.word	0x0802fbf7
- 801277c:	0802fd29 	.word	0x0802fd29
+ 8012778:	0802fbef 	.word	0x0802fbef
+ 801277c:	0802fd21 	.word	0x0802fd21
  8012780:	9b04      	ldr	r3, [sp, #16]
  8012782:	2b01      	cmp	r3, #1
  8012784:	dc01      	bgt.n	801278a <_svfprintf_r+0xb5a>
@@ -74080,10 +74080,10 @@ cJSON *cJSON_CreateObject(void)
  8012ac2:	f811 2b01 	ldrb.w	r2, [r1], #1
  8012ac6:	f803 2b01 	strb.w	r2, [r3], #1
  8012aca:	e7f7      	b.n	8012abc <_svfprintf_r+0xe8c>
- 8012acc:	0802fd29 	.word	0x0802fd29
- 8012ad0:	0802fd6b 	.word	0x0802fd6b
- 8012ad4:	0802fd41 	.word	0x0802fd41
- 8012ad8:	0802fd45 	.word	0x0802fd45
+ 8012acc:	0802fd21 	.word	0x0802fd21
+ 8012ad0:	0802fd63 	.word	0x0802fd63
+ 8012ad4:	0802fd39 	.word	0x0802fd39
+ 8012ad8:	0802fd3d 	.word	0x0802fd3d
  8012adc:	2230      	movs	r2, #48	; 0x30
  8012ade:	4413      	add	r3, r2
  8012ae0:	f88d 206e 	strb.w	r2, [sp, #110]	; 0x6e
@@ -74172,8 +74172,8 @@ cJSON *cJSON_CreateObject(void)
  8012ba2:	f7ff baaf 	b.w	8012104 <_svfprintf_r+0x4d4>
  8012ba6:	b03d      	add	sp, #244	; 0xf4
  8012ba8:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 8012bac:	0802fd39 	.word	0x0802fd39
- 8012bb0:	0802fd3d 	.word	0x0802fd3d
+ 8012bac:	0802fd31 	.word	0x0802fd31
+ 8012bb0:	0802fd35 	.word	0x0802fd35
 
 08012bb4 <__ssvfscanf_r>:
  8012bb4:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -74911,7 +74911,7 @@ cJSON *cJSON_CreateObject(void)
  80132ac:	8010      	strh	r0, [r2, #0]
  80132ae:	e01b      	b.n	80132e8 <__ssvfscanf_r+0x734>
  80132b0:	2001008c 	.word	0x2001008c
- 80132b4:	0802fd7c 	.word	0x0802fd7c
+ 80132b4:	0802fd74 	.word	0x0802fd74
  80132b8:	f014 0201 	ands.w	r2, r4, #1
  80132bc:	d112      	bne.n	80132e4 <__ssvfscanf_r+0x730>
  80132be:	07a1      	lsls	r1, r4, #30
@@ -75286,7 +75286,7 @@ cJSON *cJSON_CreateObject(void)
  801367e:	e427      	b.n	8012ed0 <__ssvfscanf_r+0x31c>
  8013680:	f50d 7d2b 	add.w	sp, sp, #684	; 0x2ac
  8013684:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 8013688:	0802fd9e 	.word	0x0802fd9e
+ 8013688:	0802fd96 	.word	0x0802fd96
 
 0801368c <quorem>:
  801368c:	e92d 4ff7 	stmdb	sp!, {r0, r1, r2, r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -75679,11 +75679,11 @@ cJSON *cJSON_CreateObject(void)
  8013a78:	509f79fb 	.word	0x509f79fb
  8013a7c:	3fd34413 	.word	0x3fd34413
  8013a80:	7ff00000 	.word	0x7ff00000
- 8013a84:	0802fda3 	.word	0x0802fda3
- 8013a88:	0802fdac 	.word	0x0802fdac
- 8013a8c:	0802fbf8 	.word	0x0802fbf8
+ 8013a84:	0802fd9b 	.word	0x0802fd9b
+ 8013a88:	0802fda4 	.word	0x0802fda4
+ 8013a8c:	0802fbf0 	.word	0x0802fbf0
  8013a90:	3ff80000 	.word	0x3ff80000
- 8013a94:	0802fdb8 	.word	0x0802fdb8
+ 8013a94:	0802fdb0 	.word	0x0802fdb0
  8013a98:	6861      	ldr	r1, [r4, #4]
  8013a9a:	4650      	mov	r0, sl
  8013a9c:	f000 fd92 	bl	80145c4 <_Balloc>
@@ -75924,8 +75924,8 @@ cJSON *cJSON_CreateObject(void)
  8013d40:	e9cd 0100 	strd	r0, r1, [sp]
  8013d44:	e7bf      	b.n	8013cc6 <_dtoa_r+0x516>
  8013d46:	bf00      	nop
- 8013d48:	0802fdb8 	.word	0x0802fdb8
- 8013d4c:	0802fe80 	.word	0x0802fe80
+ 8013d48:	0802fdb0 	.word	0x0802fdb0
+ 8013d4c:	0802fe78 	.word	0x0802fe78
  8013d50:	3ff00000 	.word	0x3ff00000
  8013d54:	40240000 	.word	0x40240000
  8013d58:	401c0000 	.word	0x401c0000
@@ -76174,7 +76174,7 @@ cJSON *cJSON_CreateObject(void)
  8013fb0:	dd08      	ble.n	8013fc4 <_dtoa_r+0x814>
  8013fb2:	f1c0 001c 	rsb	r0, r0, #28
  8013fb6:	e008      	b.n	8013fca <_dtoa_r+0x81a>
- 8013fb8:	0802fdb8 	.word	0x0802fdb8
+ 8013fb8:	0802fdb0 	.word	0x0802fdb0
  8013fbc:	40140000 	.word	0x40140000
  8013fc0:	40240000 	.word	0x40240000
  8013fc4:	d006      	beq.n	8013fd4 <_dtoa_r+0x824>
@@ -76516,7 +76516,7 @@ cJSON *cJSON_CreateObject(void)
  80142e4:	b017      	add	sp, #92	; 0x5c
  80142e6:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  80142ea:	bf00      	nop
- 80142ec:	0802fbf7 	.word	0x0802fbf7
+ 80142ec:	0802fbef 	.word	0x0802fbef
 
 080142f0 <_malloc_trim_r>:
  80142f0:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -76805,7 +76805,7 @@ cJSON *cJSON_CreateObject(void)
  8014592:	b003      	add	sp, #12
  8014594:	e8bd 83f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, pc}
  8014598:	200105f0 	.word	0x200105f0
- 801459c:	0802fc13 	.word	0x0802fc13
+ 801459c:	0802fc0b 	.word	0x0802fc0b
 
 080145a0 <__ascii_mbtowc>:
  80145a0:	b082      	sub	sp, #8
@@ -77247,7 +77247,7 @@ cJSON *cJSON_CreateObject(void)
  80149ac:	e7f4      	b.n	8014998 <__pow5mult+0x7c>
  80149ae:	4638      	mov	r0, r7
  80149b0:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
- 80149b4:	0802fea8 	.word	0x0802fea8
+ 80149b4:	0802fea0 	.word	0x0802fea0
 
 080149b8 <__lshift>:
  80149b8:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -78042,7 +78042,7 @@ cJSON *cJSON_CreateObject(void)
  801515a:	d018      	beq.n	801518e <_strtod_r+0x346>
  801515c:	e036      	b.n	80151cc <_strtod_r+0x384>
  801515e:	bf00      	nop
- 8015160:	0802feb4 	.word	0x0802feb4
+ 8015160:	0802feac 	.word	0x0802feac
  8015164:	7ff00000 	.word	0x7ff00000
  8015168:	49a8      	ldr	r1, [pc, #672]	; (801540c <_strtod_r+0x5c4>)
  801516a:	a817      	add	r0, sp, #92	; 0x5c
@@ -78304,14 +78304,14 @@ cJSON *cJSON_CreateObject(void)
  8015406:	d1b9      	bne.n	801537c <_strtod_r+0x534>
  8015408:	e018      	b.n	801543c <_strtod_r+0x5f4>
  801540a:	bf00      	nop
- 801540c:	0802fd3e 	.word	0x0802fd3e
- 8015410:	0802fda6 	.word	0x0802fda6
- 8015414:	0802fd46 	.word	0x0802fd46
- 8015418:	0802fec8 	.word	0x0802fec8
- 801541c:	0802fdb8 	.word	0x0802fdb8
- 8015420:	0802fe80 	.word	0x0802fe80
+ 801540c:	0802fd36 	.word	0x0802fd36
+ 8015410:	0802fd9e 	.word	0x0802fd9e
+ 8015414:	0802fd3e 	.word	0x0802fd3e
+ 8015418:	0802fec0 	.word	0x0802fec0
+ 801541c:	0802fdb0 	.word	0x0802fdb0
+ 8015420:	0802fe78 	.word	0x0802fe78
  8015424:	7ca00000 	.word	0x7ca00000
- 8015428:	0802fee0 	.word	0x0802fee0
+ 8015428:	0802fed8 	.word	0x0802fed8
  801542c:	7ff00000 	.word	0x7ff00000
  8015430:	fff80000 	.word	0xfff80000
  8015434:	7fefffff 	.word	0x7fefffff
@@ -81077,7 +81077,7 @@ cJSON *cJSON_CreateObject(void)
  8016f92:	ecbd 8b02 	vpop	{d8}
  8016f96:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  8016f9a:	bf00      	nop
- 8016f9c:	0802ff68 	.word	0x0802ff68
+ 8016f9c:	0802ff60 	.word	0x0802ff60
  8016fa0:	3ff00000 	.word	0x3ff00000
  8016fa4:	fff00000 	.word	0xfff00000
  8016fa8:	200105f4 	.word	0x200105f4
@@ -81142,7 +81142,7 @@ cJSON *cJSON_CreateObject(void)
  8017050:	bd10      	pop	{r4, pc}
  8017052:	bf00      	nop
  8017054:	200105f4 	.word	0x200105f4
- 8017058:	0802ff6c 	.word	0x0802ff6c
+ 8017058:	0802ff64 	.word	0x0802ff64
  801705c:	00000000 	.word	0x00000000
 
 08017060 <__ieee754_pow>:
@@ -81432,7 +81432,7 @@ cJSON *cJSON_CreateObject(void)
  8017370:	652b82fe 	.word	0x652b82fe
  8017374:	3ff71547 	.word	0x3ff71547
  8017378:	7ff00000 	.word	0x7ff00000
- 801737c:	0802fc13 	.word	0x0802fc13
+ 801737c:	0802fc0b 	.word	0x0802fc0b
  8017380:	433fffff 	.word	0x433fffff
  8017384:	3fefffff 	.word	0x3fefffff
  8017388:	3ff00000 	.word	0x3ff00000
@@ -81729,11 +81729,11 @@ cJSON *cJSON_CreateObject(void)
  80176c4:	be3e2fe0 	.word	0xbe3e2fe0
  80176c8:	00000000 	.word	0x00000000
  80176cc:	bff00000 	.word	0xbff00000
- 80176d0:	0802ff98 	.word	0x0802ff98
+ 80176d0:	0802ff90 	.word	0x0802ff90
  80176d4:	3ff00000 	.word	0x3ff00000
  80176d8:	40080000 	.word	0x40080000
- 80176dc:	0802ff88 	.word	0x0802ff88
- 80176e0:	0802ff78 	.word	0x0802ff78
+ 80176dc:	0802ff80 	.word	0x0802ff80
+ 80176e0:	0802ff70 	.word	0x0802ff70
  80176e4:	ed9f 7bc0 	vldr	d7, [pc, #768]	; 80179e8 <__ieee754_pow+0x988>
  80176e8:	e9dd 4500 	ldrd	r4, r5, [sp]
  80176ec:	2400      	movs	r4, #0
@@ -82369,7 +82369,7 @@ cJSON *cJSON_CreateObject(void)
  8017d96:	b003      	add	sp, #12
  8017d98:	bdf0      	pop	{r4, r5, r6, r7, pc}
  8017d9a:	bf00      	nop
- 8017d9c:	0802ffa8 	.word	0x0802ffa8
+ 8017d9c:	0802ffa0 	.word	0x0802ffa0
  8017da0:	000fffff 	.word	0x000fffff
  8017da4:	00000000 	.word	0x00000000
 

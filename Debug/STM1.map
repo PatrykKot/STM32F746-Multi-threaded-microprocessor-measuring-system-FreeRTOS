@@ -9581,28 +9581,29 @@ LOAD d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools
                 0x0800ff60       0xf8 SrcUser\usrTasks.o
                 0x0800ff60                streamingTask
  .text.httpConfigTask
-                0x08010058      0x294 SrcUser\usrTasks.o
+                0x08010058      0x290 SrcUser\usrTasks.o
                 0x08010058                httpConfigTask
  .text.threadsInit
-                0x080102ec       0x18 SrcUser\usrTasks.o
-                0x080102ec                threadsInit
+                0x080102e8       0x18 SrcUser\usrTasks.o
+                0x080102e8                threadsInit
  .text.BSP_AUDIO_IN_TransferComplete_CallBack
-                0x08010304       0x48 SrcUser\usrTasks.o
-                0x08010304                BSP_AUDIO_IN_TransferComplete_CallBack
+                0x08010300       0x48 SrcUser\usrTasks.o
+                0x08010300                BSP_AUDIO_IN_TransferComplete_CallBack
  .text.cJSON_strcasecmp
-                0x0801034c       0x6c cJSON\cJSON.o
+                0x08010348       0x6c cJSON\cJSON.o
  .text.parse_hex4
-                0x080103b8       0xac cJSON\cJSON.o
+                0x080103b4       0xac cJSON\cJSON.o
  .text.parse_string
-                0x08010464      0x1bc cJSON\cJSON.o
- .text.skip     0x08010620       0x12 cJSON\cJSON.o
- *fill*         0x08010632        0x2 
+                0x08010460      0x1bc cJSON\cJSON.o
+ .text.skip     0x0801061c       0x12 cJSON\cJSON.o
+ *fill*         0x0801062e        0x2 
  .text.cJSON_New_Item
-                0x08010634       0x20 cJSON\cJSON.o
- .text.ensure   0x08010654       0x74 cJSON\cJSON.o
+                0x08010630       0x20 cJSON\cJSON.o
+ .text.ensure   0x08010650       0x74 cJSON\cJSON.o
  .text.cJSON_strdup
-                0x080106c8       0x28 cJSON\cJSON.o
- .text.update   0x080106f0       0x18 cJSON\cJSON.o
+                0x080106c4       0x28 cJSON\cJSON.o
+ .text.update   0x080106ec       0x18 cJSON\cJSON.o
+ *fill*         0x08010704        0x4 
  .text.print_number
                 0x08010708      0x194 cJSON\cJSON.o
  .text.print_string_ptr
@@ -9886,7 +9887,7 @@ LOAD d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools
 .iplt           0x08017ef8        0x0
  .iplt          0x08017ef8        0x0 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtbegin.o
 
-.rodata         0x08017ef8    0x180c0
+.rodata         0x08017ef8    0x180b8
                 0x08017ef8                . = ALIGN (0x4)
  *(.rodata)
  .rodata        0x08017ef8       0x14 Src\ethernetif.o
@@ -10055,162 +10056,162 @@ LOAD d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools
                 0x0802f4b6       0x28 SrcUser\ethernetLib.o
                 0x0802f4b6                httpHeaderPattern
  .rodata.str1.1
-                0x0802f4de       0x41 SrcUser\ethernetLib.o
-                                 0x44 (size before relaxing)
+                0x0802f4de       0x43 SrcUser\ethernetLib.o
+                                 0x46 (size before relaxing)
  .rodata.str1.1
-                0x0802f51f       0x47 SrcUser\jsonConfiguration.o
+                0x0802f521       0x47 SrcUser\jsonConfiguration.o
                                  0x53 (size before relaxing)
  .rodata.str1.1
-                0x0802f566        0xd SrcUser\lcdLogger.o
+                0x0802f568        0xd SrcUser\lcdLogger.o
  .rodata.str1.1
-                0x0802f573       0x14 SrcUser\usrTaskSupport.o
- *fill*         0x0802f587        0x1 
+                0x0802f575       0x14 SrcUser\usrTaskSupport.o
+ *fill*         0x0802f589        0x3 
  .rodata.os_thread_def_httpConfigThread
-                0x0802f588       0x14 SrcUser\usrTasks.o
-                0x0802f588                os_thread_def_httpConfigThread
+                0x0802f58c       0x14 SrcUser\usrTasks.o
+                0x0802f58c                os_thread_def_httpConfigThread
  .rodata.os_thread_def_samplingThread
-                0x0802f59c       0x14 SrcUser\usrTasks.o
-                0x0802f59c                os_thread_def_samplingThread
+                0x0802f5a0       0x14 SrcUser\usrTasks.o
+                0x0802f5a0                os_thread_def_samplingThread
  .rodata.os_thread_def_soundProcessingThread
-                0x0802f5b0       0x14 SrcUser\usrTasks.o
-                0x0802f5b0                os_thread_def_soundProcessingThread
+                0x0802f5b4       0x14 SrcUser\usrTasks.o
+                0x0802f5b4                os_thread_def_soundProcessingThread
  .rodata.os_mutex_def_ethernetInterfaceMutex
-                0x0802f5c4        0x4 SrcUser\usrTasks.o
-                0x0802f5c4                os_mutex_def_ethernetInterfaceMutex
+                0x0802f5c8        0x4 SrcUser\usrTasks.o
+                0x0802f5c8                os_mutex_def_ethernetInterfaceMutex
  .rodata.str1.1
-                0x0802f5c8      0x5b3 SrcUser\usrTasks.o
-                                0x5bb (size before relaxing)
- *fill*         0x0802fb7b        0x1 
+                0x0802f5cc      0x5a6 SrcUser\usrTasks.o
+                                0x5ae (size before relaxing)
+ *fill*         0x0802fb72        0x2 
  .rodata.os_mutex_def_mainSpectrumBufferMutex
-                0x0802fb7c        0x4 SrcUser\usrTasks.o
-                0x0802fb7c                os_mutex_def_mainSpectrumBufferMutex
+                0x0802fb74        0x4 SrcUser\usrTasks.o
+                0x0802fb74                os_mutex_def_mainSpectrumBufferMutex
  .rodata.os_pool_def_spectrumBufferPool
-                0x0802fb80        0xc SrcUser\usrTasks.o
-                0x0802fb80                os_pool_def_spectrumBufferPool
+                0x0802fb78        0xc SrcUser\usrTasks.o
+                0x0802fb78                os_pool_def_spectrumBufferPool
  .rodata.os_pool_def_soundBufferPool
-                0x0802fb8c        0xc SrcUser\usrTasks.o
-                0x0802fb8c                os_pool_def_soundBufferPool
+                0x0802fb84        0xc SrcUser\usrTasks.o
+                0x0802fb84                os_pool_def_soundBufferPool
  .rodata.os_pool_def_cfftPool
-                0x0802fb98        0xc SrcUser\usrTasks.o
-                0x0802fb98                os_pool_def_cfftPool
+                0x0802fb90        0xc SrcUser\usrTasks.o
+                0x0802fb90                os_pool_def_cfftPool
  .rodata.os_thread_def_dhcpInitThread
-                0x0802fba4       0x14 SrcUser\usrTasks.o
-                0x0802fba4                os_thread_def_dhcpInitThread
+                0x0802fb9c       0x14 SrcUser\usrTasks.o
+                0x0802fb9c                os_thread_def_dhcpInitThread
  .rodata.os_mailQ_def_dmaAudioMail_q
-                0x0802fbb8        0xc SrcUser\usrTasks.o
-                0x0802fbb8                os_mailQ_def_dmaAudioMail_q
+                0x0802fbb0        0xc SrcUser\usrTasks.o
+                0x0802fbb0                os_mailQ_def_dmaAudioMail_q
  .rodata.os_thread_def_streamingThread
-                0x0802fbc4       0x14 SrcUser\usrTasks.o
-                0x0802fbc4                os_thread_def_streamingThread
+                0x0802fbbc       0x14 SrcUser\usrTasks.o
+                0x0802fbbc                os_thread_def_streamingThread
  .rodata.os_thread_def_initThread
-                0x0802fbd8       0x14 SrcUser\usrTasks.o
-                0x0802fbd8                os_thread_def_initThread
+                0x0802fbd0       0x14 SrcUser\usrTasks.o
+                0x0802fbd0                os_thread_def_initThread
  .rodata.os_mutex_def_mainSoundBufferMutex
-                0x0802fbec        0x4 SrcUser\usrTasks.o
-                0x0802fbec                os_mutex_def_mainSoundBufferMutex
+                0x0802fbe4        0x4 SrcUser\usrTasks.o
+                0x0802fbe4                os_mutex_def_mainSoundBufferMutex
  .rodata.firstByteMark
-                0x0802fbf0        0x7 cJSON\cJSON.o
+                0x0802fbe8        0x7 cJSON\cJSON.o
  .rodata.str1.1
-                0x0802fbf7       0x31 cJSON\cJSON.o
+                0x0802fbef       0x31 cJSON\cJSON.o
                                  0x34 (size before relaxing)
  .rodata._ctype_
-                0x0802fc28      0x101 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-ctype_.o)
-                0x0802fc28                _ctype_
+                0x0802fc20      0x101 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-ctype_.o)
+                0x0802fc20                _ctype_
  .rodata.zeroes.7045
-                0x0802fd29       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfprintf.o)
+                0x0802fd21       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfprintf.o)
  .rodata.str1.1
-                0x0802fd39       0x32 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfprintf.o)
+                0x0802fd31       0x32 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfprintf.o)
                                  0x34 (size before relaxing)
  .rodata.blanks.7044
-                0x0802fd6b       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfprintf.o)
- *fill*         0x0802fd7b        0x1 
+                0x0802fd63       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfprintf.o)
+ *fill*         0x0802fd73        0x1 
  .rodata.basefix.6996
-                0x0802fd7c       0x22 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfscanf.o)
+                0x0802fd74       0x22 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfscanf.o)
  .rodata.str1.1
-                0x0802fd9e        0x5 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfscanf.o)
+                0x0802fd96        0x5 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-svfscanf.o)
  .rodata.str1.1
-                0x0802fda3        0xd d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-dtoa.o)
+                0x0802fd9b        0xd d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-dtoa.o)
                                   0xf (size before relaxing)
  .rodata.str1.1
-                0x0802fdb0        0x2 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-impure.o)
+                0x0802fda8        0x2 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-impure.o)
  .rodata.str1.1
-                0x0802fdb2        0x6 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-locale.o)
+                0x0802fdaa        0x6 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-locale.o)
                                   0xb (size before relaxing)
  .rodata.str1.1
-                0x0802fdb8        0x1 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-mbrtowc.o)
+                0x0802fdb0        0x1 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-mbrtowc.o)
  .rodata.__mprec_tens
-                0x0802fdb8       0xc8 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-mprec.o)
-                0x0802fdb8                __mprec_tens
+                0x0802fdb0       0xc8 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-mprec.o)
+                0x0802fdb0                __mprec_tens
  .rodata.__mprec_bigtens
-                0x0802fe80       0x28 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-mprec.o)
-                0x0802fe80                __mprec_bigtens
+                0x0802fe78       0x28 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-mprec.o)
+                0x0802fe78                __mprec_bigtens
  .rodata.p05.5388
-                0x0802fea8        0xc d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-mprec.o)
+                0x0802fea0        0xc d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-mprec.o)
  .rodata.fpi.5345
-                0x0802feb4       0x14 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-strtod.o)
+                0x0802feac       0x14 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-strtod.o)
  .rodata.str1.1
-                0x0802fec8        0x6 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-strtod.o)
+                0x0802fec0        0x6 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-strtod.o)
                                   0xc (size before relaxing)
  .rodata.fpinan.5381
-                0x0802fec8       0x14 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-strtod.o)
- *fill*         0x0802fedc        0x4 
+                0x0802fec0       0x14 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-strtod.o)
+ *fill*         0x0802fed4        0x4 
  .rodata.tinytens
-                0x0802fee0       0x28 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-strtod.o)
+                0x0802fed8       0x28 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-strtod.o)
  .rodata.__sf_fake_stdin
-                0x0802ff08       0x20 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-findfp.o)
-                0x0802ff08                __sf_fake_stdin
+                0x0802ff00       0x20 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-findfp.o)
+                0x0802ff00                __sf_fake_stdin
  .rodata.__sf_fake_stdout
-                0x0802ff28       0x20 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-findfp.o)
-                0x0802ff28                __sf_fake_stdout
+                0x0802ff20       0x20 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-findfp.o)
+                0x0802ff20                __sf_fake_stdout
  .rodata.__sf_fake_stderr
-                0x0802ff48       0x20 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-findfp.o)
-                0x0802ff48                __sf_fake_stderr
+                0x0802ff40       0x20 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libc.a(lib_a-findfp.o)
+                0x0802ff40                __sf_fake_stderr
  .rodata.str1.1
-                0x0802ff68        0x4 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-w_pow.o)
+                0x0802ff60        0x4 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-w_pow.o)
  .rodata.str1.1
-                0x0802ff6c        0x6 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-wf_sqrt.o)
- *fill*         0x0802ff72        0x6 
- .rodata.dp_h   0x0802ff78       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-e_pow.o)
- .rodata.dp_l   0x0802ff88       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-e_pow.o)
+                0x0802ff64        0x6 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-wf_sqrt.o)
+ *fill*         0x0802ff6a        0x6 
+ .rodata.dp_h   0x0802ff70       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-e_pow.o)
+ .rodata.dp_l   0x0802ff80       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-e_pow.o)
  .rodata.str1.1
-                0x0802ff98        0x1 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-e_pow.o)
- .rodata.bp     0x0802ff98       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-e_pow.o)
- .rodata.TWO52  0x0802ffa8       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-s_rint.o)
-                0x0802ffb8                . = ALIGN (0x4)
+                0x0802ff90        0x1 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-e_pow.o)
+ .rodata.bp     0x0802ff90       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-e_pow.o)
+ .rodata.TWO52  0x0802ffa0       0x10 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu/fpv5-sp-d16\libm.a(lib_a-s_rint.o)
+                0x0802ffb0                . = ALIGN (0x4)
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x0802ffb8        0x8
-                0x0802ffb8                __exidx_start = .
+.ARM            0x0802ffb0        0x8
+                0x0802ffb0                __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x0802ffb8        0x8 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16\libgcc.a(_udivmoddi4.o)
-                0x0802ffc0                __exidx_end = .
+ .ARM.exidx     0x0802ffb0        0x8 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16\libgcc.a(_udivmoddi4.o)
+                0x0802ffb8                __exidx_end = .
 
-.rel.dyn        0x0802ffc0        0x0
- .rel.iplt      0x0802ffc0        0x0 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtbegin.o
+.rel.dyn        0x0802ffb8        0x0
+ .rel.iplt      0x0802ffb8        0x0 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtbegin.o
 
-.preinit_array  0x0802ffc0        0x0
-                0x0802ffc0                PROVIDE (__preinit_array_start, .)
+.preinit_array  0x0802ffb8        0x0
+                0x0802ffb8                PROVIDE (__preinit_array_start, .)
  *(.preinit_array*)
-                0x0802ffc0                PROVIDE (__preinit_array_end, .)
+                0x0802ffb8                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x0802ffc0        0x4
-                0x0802ffc0                PROVIDE (__init_array_start, .)
+.init_array     0x0802ffb8        0x4
+                0x0802ffb8                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array*)
- .init_array    0x0802ffc0        0x4 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtbegin.o
-                0x0802ffc4                PROVIDE (__init_array_end, .)
+ .init_array    0x0802ffb8        0x4 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtbegin.o
+                0x0802ffbc                PROVIDE (__init_array_end, .)
 
-.fini_array     0x0802ffc4        0x4
+.fini_array     0x0802ffbc        0x4
                 [!provide]                PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x0802ffc4        0x4 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtbegin.o
+ .fini_array    0x0802ffbc        0x4 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtbegin.o
                 [!provide]                PROVIDE (__fini_array_end, .)
-                0x0802ffc8                _sidata = LOADADDR (.data)
+                0x0802ffc0                _sidata = LOADADDR (.data)
 
-.data           0x20010000      0x5f8 load address 0x0802ffc8
+.data           0x20010000      0x5f8 load address 0x0802ffc0
                 0x20010000                . = ALIGN (0x4)
                 0x20010000                _sdata = .
  *(.data)
@@ -10277,41 +10278,41 @@ LOAD d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools
                 0x200105f8                . = ALIGN (0x4)
  *fill*         0x200105f5        0x3 
                 0x200105f8                _edata = .
-                0x08034288                _sidtcmram = LOADADDR (.dtcmram)
+                0x08034280                _sidtcmram = LOADADDR (.dtcmram)
 
-.igot.plt       0x200105f8        0x0 load address 0x080305c0
+.igot.plt       0x200105f8        0x0 load address 0x080305b8
  .igot.plt      0x200105f8        0x0 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtbegin.o
 
 .RxDescripSection
-                0x200105f8       0xa0 load address 0x080305c0
+                0x200105f8       0xa0 load address 0x080305b8
  .RxDescripSection
                 0x200105f8       0xa0 Src\ethernetif.o
                 0x200105f8                DMARxDscrTab
 
-.RxBUF          0x20010698     0x1dc4 load address 0x08030660
+.RxBUF          0x20010698     0x1dc4 load address 0x08030658
  .RxBUF         0x20010698     0x1dc4 Src\ethernetif.o
                 0x20010698                Rx_Buff
 
-.TxBUF          0x2001245c     0x1dc4 load address 0x08032424
+.TxBUF          0x2001245c     0x1dc4 load address 0x0803241c
  .TxBUF         0x2001245c     0x1dc4 Src\ethernetif.o
                 0x2001245c                Tx_Buff
 
 .TxDescripSection
-                0x20014220       0xa0 load address 0x080341e8
+                0x20014220       0xa0 load address 0x080341e0
  .TxDescripSection
                 0x20014220       0xa0 Src\ethernetif.o
                 0x20014220                DMATxDscrTab
 
-.dtcmram        0x20000000        0x0 load address 0x08034288
+.dtcmram        0x20000000        0x0 load address 0x08034280
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _sdtcmram = .
  *(.dtcmram)
  *(.dtcmram*)
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _edtcmram = .
-                0x08034288                _sisram2 = LOADADDR (.sram2)
+                0x08034280                _sisram2 = LOADADDR (.sram2)
 
-.sram2          0x2004c000        0x0 load address 0x08034288
+.sram2          0x2004c000        0x0 load address 0x08034280
                 0x2004c000                . = ALIGN (0x4)
                 0x2004c000                _ssram2 = .
  *(.sram2)
@@ -10924,7 +10925,7 @@ LOAD d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools
                 0x00001dca       0x22 d:/programy/stmicroelectronics/truestudio/truestudio for arm 6.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/fpv5-sp-d16/crtn.o
 OUTPUT(STM1.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x4ce3b
+.debug_info     0x00000000    0x4ce3c
  .debug_info    0x00000000     0x3608 Drivers\BSP\Components\wm8994\wm8994.o
  .debug_info    0x00003608     0x1f91 Drivers\BSP\STM32746G-Discovery\stm32746g_discovery.o
  .debug_info    0x00005599     0x223e Drivers\BSP\STM32746G-Discovery\stm32746g_discovery_audio.o
@@ -10994,8 +10995,8 @@ OUTPUT(STM1.elf elf32-littlearm)
  .debug_info    0x000462ab      0x491 SrcUser\soundProcessing.o
  .debug_info    0x0004673c      0x9be SrcUser\stm32f7xx_it.o
  .debug_info    0x000470fa      0x40e SrcUser\usrTaskSupport.o
- .debug_info    0x00047508     0x3413 SrcUser\usrTasks.o
- .debug_info    0x0004a91b     0x2520 cJSON\cJSON.o
+ .debug_info    0x00047508     0x3414 SrcUser\usrTasks.o
+ .debug_info    0x0004a91c     0x2520 cJSON\cJSON.o
 
 .debug_abbrev   0x00000000     0xa81a
  .debug_abbrev  0x00000000      0x2a0 Drivers\BSP\Components\wm8994\wm8994.o
@@ -11349,7 +11350,7 @@ OUTPUT(STM1.elf elf32-littlearm)
  .debug_ranges  0x00003868       0x90 SrcUser\usrTasks.o
  .debug_ranges  0x000038f8      0x230 cJSON\cJSON.o
 
-.debug_line     0x00000000    0x173f4
+.debug_line     0x00000000    0x173f5
  .debug_line    0x00000000      0x3c4 Drivers\BSP\Components\wm8994\wm8994.o
  .debug_line    0x000003c4      0x57f Drivers\BSP\STM32746G-Discovery\stm32746g_discovery.o
  .debug_line    0x00000943      0x819 Drivers\BSP\STM32746G-Discovery\stm32746g_discovery_audio.o
@@ -11419,8 +11420,8 @@ OUTPUT(STM1.elf elf32-littlearm)
  .debug_line    0x00015987      0x23e SrcUser\soundProcessing.o
  .debug_line    0x00015bc5      0x2c5 SrcUser\stm32f7xx_it.o
  .debug_line    0x00015e8a      0x310 SrcUser\usrTaskSupport.o
- .debug_line    0x0001619a      0x76f SrcUser\usrTasks.o
- .debug_line    0x00016909      0xaeb cJSON\cJSON.o
+ .debug_line    0x0001619a      0x770 SrcUser\usrTasks.o
+ .debug_line    0x0001690a      0xaeb cJSON\cJSON.o
 
 .debug_str      0x00000000     0xdbce
  .debug_str     0x00000000      0x36b Drivers\BSP\Components\wm8994\wm8994.o

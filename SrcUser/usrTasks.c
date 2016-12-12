@@ -542,7 +542,7 @@ void httpConfigTask(void const* argument) {
 
 	// binding server to ethernet interface on port 80
 	err_t netStatus = netconn_bind(httpServer,
-			&ethernetInterfaceHandler.ip_addr, 80);
+			&ethernetInterfaceHandler.ip_addr, 8080);
 	if (netStatus != ERR_OK)
 		logErrVal("TCP bind", netStatus);
 
@@ -585,7 +585,8 @@ void httpConfigTask(void const* argument) {
 							sendConfiguration(&configStr, newClient,
 									"\r\nConnection: Closed");
 						} else {
-							sendHttpResponse(newClient, "404 Not Found", "\r\nContent-Type: text/html",
+							sendHttpResponse(newClient, "404 Not Found",
+									"\r\nContent-Type: text/html",
 									"<h1>404 Not Found</h1>");
 							logErr("Not supported request");
 						}
@@ -661,14 +662,18 @@ void httpConfigTask(void const* argument) {
 								logErr("No PUT data");
 							}
 						} else {
-							sendHttpResponse(newClient, "501 Not Implemented", "\r\nContent-Type: text/html",
-									"<h1>501 Not Implemented</h1>");
-							logErr("Not implemented method");
+							sendHttpResponse(newClient, "404 Not Found",
+									"\r\nContent-Type: text/html",
+									"<h1>404 Not Found</h1>");
+							logErr("Not supported request");
 						}
 						break;
 					}
 					default: {
-						logErr("HTTP request");
+						sendHttpResponse(newClient, "501 Not Implemented",
+								"\r\nContent-Type: text/html",
+								"<h1>501 Not Implemented</h1>");
+						logErr("Not implemented method");
 						break;
 					}
 					}

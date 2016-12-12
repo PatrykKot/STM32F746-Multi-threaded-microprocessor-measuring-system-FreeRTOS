@@ -219,7 +219,7 @@ uint8_t isConfigRequest(struct netbuf* buf) {
 	netbuf_data(buf, &data, &length);
 	char* fullMsg = (char*) data;
 
-	if (strstr(fullMsg, "/config") != NULL)
+	if (strstr(fullMsg, " /config ") != NULL)
 		return 1;
 	return 0;
 }
