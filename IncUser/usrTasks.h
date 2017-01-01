@@ -18,6 +18,7 @@
 #include "jsonConfiguration.h"
 
 #include "usrTaskSupport.h"
+#include "freeRtosSystemInfoSupport.h"
 
 #include "cmsis_os.h"
 #include "lwip.h"

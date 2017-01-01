@@ -41,7 +41,4 @@ Thumbs.db
 
 # Files #
 STM1.oc
-STM1.elf.launch
-Debug_STM32F746NG_FLASH.ld
 Debuq/
-

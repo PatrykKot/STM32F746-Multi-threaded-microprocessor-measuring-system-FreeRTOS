@@ -76,7 +76,7 @@ void SystemClock_Config(void) {
 	HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
 	/* SysTick_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
+	HAL_NVIC_SetPriority(SysTick_IRQn, 1, 0);
 }
 
 /* DMA2D init function */
@@ -224,6 +224,22 @@ void MX_SAI2_Init(void) {
 		Error_Handler();
 	}
 
+}
+
+/* TIM11 init function */
+void MX_TIM11_Init(void) {
+	htim11.Instance = TIM11;
+	htim11.Init.Prescaler = (SystemCoreClock / 1000) - 1;
+	htim11.Init.CounterMode = TIM_COUNTERMODE_UP;
+	htim11.Init.Period = 65535;
+	htim11.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	if (HAL_TIM_Base_Init(&htim11) != HAL_OK) {
+		Error_Handler();
+	}
+
+	if (HAL_TIM_Base_Start_IT(&htim11) != HAL_OK) {
+		Error_Handler();
+	}
 }
 
 /* FMC initialization function */

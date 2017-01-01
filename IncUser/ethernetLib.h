@@ -100,5 +100,6 @@ err_t sendHttpResponse(struct netconn* client, char* httpStatus,
 		char* requestParameters, char* content);
 err_t sendString(struct netconn* client, const char* array);
 uint8_t isConfigRequest(struct netbuf* buf);
+uint8_t isSystemRequest(struct netbuf* buf);
 
 #endif /* ETHERNETLIB_H_ */

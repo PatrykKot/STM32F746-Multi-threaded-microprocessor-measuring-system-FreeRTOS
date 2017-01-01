@@ -118,6 +118,7 @@ void initTask(void const * argument) {
 	MX_LTDC_Init();
 	MX_DMA2D_Init();
 	MX_GPIO_Init();
+	MX_TIM11_Init();
 	lcdInit();
 	logMsg("Ethernet initialization...");
 	MX_LWIP_Init();
@@ -542,7 +543,7 @@ void httpConfigTask(void const* argument) {
 
 	// binding server to ethernet interface on port 80
 	err_t netStatus = netconn_bind(httpServer,
-			&ethernetInterfaceHandler.ip_addr, 8080);
+			&ethernetInterfaceHandler.ip_addr, 80);
 	if (netStatus != ERR_OK)
 		logErrVal("TCP bind", netStatus);
 
@@ -584,6 +585,14 @@ void httpConfigTask(void const* argument) {
 							logMsg("Config request");
 							sendConfiguration(&configStr, newClient,
 									"\r\nConnection: Closed");
+						} else if (isSystemRequest(recvBuf)) {
+							// if it is GET config request
+							logMsg("System request");
+
+							char systemDetails[256];
+							getTaskUsageDetails(systemDetails);
+							sendHttpResponse(newClient, "200 OK",
+									"\r\nConnection: Closed", systemDetails);
 						} else {
 							sendHttpResponse(newClient, "404 Not Found",
 									"\r\nContent-Type: text/html",

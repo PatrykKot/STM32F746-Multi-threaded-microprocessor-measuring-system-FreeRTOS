@@ -12,6 +12,7 @@
 #include "cmsis_os.h"
 #include "lwip.h"
 #include "stm32746g_discovery_lcd.h"
+#include "stm32f746xx.h"
 
 DMA2D_HandleTypeDef hdma2d;
 
@@ -24,6 +25,8 @@ SAI_HandleTypeDef hsai_BlockB2;
 
 SDRAM_HandleTypeDef hsdram1;
 
+TIM_HandleTypeDef htim11;
+
 void SystemClock_Config(void);
 void Error_Handler(void);
 void MX_GPIO_Init(void);
@@ -32,5 +35,6 @@ void MX_FMC_Init(void);
 void MX_I2C3_Init(void);
 void MX_LTDC_Init(void);
 void MX_SAI2_Init(void);
+void MX_TIM11_Init(void);
 
 #endif /* MCUCONFIG_H_ */

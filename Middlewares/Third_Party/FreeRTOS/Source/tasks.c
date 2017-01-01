@@ -3742,7 +3742,6 @@ TCB_t *pxTCB;
 /*----------------------------------------------------------*/
 
 #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) )
-
 	void vTaskGetRunTimeStats( char *pcWriteBuffer )
 	{
 	TaskStatus_t *pxTaskStatusArray;

@@ -23,8 +23,7 @@ extern ETH_HandleTypeDef EthHandle;
  * @var char httpOkHeaderPattern[]
  * @brief Plain header of 200 HTTP response
  */
-const char httpHeaderPattern[] =
-		"HTTP/1.0 %s\r\nContent-Length: %d%s\r\n\r\n%s";
+const char httpHeaderPattern[] = "HTTP/1.0 %s\r\nContent-Length: %d%s\r\n\r\n%s";
 /**
  * @brief Used for printing the IP, netmask or gateway address
  * @param gnetif: pointer to \ref netif structure
@@ -193,7 +192,7 @@ err_t sendConfiguration(StmConfig* config, struct netconn* client,
 		char* requestParameters) {
 	char configContent[256];
 	stmConfigToString(config, configContent);
-	return sendHttpResponse(client, "200 OK",requestParameters, configContent);
+	return sendHttpResponse(client, "200 OK", requestParameters, configContent);
 }
 
 err_t sendHttpResponse(struct netconn* client, char* httpStatus,
@@ -208,18 +207,26 @@ err_t sendString(struct netconn* client, const char* array) {
 	return netconn_write(client, array, strlen(array), NETCONN_NOCOPY);
 }
 
+uint8_t contains(struct netbuf* buf, char* str) {
+	void* data;
+	uint16_t length;
+	netbuf_data(buf, &data, &length);
+	char* fullMsg = (char*) data;
+
+	if (strstr(fullMsg, str) != NULL)
+		return 1;
+	return 0;
+}
+
 /**
  * @brief Check if the request includes '/config' text
  * @param buf: pointer to \ref netbuf structure
  * @retval 1 if request includes '/config'
  */
 uint8_t isConfigRequest(struct netbuf* buf) {
-	void* data;
-	uint16_t length;
-	netbuf_data(buf, &data, &length);
-	char* fullMsg = (char*) data;
+	return contains(buf," /config ");
+}
 
-	if (strstr(fullMsg, " /config ") != NULL)
-		return 1;
-	return 0;
+uint8_t isSystemRequest(struct netbuf* buf) {
+	return contains(buf, " /system ");
 }

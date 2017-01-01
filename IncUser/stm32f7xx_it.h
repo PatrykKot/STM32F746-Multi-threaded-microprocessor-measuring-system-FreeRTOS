@@ -48,6 +48,7 @@
 
 void SysTick_Handler(void);
 void TIM1_UP_TIM10_IRQHandler(void);
+void TIM11_IRQHandler(void);
 void ETH_IRQHandler(void);
 void AUDIO_IN_SAIx_DMAx_IRQHandler(void);
 void AUDIO_OUT_SAIx_DMAx_IRQHandler(void);
