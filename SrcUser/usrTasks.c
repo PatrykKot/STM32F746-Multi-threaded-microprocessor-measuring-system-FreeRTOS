@@ -59,7 +59,7 @@ osThreadDef(streamingThread, streamingTask, osPriorityRealtime, 1,
 
 osThreadId httpConfigTaskHandle;
 osThreadDef(httpConfigThread, httpConfigTask, osPriorityHigh, 1,
-		4*configMINIMAL_STACK_SIZE);
+		12*configMINIMAL_STACK_SIZE);
 
 osThreadId dhcpInitTaskHandle;
 osThreadDef(dhcpInitThread, dhcpTask, osPriorityNormal, 1,
@@ -118,7 +118,7 @@ void initTask(void const * argument) {
 	MX_LTDC_Init();
 	MX_DMA2D_Init();
 	MX_GPIO_Init();
-	MX_TIM11_Init();
+	//MX_TIM11_Init();
 	lcdInit();
 	logMsg("Ethernet initialization...");
 	MX_LWIP_Init();
@@ -589,7 +589,7 @@ void httpConfigTask(void const* argument) {
 							// if it is GET config request
 							logMsg("System request");
 
-							char systemDetails[256];
+							char systemDetails[512];
 							getTaskUsageDetails(systemDetails);
 							sendHttpResponse(newClient, "200 OK",
 									"\r\nConnection: Closed", systemDetails);

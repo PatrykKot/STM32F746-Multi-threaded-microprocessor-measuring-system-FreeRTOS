@@ -197,7 +197,7 @@ err_t sendConfiguration(StmConfig* config, struct netconn* client,
 
 err_t sendHttpResponse(struct netconn* client, char* httpStatus,
 		char* requestParameters, char* content) {
-	char response[512];
+	char response[1024];
 	sprintf(response, httpHeaderPattern, httpStatus, strlen(content),
 			requestParameters, content);
 	return sendString(client, response);
@@ -224,7 +224,7 @@ uint8_t contains(struct netbuf* buf, char* str) {
  * @retval 1 if request includes '/config'
  */
 uint8_t isConfigRequest(struct netbuf* buf) {
-	return contains(buf," /config ");
+	return contains(buf, " /config ");
 }
 
 uint8_t isSystemRequest(struct netbuf* buf) {

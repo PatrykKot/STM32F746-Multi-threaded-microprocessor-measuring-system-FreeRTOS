@@ -60,8 +60,10 @@ void stmConfigToString(StmConfig* config, char* str) {
 	sprintf(ip, "%d.%d.%d.%d", ipTab[0], ipTab[1], ipTab[2], ipTab[3]);
 	cJSON_AddStringToObject(jsonCreator, "UdpEndpointIP", ip);
 
-	strcpy(str, cJSON_Print(jsonCreator));
+	char* json = cJSON_Print(jsonCreator);
+	strcpy(str, json);
 	cJSON_Delete(jsonCreator);
+	free(json);
 }
 
 /**

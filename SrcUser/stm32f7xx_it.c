@@ -50,6 +50,8 @@ extern ETH_HandleTypeDef heth;
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim11;
 
+volatile uint16_t tim6OverflowCount;
+
 /******************************************************************************/
 /*            Cortex-M7 Processor Interruption and Exception Handlers         */
 /******************************************************************************/
@@ -96,7 +98,7 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void) {
 	/* USER CODE END TIM1_TRG_COM_TIM11_IRQn 0 */
 	HAL_TIM_IRQHandler(&htim11);
 	/* USER CODE BEGIN TIM1_TRG_COM_TIM11_IRQn 1 */
-
+	tim6OverflowCount++;
 	/* USER CODE END TIM1_TRG_COM_TIM11_IRQn 1 */
 }
 

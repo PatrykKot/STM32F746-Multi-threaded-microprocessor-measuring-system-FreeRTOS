@@ -90,6 +90,7 @@
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
 #include <stdint.h>
 #include "mxconstants.h"
+#include "stm32f746xx.h"
 extern uint32_t SystemCoreClock;
 #endif
 
@@ -108,8 +109,8 @@ extern uint32_t SystemCoreClock;
 #define configQUEUE_REGISTRY_SIZE                8
 #define configGENERATE_RUN_TIME_STATS     		 1
 #define configUSE_STATS_FORMATTING_FUNCTIONS	 1
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()	 configureTimerForRuntimestats()
-#define portGET_RUN_TIME_COUNTER_VALUE()	     0
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() configureTimerForRuntimestats()
+#define portGET_RUN_TIME_COUNTER_VALUE()	     getTimVal()
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES                    0
