@@ -8,12 +8,6 @@
 #include "usrTasks.h"
 
 /**
- * @var uint8_t dhcpState
- * @brief State of DHCP client
- */
-extern uint8_t dhcpState;
-
-/**
  * @var netif ethernetInterfaceHandler
  * @brief Ethernet interface handler (used for DHCP searching, UDP and TCO communication)
  */
@@ -61,8 +55,8 @@ osThreadId httpConfigTaskHandle;
 osThreadDef(httpConfigThread, httpConfigTask, osPriorityHigh, 1,
 		12*configMINIMAL_STACK_SIZE);
 
-osThreadId dhcpInitTaskHandle;
-osThreadDef(dhcpInitThread, dhcpTask, osPriorityNormal, 1,
+osThreadId ethernetTaskHandle;
+osThreadDef(ethernetThread, ethernetTask, osPriorityNormal, 1,
 		5*configMINIMAL_STACK_SIZE);
 
 osThreadId soundProcessingTaskHandle;
@@ -114,29 +108,21 @@ void threadsInit() {
  */
 void initTask(void const * argument) {
 	/* PERIPHERALS INITIALIZATION */
-	MX_FMC_Init();
-	MX_LTDC_Init();
-	MX_DMA2D_Init();
-	MX_GPIO_Init();
-	//MX_TIM11_Init();
 	lcdInit();
 	logMsg("Ethernet initialization...");
 	MX_LWIP_Init();
 
 	/* DHCP initialization */
-	dhcpInitTaskHandle = osThreadCreate(osThread(dhcpInitThread), NULL);
+	ethernetTaskHandle = osThreadCreate(osThread(ethernetThread), NULL);
 
-	logMsg("Waiting for DHCP");
+	logMsg("Running ethernet thread");
 	osEvent event;
 	do {
 		// waiting for DHCP initialization
 		event = osSignalWait(DHCP_FINISHED_SIGNAL, osWaitForever);
 	} while (event.status != osOK && event.status != osEventSignal);
-	logMsg("DHCP task done");
-
-	// terminating DHCP initialization task
-	logMsg("Terminating dhcp");
-	osThreadTerminate(dhcpInitTaskHandle);
+	osThreadTerminate(ethernetTaskHandle);
+	logMsg("Ethernet thread done");
 
 	/* Taska, mutexes, mail queues and memory pools initialization */
 	logMsg("Initializing memory pools");
@@ -187,19 +173,6 @@ void initTask(void const * argument) {
 	configStr.clientPort = UDP_STREAMING_PORT;
 	IP4_ADDR(&configStr.clientIp, 192, 168, 1, 10);
 
-	logMsg("Preparing audio recording");
-	if (audioRecorderInit(AUDIO_RECORDER_INPUT_MICROPHONE,
-	AUDIO_RECORDER_VOLUME_0DB,
-			configStr.audioSamplingFrequency) != AUDIO_RECORDER_OK) {
-		logErr("Audio rec init");
-	}
-
-	/* Audio recorder - start recording */
-	if (audioRecorderStartRecording(dmaAudioBuffer,
-	AUDIO_BUFFER_SIZE) != AUDIO_RECORDER_OK) {
-		logErr("Audio buffer start");
-	}
-
 	logMsg("Initializing tasks");
 #ifdef LCD_PRINTER_SUPPORT
 	lcdTaskHandle = osThreadCreate(osThread(lcdThread), NULL);
@@ -213,6 +186,20 @@ void initTask(void const * argument) {
 	samplingTaskHandle = osThreadCreate(osThread(samplingThread), NULL);
 	if (samplingTaskHandle == NULL)
 		printNullHandle("Samp task");
+
+	logMsg("Preparing audio recording");
+	if (audioRecorderInit(AUDIO_RECORDER_INPUT_MICROPHONE,
+	AUDIO_RECORDER_VOLUME_0DB,
+			configStr.audioSamplingFrequency) != AUDIO_RECORDER_OK) {
+		logErr("Audio rec init");
+	}
+
+	/* Audio recorder - start recording */
+	if (audioRecorderStartRecording(dmaAudioBuffer,
+	AUDIO_BUFFER_SIZE) != AUDIO_RECORDER_OK) {
+		logErr("Audio buffer start");
+	}
+
 	streamingTaskHandle = osThreadCreate(osThread(streamingThread), NULL);
 	if (streamingTaskHandle == NULL)
 		printNullHandle("Stream task");
@@ -227,81 +214,30 @@ void initTask(void const * argument) {
 /**
  * @brief DHCP initialization task
  */
-void dhcpTask(void const * argument) {
+void ethernetTask(void const * argument) {
 	if (isEthernetCableConnected()) {
 		logMsg("Ethernet cable is connected");
-		uint32_t ipAddress;
-		dhcpState = DHCP_START;
-		do {
-			switch (dhcpState) {
-			case DHCP_START : {
-				ethernetInterfaceHandler.ip_addr.addr = 0;
-				ethernetInterfaceHandler.netmask.addr = 0;
-				ethernetInterfaceHandler.gw.addr = 0;
-				ipAddress = 0;
-				dhcp_start(&ethernetInterfaceHandler);
-				dhcpState = DHCP_WAIT_ADDRESS;
-				logMsg("Looking for DHCP server ...");
-				break;
-			}
-
-			case DHCP_WAIT_ADDRESS : {
-
-				ipAddress = ethernetInterfaceHandler.ip_addr.addr;
-
-				if (ipAddress != 0) {
-					dhcpState = DHCP_ADDRESS_ASSIGNED;
-
-					dhcp_stop(&ethernetInterfaceHandler);
-
-					logMsg("Got IP by DHCP:");
-					printAddress(&ethernetInterfaceHandler, IP_ADDRESS);
-					printAddress(&ethernetInterfaceHandler, NETMASK_ADDRESS);
-					printAddress(&ethernetInterfaceHandler, GATEWAY_ADDRESS);
-				} else {
-					if (ethernetInterfaceHandler.dhcp->tries > MAX_DHCP_TRIES) {
-						dhcpState = DHCP_TIMEOUT;
-
-						dhcp_stop(&ethernetInterfaceHandler);
-
-						ip_addr_t ipaAddress;
-						ip_addr_t netmask;
-						ip_addr_t gateway;
-
-						IP4_ADDR(&ipaAddress, IP_ADDR0, IP_ADDR1, IP_ADDR2,
-								IP_ADDR3);
-						IP4_ADDR(&netmask, NETMASK_ADDR0, NETMASK_ADDR1,
-								NETMASK_ADDR2, NETMASK_ADDR3);
-						IP4_ADDR(&gateway, GW_ADDR0, GW_ADDR1, GW_ADDR2,
-								GW_ADDR3);
-						netif_set_addr(&ethernetInterfaceHandler, &ipaAddress,
-								&netmask, &gateway);
-
-						logErr("DHCP timeout!");
-						logMsg("Static IP");
-						printAddress(&ethernetInterfaceHandler, IP_ADDRESS);
-						printAddress(&ethernetInterfaceHandler,
-						NETMASK_ADDRESS);
-						printAddress(&ethernetInterfaceHandler,
-						GATEWAY_ADDRESS);
-					}
-				}
-			}
-				break;
-
-			default:
-				break;
-			}
-			osDelay(250);
-		} while (dhcpState != DHCP_TIMEOUT && dhcpState != DHCP_ADDRESS_ASSIGNED );
 	} else {
 		dhcp_stop(&ethernetInterfaceHandler);
 		logErr("Ethernet cable is not connected");
-		logMsg("Static IP");
-		printAddress(&ethernetInterfaceHandler, IP_ADDRESS);
-		printAddress(&ethernetInterfaceHandler, NETMASK_ADDRESS);
-		printAddress(&ethernetInterfaceHandler, GATEWAY_ADDRESS);
 	}
+
+	ip_addr_t ipaAddress;
+	ip_addr_t netmask;
+	ip_addr_t gateway;
+
+	IP4_ADDR(&ipaAddress, IP_ADDR0, IP_ADDR1, IP_ADDR2, IP_ADDR3);
+	IP4_ADDR(&netmask, NETMASK_ADDR0, NETMASK_ADDR1, NETMASK_ADDR2,
+			NETMASK_ADDR3);
+	IP4_ADDR(&gateway, GW_ADDR0, GW_ADDR1, GW_ADDR2, GW_ADDR3);
+	netif_set_addr(&ethernetInterfaceHandler, &ipaAddress, &netmask, &gateway);
+
+	logMsg("Static IP");
+	printAddress(&ethernetInterfaceHandler, IP_ADDRESS);
+	printAddress(&ethernetInterfaceHandler,
+	NETMASK_ADDRESS);
+	printAddress(&ethernetInterfaceHandler,
+	GATEWAY_ADDRESS);
 
 	// sending DHCP finished signal to initialization task
 	osStatus status = osSignalSet(initTaskHandle, DHCP_FINISHED_SIGNAL);
@@ -487,11 +423,8 @@ void streamingTask(void const * argument) {
 	while (1) {
 		// setting signal to start sound processing
 		status = osSignalSet(soundProcessingTaskHandle,
-		START_SOUND_PROCESSING_SIGNAL);
+				START_SOUND_PROCESSING_SIGNAL);
 		osDelay(configStr.amplitudeSamplingDelay);
-
-		// delay
-		//osDelay(10);
 
 		// waiting for acces to ethernet interface
 		osStatus status = osMutexWait(ethernetInterfaceMutex_id, osWaitForever);
@@ -573,19 +506,21 @@ void httpConfigTask(void const* argument) {
 				// receiving data from client
 				err_t netStatus = netconn_recv(newClient, &recvBuf);
 				if (netStatus == ERR_OK) {
+					char data[512];
+					getDataFromBuffer(data, recvBuf);
 
 					// encoding HTTP request type
-					uint16_t requestType = getRequestType(recvBuf);
+					uint16_t requestType = getRequestType(data);
 
 					switch (requestType) {
 					case GET_REQUEST: {
 						logMsg("GET request");
-						if (isConfigRequest(recvBuf)) {
+						if (isConfigRequest(data)) {
 							// if it is GET config request
 							logMsg("Config request");
 							sendConfiguration(&configStr, newClient,
 									"\r\nConnection: Closed");
-						} else if (isSystemRequest(recvBuf)) {
+						} else if (isSystemRequest(data)) {
 							// if it is GET config request
 							logMsg("System request");
 
@@ -603,19 +538,22 @@ void httpConfigTask(void const* argument) {
 					}
 					case PUT_REQUEST: {
 						logMsg("PUT request");
-						if (isConfigRequest(recvBuf)) {
+						if (isConfigRequest(data)) {
 							logMsg("Config request");
 
-							sendHttpResponse(newClient, "200 OK", "", "");
+							//sendHttpResponse(newClient, "200 OK", "", "");
 							netbuf_delete(recvBuf);
 
 							// receiving JSON data
 							err_t netStatus = netconn_recv(newClient, &recvBuf);
 							if (netStatus == ERR_OK) {
 								StmConfig tempConfigStr;
+								char data[512];
+
+								getDataFromBuffer(data, recvBuf);
 
 								// parsing JSON data to config structure
-								parseJSON(recvBuf, &tempConfigStr);
+								parseJSON(data, &tempConfigStr);
 
 								// processing new data
 								if (tempConfigStr.amplitudeSamplingDelay
@@ -692,22 +630,15 @@ void httpConfigTask(void const* argument) {
 				} else
 					logErrVal("TCP no data", netStatus);
 
-				// closing connectoin
+				// closing connection
 				netStatus = netconn_close(newClient);
-				if (netStatus != ERR_OK)
-					logErrVal("TCP close", netStatus);
 
 				// free client memory
 				netStatus = netconn_delete(newClient);
-				if (netStatus != ERR_OK)
-					logErrVal("TCP delete", netStatus);
-			} else if (netStatus != ERR_TIMEOUT)
-				logErrVal("TCP accept", status);
+			}
 
 			// releasing ethernet interface mutex
 			status = osMutexRelease(ethernetInterfaceMutex_id);
-			if (status != osOK)
-				logErrVal("Eth mut release", status);
 		}
 	}
 }

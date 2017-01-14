@@ -16,21 +16,6 @@
 #include "lwip.h"
 #include "jsonConfiguration.h"
 
-/**
- * @def MAX_DHCP_TRIES
- * @brief The number of maximum DHCP connection tries
- */
-#define MAX_DHCP_TRIES  2
-
-/*
- * DHCP states
- */
-#define DHCP_START                 (uint8_t) 1
-#define DHCP_WAIT_ADDRESS          (uint8_t) 2
-#define DHCP_ADDRESS_ASSIGNED      (uint8_t) 3
-#define DHCP_TIMEOUT               (uint8_t) 4
-#define DHCP_LINK_DOWN             (uint8_t) 5
-
 /*
  * Static IP address of STM device if the LWIP cannot find the DHCP server
  */
@@ -77,9 +62,11 @@
 /**
  * HTTP request types
  */
-#define NOT_SUPPORTED_REQUEST 0
-#define GET_REQUEST 1
-#define PUT_REQUEST 2
+ typedef enum {
+	 NOT_SUPPORTED_REQUEST = 0,
+	 GET_REQUEST,
+	 PUT_REQUEST
+ } HttpRequestType;
 
 /**
  * UDP streaming port
@@ -92,14 +79,14 @@ uint32_t isEthernetCableConnected();
 err_t sendSpectrum(SpectrumStr* ampStr, struct netconn *client);
 uint8_t isNetconnStatusOk(err_t status);
 err_t udpSend(struct netconn *client, void* buf, uint32_t buffSize);
-void printContent(struct netbuf* buf);
-uint16_t getRequestType(struct netbuf* buf);
+HttpRequestType getRequestType(char* fullMsg);
 err_t sendConfiguration(StmConfig* config, struct netconn* client,
 		char* requestParameters);
 err_t sendHttpResponse(struct netconn* client, char* httpStatus,
 		char* requestParameters, char* content);
 err_t sendString(struct netconn* client, const char* array);
-uint8_t isConfigRequest(struct netbuf* buf);
-uint8_t isSystemRequest(struct netbuf* buf);
+void getDataFromBuffer(char* strBuffer, struct netbuf* buf);
+uint8_t isConfigRequest(char* buf);
+uint8_t isSystemRequest(char* buf);
 
 #endif /* ETHERNETLIB_H_ */

@@ -24,9 +24,6 @@
  * @brief Structure represents device configuration
  */
 typedef struct {
-	//uint8_t started;
-	//uint8_t udpEndpointAddr[4];
-	//uint32_t udpEndpointPort;
 	uint8_t amplitudeSamplingDelay;
 	uint32_t audioSamplingFrequency;
 	ip_addr_t clientIp;
@@ -34,7 +31,7 @@ typedef struct {
 } StmConfig;
 
 /* Functions */
-void parseJSON(struct netbuf* buf, StmConfig* config);
+void parseJSON(char* jsonData, StmConfig* config);
 void stmConfigToString(StmConfig* config, char* str);
 void copyConfig(StmConfig* destination, StmConfig* source);
 

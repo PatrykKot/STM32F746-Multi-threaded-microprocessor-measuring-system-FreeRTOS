@@ -10,18 +10,10 @@
 /**
  * @brief Parses \netbuf (JSON data) to \StmConfig structure
  */
-void parseJSON(struct netbuf* buf, StmConfig* config) {
-	void* data;
-	uint16_t length;
-	netbuf_data(buf, &data, &length);
-	char* jsonData = (char*) data;
-
+void parseJSON(char* jsonData, StmConfig* config) {
 	cJSON* parser = cJSON_Parse(jsonData);
-	/*config->started = cJSON_GetObjectItem(parser, "Started")->valueint;*/
 	char* udpEndpoint =
 			cJSON_GetObjectItem(parser, "UdpEndpointIP")->valuestring;
-	/*config->udpEndpointPort =
-	 cJSON_GetObjectItem(parser, "UdpEndpointPort")->valueint;*/
 	config->amplitudeSamplingDelay = cJSON_GetObjectItem(parser,
 			"AmplitudeSamplingDelay")->valueint;
 	config->audioSamplingFrequency = cJSON_GetObjectItem(parser,
@@ -45,7 +37,6 @@ void parseJSON(struct netbuf* buf, StmConfig* config) {
 void stmConfigToString(StmConfig* config, char* str) {
 	cJSON *jsonCreator;
 	jsonCreator = cJSON_CreateObject();
-	/*cJSON_AddBoolToObject(jsonCreator, "Started", config->started);*/
 	cJSON_AddNumberToObject(jsonCreator, "UdpEndpointPort", config->clientPort);
 	cJSON_AddNumberToObject(jsonCreator, "AmplitudeSamplingDelay",
 			config->amplitudeSamplingDelay);
@@ -76,9 +67,4 @@ void copyConfig(StmConfig* destination, StmConfig* source) {
 	destination->audioSamplingFrequency = source->audioSamplingFrequency;
 	destination->clientIp.addr = source->clientIp.addr;
 	destination->clientPort = source->clientPort;
-
-	/*destination->started = source->started;
-	 for (uint16_t i = 0; i < 4; i++)
-	 destination->udpEndpointAddr[i] = source->udpEndpointAddr[i];
-	 destination->udpEndpointPort = source->udpEndpointPort;*/
 }

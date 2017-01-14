@@ -8,12 +8,6 @@
 #include "ethernetLib.h"
 
 /**
- * @var uint32_t DHCP_state
- * @brief State of DHCP server finding module
- */
-uint32_t dhcpState;
-
-/**
  * @var ETH_HandleTypeDef EthHandle
  * @brief Ethernet module handle
  */
@@ -121,65 +115,18 @@ err_t udpSend(struct netconn *client, void* buf, uint32_t buffSize) {
 	return err;
 }
 
-void printContent(struct netbuf* buf) {
-	void* data;
-	uint16_t length;
-	netbuf_data(buf, &data, &length);
-	char* tok;
-	char* fullMsg = (char*) data;
-	tok = strtok((char*) fullMsg, "\n");
-	while (tok != NULL) {
-		logMsg(tok);
-		tok = strtok(NULL, "\n");
-	}
-}
-
 /**
  * @brief Returns the request type
  * @param buf: pointer to \ref netbuf structure
  * @retval GET_REQUEST, PUT_REQUEST or NOT_SUPPORTED_REQUEST
  */
-uint16_t getRequestType(struct netbuf* buf) {
-	void* data;
-	uint16_t length;
-	netbuf_data(buf, &data, &length);
-	char* fullMsg = (char*) data;
-
+HttpRequestType getRequestType(char* fullMsg) {
 	if (strstr(fullMsg, "GET") != NULL)
 		return GET_REQUEST;
 	else if (strstr(fullMsg, "PUT") != NULL)
 		return PUT_REQUEST;
 	else
 		return NOT_SUPPORTED_REQUEST;
-}
-
-void printData(struct netbuf* buf) {
-	void* data;
-	uint16_t length;
-	netbuf_data(buf, &data, &length);
-	char* fullMsg = (char*) data;
-
-	uint32_t len = strlen(fullMsg);
-	uint32_t charInLine = 0;
-	uint32_t lastLineEnding = 0;
-
-	for (uint32_t i = 0; i < len; i++) {
-		if ((fullMsg[i] == '\r' && fullMsg[i + 1] == '\n') || (i == len - 1)
-				|| (charInLine > 40)) {
-			char tempMsg[256];
-
-			for (uint32_t j = lastLineEnding; j < i; j++) {
-				tempMsg[j - lastLineEnding] = fullMsg[j];
-			}
-			tempMsg[i - lastLineEnding] = '\0';
-
-			logMsg(tempMsg);
-			lastLineEnding = i + 2;
-			charInLine = 0;
-		} else {
-			charInLine++;
-		}
-	}
 }
 
 /**
@@ -207,15 +154,13 @@ err_t sendString(struct netconn* client, const char* array) {
 	return netconn_write(client, array, strlen(array), NETCONN_NOCOPY);
 }
 
-uint8_t contains(struct netbuf* buf, char* str) {
+void getDataFromBuffer(char* strBuffer, struct netbuf* buf)
+{
 	void* data;
 	uint16_t length;
 	netbuf_data(buf, &data, &length);
-	char* fullMsg = (char*) data;
 
-	if (strstr(fullMsg, str) != NULL)
-		return 1;
-	return 0;
+	strcpy(strBuffer, (char*) data);
 }
 
 /**
@@ -223,10 +168,10 @@ uint8_t contains(struct netbuf* buf, char* str) {
  * @param buf: pointer to \ref netbuf structure
  * @retval 1 if request includes '/config'
  */
-uint8_t isConfigRequest(struct netbuf* buf) {
-	return contains(buf, " /config ");
+uint8_t isConfigRequest(char* buf) {
+	return (strstr(buf, " /config ")!=NULL);
 }
 
-uint8_t isSystemRequest(struct netbuf* buf) {
-	return contains(buf, " /system ");
+uint8_t isSystemRequest(char* buf) {
+	return (strstr(buf, " /system ")!=NULL);
 }

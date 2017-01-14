@@ -33,7 +33,7 @@ void lcdTask(void const * argument);
 
 void soundProcessingTask(void const * argument);
 void samplingTask(void const * argument);
-void dhcpTask(void const * argument);
+void ethernetTask(void const * argument);
 void streamingTask(void const * argument);
 void httpConfigTask(void const * argument);
 void initTask(void const * argument);

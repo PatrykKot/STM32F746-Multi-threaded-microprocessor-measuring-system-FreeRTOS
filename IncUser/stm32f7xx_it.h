@@ -41,6 +41,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32746g_discovery_audio.h"
+#include "stm32f7xx_hal.h"
+#include "stm32f7xx.h"
+#include "cmsis_os.h"
+#include "ethernetif.h"
+#include "lcdLogger.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
@@ -48,10 +53,13 @@
 
 void SysTick_Handler(void);
 void TIM1_UP_TIM10_IRQHandler(void);
-void TIM11_IRQHandler(void);
+void TIM1_TRG_COM_TIM11_IRQHandler(void);
 void ETH_IRQHandler(void);
+void HardFault_Handler(void);
+void UsageFault_Handler(void);
+void BusFault_Handler(void);
+void MemMang_Handler(void);
 void AUDIO_IN_SAIx_DMAx_IRQHandler(void);
-void AUDIO_OUT_SAIx_DMAx_IRQHandler(void);
 
 #ifdef __cplusplus
 }

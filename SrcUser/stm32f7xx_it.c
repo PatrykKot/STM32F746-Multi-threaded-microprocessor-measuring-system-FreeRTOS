@@ -31,15 +31,9 @@
  ******************************************************************************
  */
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f7xx_hal.h"
-#include "stm32f7xx.h"
 #include "stm32f7xx_it.h"
-#include "cmsis_os.h"
-#include "ethernetif.h"
 
 /* USER CODE BEGIN 0 */
-/* SAI handler declared in "stm32746g_discovery_audio.c" file */
-extern SAI_HandleTypeDef haudio_out_sai;
 /* I2S handler declared in "stm32746g_discovery_audio.c" file */
 extern SAI_HandleTypeDef haudio_in_sai;
 /* USER CODE END 0 */
@@ -116,15 +110,29 @@ void ETH_IRQHandler(void) {
 }
 
 /* USER CODE BEGIN 1 */
-/**
- * @brief This function handles DMA2 Stream 4 interrupt request.
- * @param None
- * @retval None
- */
-void AUDIO_OUT_SAIx_DMAx_IRQHandler(void) {
-	HAL_DMA_IRQHandler(haudio_out_sai.hdmatx);
+void HardFault_Handler() {
+	logMsg("Hard fault");
+
+	while(1);
 }
 
+void UsageFault_Handler() {
+	logMsg("UsageFault fault");
+
+	while(1);
+}
+
+void BusFault_Handler() {
+	logMsg("BusFault fault");
+
+	while(1);
+}
+
+void MemMang_Handler() {
+	logMsg("MemMang fault");
+
+	while(1);
+}
 /**
  * @brief This function handles DMA2 Stream 7 interrupt request.
  * @param None
