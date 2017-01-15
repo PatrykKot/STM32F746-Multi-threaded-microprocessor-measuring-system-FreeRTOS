@@ -14,7 +14,6 @@
 #include "mcuConfig.h"
 #include "cJSON.h"
 #include "string.h"
-#include "lcdLogger.h"
 
 typedef struct {
 	char taskName[20];

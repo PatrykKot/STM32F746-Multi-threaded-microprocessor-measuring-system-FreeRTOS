@@ -36,7 +36,6 @@ void parseTaskUsage(char* detailsStr, char* jsonData) {
 	char tempStr[32];
 	uint32_t tempIterator = 0;
 
-	logMsgVal("System info len ", length);
 	while (iterator < length) {
 		cJSON_AddItemToArray(jsonCreator, arrayObject = cJSON_CreateObject());
 

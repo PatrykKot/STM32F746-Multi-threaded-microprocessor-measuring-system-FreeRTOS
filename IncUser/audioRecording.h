@@ -10,8 +10,8 @@
 
 #include "stm32746g_discovery_audio.h"
 #include "stdlib.h"
-#include "arm_math.h"
 #include "lcdLogger.h"
+#include "arm_math.h"
 
 /**
  * @def AUDIO_RECORDER_INPUT_MICROPHONE
@@ -24,6 +24,8 @@
  * @brief Input line address
  */
 #define AUDIO_RECORDER_INPUT_LINE ((uint16_t)0x0300)
+
+#define AUDIO_RECORDER_DEFAULT_FREQUENCY 44100
 
 /**
  * @def AUDIO_RECORDER_OK
@@ -78,6 +80,13 @@ typedef struct {
 	uint32_t frequency;
 	uint32_t iterator;
 } SoundBufferStr;
+
+typedef enum {
+	UNDEFINED = 0,
+	RECTANGLE = 1,
+	HANN = 2,
+	FLAT_TOP = 3
+} WindowType;
 
 /* Functions */
 uint8_t audioRecorderInit(uint16_t inputDevice, uint8_t volume,

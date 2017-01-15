@@ -1,16 +1,16 @@
 /*
   Copyright (c) 2009 Dave Gamble
- 
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
- 
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
- 
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,6 +28,16 @@ extern "C"
 {
 #endif
 
+/* project version */
+#define CJSON_VERSION_MAJOR 1
+#define CJSON_VERSION_MINOR 2
+#define CJSON_VERSION_PATCH 0
+
+/* returns the version of cJSON as a string */
+extern const char* cJSON_Version(void);
+
+#include <stddef.h>
+
 /* cJSON Types: */
 #define cJSON_False  (1 << 0)
 #define cJSON_True   (1 << 1)
@@ -36,7 +46,8 @@ extern "C"
 #define cJSON_String (1 << 4)
 #define cJSON_Array  (1 << 5)
 #define cJSON_Object (1 << 6)
-	
+#define cJSON_Raw    (1 << 7) /* raw json */
+
 #define cJSON_IsReference 256
 #define cJSON_StringIsConst 512
 
@@ -52,7 +63,7 @@ typedef struct cJSON
     /* The type of the item, as above. */
     int type;
 
-    /* The item's string, if type==cJSON_String */
+    /* The item's string, if type==cJSON_String  and type == cJSON_Raw */
     char *valuestring;
     /* The item's number, if type==cJSON_Number */
     int valueint;
@@ -81,6 +92,8 @@ extern char  *cJSON_Print(const cJSON *item);
 extern char  *cJSON_PrintUnformatted(const cJSON *item);
 /* Render a cJSON entity to text using a buffered strategy. prebuffer is a guess at the final size. guessing well reduces reallocation. fmt=0 gives unformatted, =1 gives formatted */
 extern char *cJSON_PrintBuffered(const cJSON *item, int prebuffer, int fmt);
+/* Render a cJSON entity to text using a buffer already allocated in memory with length buf_len. Returns 1 on success and 0 on failure. */
+extern int cJSON_PrintPreallocated(cJSON *item, char *buf, const int len, const int fmt);
 /* Delete a cJSON entity and all subentities. */
 extern void   cJSON_Delete(cJSON *c);
 
@@ -93,7 +106,7 @@ extern cJSON *cJSON_GetObjectItem(const cJSON *object, const char *string);
 extern int cJSON_HasObjectItem(const cJSON *object, const char *string);
 /* For analysing failed parses. This returns a pointer to the parse error. You'll probably need to look a few chars back to make sense of it. Defined when cJSON_Parse() returns 0. 0 when cJSON_Parse() succeeds. */
 extern const char *cJSON_GetErrorPtr(void);
-	
+
 /* These calls create a cJSON item of the appropriate type. */
 extern cJSON *cJSON_CreateNull(void);
 extern cJSON *cJSON_CreateTrue(void);
@@ -101,6 +114,8 @@ extern cJSON *cJSON_CreateFalse(void);
 extern cJSON *cJSON_CreateBool(int b);
 extern cJSON *cJSON_CreateNumber(double num);
 extern cJSON *cJSON_CreateString(const char *string);
+/* raw json */
+extern cJSON *cJSON_CreateRaw(const char *raw);
 extern cJSON *cJSON_CreateArray(void);
 extern cJSON *cJSON_CreateObject(void);
 
@@ -113,7 +128,10 @@ extern cJSON *cJSON_CreateStringArray(const char **strings, int count);
 /* Append item to the specified array/object. */
 extern void cJSON_AddItemToArray(cJSON *array, cJSON *item);
 extern void	cJSON_AddItemToObject(cJSON *object, const char *string, cJSON *item);
-extern void	cJSON_AddItemToObjectCS(cJSON *object, const char *string, cJSON *item);	/* Use this when string is definitely const (i.e. a literal, or as good as), and will definitely survive the cJSON object */
+/* Use this when string is definitely const (i.e. a literal, or as good as), and will definitely survive the cJSON object.
+ * WARNING: When this function was used, make sure to always check that (item->type & cJSON_StringIsConst) is zero before
+ * writing to `item->string` */
+extern void	cJSON_AddItemToObjectCS(cJSON *object, const char *string, cJSON *item);
 /* Append reference to item to the specified array/object. Use this when you want to add an existing cJSON to a new cJSON, but don't want to corrupt your existing cJSON. */
 extern void cJSON_AddItemReferenceToArray(cJSON *array, cJSON *item);
 extern void	cJSON_AddItemReferenceToObject(cJSON *object, const char *string, cJSON *item);
@@ -148,6 +166,7 @@ extern void cJSON_Minify(char *json);
 #define cJSON_AddBoolToObject(object,name,b) cJSON_AddItemToObject(object, name, cJSON_CreateBool(b))
 #define cJSON_AddNumberToObject(object,name,n) cJSON_AddItemToObject(object, name, cJSON_CreateNumber(n))
 #define cJSON_AddStringToObject(object,name,s) cJSON_AddItemToObject(object, name, cJSON_CreateString(s))
+#define cJSON_AddRawToObject(object,name,s) cJSON_AddItemToObject(object, name, cJSON_CreateRaw(s))
 
 /* When assigning an integer value, it needs to be propagated to valuedouble too. */
 #define cJSON_SetIntValue(object,val) ((object) ? (object)->valueint = (object)->valuedouble = (val) : (val))

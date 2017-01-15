@@ -12,7 +12,7 @@
 #include "ethernetLib.h"
 #include "audioRecording.h"
 #include "soundProcessing.h"
-#include "lcdAmplitudePrinter.h"
+//#include "lcdAmplitudePrinter.h"
 #include "ethernetLib.h"
 #include "mcuConfig.h"
 #include "jsonConfiguration.h"
@@ -53,7 +53,7 @@ void initTask(void const * argument);
 #define HTTP_RECEIVE_TIMEOUT 1500
 
 /* Other */
-#define MAXIMUM_DMA_AUDIO_MESSAGE_QUEUE_SIZE 8
+#define MAXIMUM_DMA_AUDIO_MESSAGE_QUEUE_SIZE 20
 
 /* Signals */
 #define DHCP_FINISHED_SIGNAL 0x0001

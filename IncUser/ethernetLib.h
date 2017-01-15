@@ -68,10 +68,15 @@
 	 PUT_REQUEST
  } HttpRequestType;
 
-/**
- * UDP streaming port
- */
-#define UDP_STREAMING_PORT 53426
+ /**
+  * UDP streaming port
+  */
+ #define UDP_STREAMING_PORT 53426
+
+ /**
+  * UDP streaming IP
+  */
+ #define UDP_STREAMING_IP "192.168.1.10"
 
 /* Functions */
 void printAddress(const struct netif* gnetif, uint8_t addressType);

@@ -28,12 +28,14 @@ void soundProcessingGetAmplitudeInstance(arm_cfft_instance_f32* cfft_instance,
  */
 void soundProcessingAmplitudeInit(SpectrumStr* spectrumStr,
 		SoundBufferStr* soundBuffer, float32_t* destinationBuffer) {
+	uint32_t i;
+	uint32_t soundBuffIterator;
 	spectrumStr->frequencyResolution = (float32_t) soundBuffer->frequency
 			/ soundBuffer->size * 2;
 	spectrumStr->vectorSize = soundBuffer->size / 2;
 
-	uint32_t soundBuffIterator = soundBuffer->iterator + 1;
-	for (uint32_t i = 0; i < soundBuffer->size; i++) {
+	soundBuffIterator = soundBuffer->iterator + 1;
+	for (i = 0; i < soundBuffer->size; i++) {
 		destinationBuffer[i] = soundBuffer->soundBuffer[soundBuffIterator++];
 		if (soundBuffIterator >= soundBuffer->size)
 			soundBuffIterator = 0;
@@ -51,11 +53,12 @@ void soundProcessingAmplitudeInit(SpectrumStr* spectrumStr,
  */
 SingleFreqStr soundProcessingGetStrongestFrequency(SpectrumStr* amplitudeStr,
 		uint32_t from, uint32_t to) {
+	uint32_t i;
 	SingleFreqStr freq;
 	float32_t result = amplitudeStr->amplitudeVector[from];
 	uint32_t index = from;
 
-	for (uint32_t i = from; i < to; i++) {
+	for (i = from; i < to; i++) {
 		if (amplitudeStr->amplitudeVector[i] > result) {
 			result = amplitudeStr->amplitudeVector[i];
 			index = i;
@@ -127,10 +130,56 @@ void soundProcessingGetCfftInstance(arm_cfft_instance_f32* instance,
  */
 void soundProcessingCopyAmplitudeInstance(SpectrumStr* source,
 		SpectrumStr* destination) {
+	uint32_t i;
 	destination->frequencyResolution = source->frequencyResolution;
 	destination->vectorSize = source->vectorSize;
 
-	for (uint32_t i = 0; i < destination->vectorSize; i++) {
+	for (i = 0; i < destination->vectorSize; i++) {
 		destination->amplitudeVector[i] = source->amplitudeVector[i];
+	}
+}
+
+float32_t calcHann(uint32_t index, uint32_t length)
+{
+	return (float32_t)0.5*((float32_t)1-arm_cos_f32((float32_t)(2*PI*index)/(float32_t)(length-1)));
+}
+
+static const float32_t flatTopTable[] = {0.21557895, 0.41663158, 0.277263158, 0.083578947, 0.006947368};
+
+float32_t calcFlatTop(uint32_t index, uint32_t length)
+{
+	return flatTopTable[0] - flatTopTable[1] * arm_cos_f32((float32_t)(2*PI*index)/(float32_t)(length-1)) + flatTopTable[2] * arm_cos_f32((float32_t)(4*PI*index)/(float32_t)(length-1)) - flatTopTable[3] * arm_cos_f32((float32_t)(6*PI*index)/(float32_t)(length-1)) + flatTopTable[4] * arm_cos_f32((float32_t)(8*PI*index)/(float32_t)(length-1));
+}
+
+void soundProcessingProcessWindow(WindowType windowType, float32_t* soundBuffer, uint32_t length)
+{
+	uint32_t index;
+
+	switch(windowType)
+	{
+		case RECTANGLE:
+		{
+			break;
+		}
+		case HANN:
+		{
+			for(index = 0; index < length; index++)
+			{
+				soundBuffer[index] *= calcHann(index, length);
+			}
+			break;
+		}
+		case FLAT_TOP:
+		{
+			for(index = 0; index < length; index++)
+			{
+				soundBuffer[index] *= calcFlatTop(index, length);
+			}
+			break;
+		}
+		default:
+		{
+			break;
+		}
 	}
 }

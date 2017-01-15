@@ -138,7 +138,7 @@ HttpRequestType getRequestType(char* fullMsg) {
 err_t sendConfiguration(StmConfig* config, struct netconn* client,
 		char* requestParameters) {
 	char configContent[256];
-	stmConfigToString(config, configContent);
+	stmConfigToString(config, configContent, 256);
 	return sendHttpResponse(client, "200 OK", requestParameters, configContent);
 }
 
