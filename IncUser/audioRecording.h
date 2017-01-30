@@ -25,11 +25,15 @@
  */
 #define AUDIO_RECORDER_INPUT_LINE ((uint16_t)0x0300)
 
+/**
+ * @def AUDIO_RECORDER_DEFAULT_FREQUENCY
+ * @brief Default audio sapling frequency
+ */
 #define AUDIO_RECORDER_DEFAULT_FREQUENCY 44100
 
 /**
  * @def AUDIO_RECORDER_OK
- * @brief No errors
+ * @brief No errors flag
  */
 #define AUDIO_RECORDER_OK AUDIO_OK
 
@@ -81,6 +85,9 @@ typedef struct {
 	uint32_t iterator;
 } SoundBufferStr;
 
+/**
+ * @brief Signal window type
+ */
 typedef enum {
 	UNDEFINED = 0,
 	RECTANGLE = 1,
@@ -89,16 +96,12 @@ typedef enum {
 } WindowType;
 
 /* Functions */
-uint8_t audioRecorderInit(uint16_t inputDevice, uint8_t volume,
-		uint32_t audioFreq);
-uint8_t audioRecorderStartRecording(uint16_t* audioBuffer,
-		uint32_t audioBufferSize);
+uint8_t audioRecorderInit(uint16_t inputDevice, uint8_t volume, uint32_t audioFreq);
+uint8_t audioRecorderStartRecording(uint16_t* audioBuffer, uint32_t audioBufferSize);
 uint8_t audioRecorderSetVolume(uint8_t volume);
 uint8_t audioRecorderSetSamplingFrequency(uint32_t frequency);
 
-void audioRecordingUpdateSoundBuffer(SoundBufferStr* soundBuffer,
-		SoundMailStr* soundMail);
-void audioRecordingSoundMailFill(SoundMailStr* soundStructure,
-		uint16_t* audioBuffer, uint32_t audioBufferSize, uint32_t frequency);
+void audioRecordingUpdateSoundBuffer(SoundBufferStr* soundBuffer, SoundMailStr* soundMail);
+void audioRecordingSoundMailFill(SoundMailStr* soundStructure, uint16_t* audioBuffer, uint32_t audioBufferSize, uint32_t frequency);
 
 #endif /* AUDIORECORDING_H_ */

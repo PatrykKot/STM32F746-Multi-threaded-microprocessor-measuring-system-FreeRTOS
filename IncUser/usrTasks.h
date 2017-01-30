@@ -12,8 +12,6 @@
 #include "ethernetLib.h"
 #include "audioRecording.h"
 #include "soundProcessing.h"
-//#include "lcdAmplitudePrinter.h"
-#include "ethernetLib.h"
 #include "mcuConfig.h"
 #include "jsonConfiguration.h"
 
@@ -22,6 +20,7 @@
 
 #include "cmsis_os.h"
 #include "lwip.h"
+
 /* Functions */
 void threadsInit();
 void osCheck();

@@ -13,6 +13,10 @@
  */
 extern struct netif ethernetInterfaceHandler;
 
+/**
+ * @var StmConfig configStr
+ * @brief System configuration structure
+**/
 StmConfig* configStr;
 
 /**
@@ -97,6 +101,7 @@ osMutexId mainSoundBufferMutex_id;
  */
 void threadsInit() {
 	/* Starting OS task initialization */
+	logMsg("Creating init task");
 	initTaskHandle = osThreadCreate(osThread(initThread), NULL);
 }
 
@@ -111,13 +116,13 @@ void initTask(void const * argument) {
 	logMsg("Ethernet initialization...");
 	MX_LWIP_Init();
 
-	/* DHCP initialization */
+	/* Ethernet initialization */
 	ethernetTaskHandle = osThreadCreate(osThread(ethernetThread), NULL);
 
 	logMsg("Running ethernet thread");
 	osEvent event;
 	do {
-		// waiting for DHCP initialization
+		// waiting for ethernet initialization
 		event = osSignalWait(DHCP_FINISHED_SIGNAL, osWaitForever);
 	} while (event.status != osOK && event.status != osEventSignal);
 	osThreadTerminate(ethernetTaskHandle);
@@ -162,7 +167,7 @@ void initTask(void const * argument) {
 	configStr->audioSamplingFrequency = AUDIO_RECORDER_DEFAULT_FREQUENCY;
 	configStr->clientPort = UDP_STREAMING_PORT;
 	strcpy(configStr->clientIp, UDP_STREAMING_IP);
-	configStr->windowType = FLAT_TOP;
+	configStr->windowType = RECTANGLE;
 
 	mainSpectrumBuffer = osPoolCAlloc(spectrumBufferPool_id);
 	mainSoundBuffer = osPoolCAlloc(soundBufferPool_id);
@@ -254,16 +259,26 @@ void ethernetTask(void const * argument) {
  */
 void audioRecorder_FullBufferFilled(void) {
 	SoundMailStr *soundSamples;
-
+	osStatus mailStatus;
+	
 	// allocating memory for sound mail
-	soundSamples = osMailAlloc(dmaAudioMail_q_id, osWaitForever);
-	audioRecordingSoundMailFill(soundSamples, dmaAudioBuffer, AUDIO_BUFFER_SIZE,
-			configStr->audioSamplingFrequency);
+	soundSamples = osMailAlloc(dmaAudioMail_q_id, 0);
+	
+	if(soundSamples == NULL)
+	{
+		logErr("Null sound samples");
+	}
+	else
+	{
+		audioRecordingSoundMailFill(soundSamples, dmaAudioBuffer, AUDIO_BUFFER_SIZE, configStr->audioSamplingFrequency);
 
-	// sending mail to queue
-	osStatus status = osMailPut(dmaAudioMail_q_id, soundSamples);
-	if (status != osOK)
-		logErrVal("Audio mail send", status);
+		// sending mail to queue
+		mailStatus = osMailPut(dmaAudioMail_q_id, soundSamples);
+		if(mailStatus != osOK)
+		{
+				logErrVal("DMA irq ", mailStatus);
+		}
+	}
 }
 
 /**
@@ -565,7 +580,6 @@ void httpConfigTask(void const* argument) {
 								parseJSON(data, &tempConfig);
 								makeChanges(&tempConfig, configStr);
 
-								copyConfig(configStr, &tempConfig);
 								sendConfiguration(configStr, newClient,
 										"\r\nConnection: Closed");
 							} else {

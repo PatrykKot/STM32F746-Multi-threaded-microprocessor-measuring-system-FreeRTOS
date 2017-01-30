@@ -37,16 +37,11 @@ typedef struct {
 } SingleFreqStr;
 
 /* Functions */
-void soundProcessingGetAmplitudeInstance(arm_cfft_instance_f32* cfft_instance,
-		SpectrumStr* amplitudeStr, float32_t* sourceBuffer);
-void soundProcessingAmplitudeInit(SpectrumStr* amplitudeStr,
-		SoundBufferStr* soundBuffer, float32_t* destinationBuffer);
-SingleFreqStr soundProcessingGetStrongestFrequency(SpectrumStr* amplitudeStr,
-		uint32_t from, uint32_t to);
-void soundProcessingGetCfftInstance(arm_cfft_instance_f32* instance,
-		uint32_t length);
-void soundProcessingCopyAmplitudeInstance(SpectrumStr* source,
-		SpectrumStr* destination);
+void soundProcessingGetAmplitudeInstance(arm_cfft_instance_f32* cfft_instance, SpectrumStr* amplitudeStr, float32_t* sourceBuffer);
+void soundProcessingAmplitudeInit(SpectrumStr* amplitudeStr, SoundBufferStr* soundBuffer, float32_t* destinationBuffer);
+SingleFreqStr soundProcessingGetStrongestFrequency(SpectrumStr* amplitudeStr, uint32_t from, uint32_t to);
+void soundProcessingGetCfftInstance(arm_cfft_instance_f32* instance, uint32_t length);
+void soundProcessingCopyAmplitudeInstance(SpectrumStr* source, SpectrumStr* destination);
 float32_t calcHann(uint32_t index, uint32_t length);
 float32_t calcFlatTop(uint32_t index, uint32_t length);
 void soundProcessingProcessWindow(WindowType windowType, float32_t* soundBuffer, uint32_t length);

@@ -15,12 +15,16 @@
 #include "cJSON.h"
 #include "string.h"
 
+/**
+ * Task usage structure
+ */
 typedef struct {
 	char taskName[20];
 	uint32_t memory;
 	char usage[10];
 } TaskUsage;
 
+/* Functions */
 void getTaskUsageDetails(char* jsonData);
 uint32_t getTimVal();
 void parseTaskUsage(char* detailsStr, char* jsonData);

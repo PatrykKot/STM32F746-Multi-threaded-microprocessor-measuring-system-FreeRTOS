@@ -9,18 +9,20 @@
 
 /**
  * @brief Parses JSON data to \StmConfig structure
+ * @param jsonData: JSON data string
+ * @param config: output system configuration structure
  */
 void parseJSON(char* jsonData, StmConfig* config) {
 	char windowTypeStr[20];
 	char errorMsg[35];
 	cJSON* parser;
-
+	
 	config->amplitudeSamplingDelay = 0;
 	config->audioSamplingFrequency = 0;
 	strcpy(config->clientIp, "");
 	config->clientPort = 0;
 	config->windowType = UNDEFINED;
-
+	
 	parser = cJSON_Parse(jsonData);
 	if(!parser)
 	{
@@ -28,31 +30,31 @@ void parseJSON(char* jsonData, StmConfig* config) {
 		logErr(errorMsg);
 		return;
 	}
-
+	
 	if(cJSON_HasObjectItem(parser,"UdpEndpointIP"))
 	{
 		strcpy(config->clientIp, cJSON_GetObjectItem(parser, "UdpEndpointIP")->valuestring);
 	}
-
+	
 	if(cJSON_HasObjectItem(parser,"AmplitudeSamplingDelay"))
 	{
 		config->amplitudeSamplingDelay = cJSON_GetObjectItem(parser, "AmplitudeSamplingDelay")->valueint;
 	}
-
+	
 	if(cJSON_HasObjectItem(parser,"SamplingFrequency"))
 	{
 		config->audioSamplingFrequency = cJSON_GetObjectItem(parser, "SamplingFrequency")->valueint;
 	}
-
+	
 	if(cJSON_HasObjectItem(parser,"UdpEndpointPort"))
 	{
 		config->clientPort = cJSON_GetObjectItem(parser, "UdpEndpointPort")->valueint;
 	}
-
+	
 	if(cJSON_HasObjectItem(parser,"WindowType"))
 	{
 		strcpy(windowTypeStr, cJSON_GetObjectItem(parser, "WindowType")->valuestring);
-
+		
 		if(strcmp(windowTypeStr, "RECTANGLE") == 0)
 		{
 			config->windowType = RECTANGLE;
@@ -74,11 +76,12 @@ void parseJSON(char* jsonData, StmConfig* config) {
  * @brief Converts \ref StmConfig structure to JSON string
  * @param config: pointer to \ref StmConfig structure
  * @param str: pointer to output of the JSON string (must have allocated memory)
+ * @param len: length of output JSON string
  */
 void stmConfigToString(StmConfig* config, char* str, uint32_t len) {
 	char windowTypeStr[20];
 	cJSON *jsonCreator;
-
+	
 	switch(config->windowType)
 	{
 		case RECTANGLE:
@@ -102,7 +105,7 @@ void stmConfigToString(StmConfig* config, char* str, uint32_t len) {
 			break;
 		}
 	}
-
+	
 	jsonCreator = cJSON_CreateObject();
 	cJSON_AddNumberToObject(jsonCreator, "UdpEndpointPort", config->clientPort);
 	cJSON_AddNumberToObject(jsonCreator, "AmplitudeSamplingDelay",
@@ -117,64 +120,41 @@ void stmConfigToString(StmConfig* config, char* str, uint32_t len) {
 }
 
 /**
- * @brief Copies \ref StmConfig structure to another \ref StmConfig structure
- * @param destination: pointer (output) to \ref StmConfig structure
- * @param source: pointer to \ref StmConfig structure
+ * @brief Updates old system configuration structure and does changes in device
+ * @param newConfig: pointer to new system configuration structure
+ * @param oldConfig: pointer to old system configuration structure
  */
-void copyConfig(StmConfig* destination, StmConfig* source) {
-	if(source->amplitudeSamplingDelay != 0)
-	{
-		destination->amplitudeSamplingDelay = source->amplitudeSamplingDelay;
-	}
-
-	if(source->audioSamplingFrequency != 0)
-	{
-		destination->audioSamplingFrequency = source->audioSamplingFrequency;
-	}
-
-	if(strlen(source->clientIp)>0)
-	{
-		strcpy(destination->clientIp, source->clientIp);
-	}
-
-	if(source->clientPort != 0)
-	{
-		destination->clientPort = source->clientPort;
-	}
-
-	if(source->windowType > UNDEFINED && source->windowType <= FLAT_TOP)
-	{
-		destination->windowType = source->windowType;
-	}
-
-}
-
 void makeChanges(StmConfig* newConfig, StmConfig* oldConfig) {
 	char msg[30];
-
+	uint8_t knownWindow = TRUE;
+	
 	if(newConfig->amplitudeSamplingDelay != oldConfig->amplitudeSamplingDelay && newConfig->amplitudeSamplingDelay != 0)
 	{
 		logMsgVal("Changed sampling delay ", newConfig->amplitudeSamplingDelay);
+		oldConfig->amplitudeSamplingDelay = newConfig->amplitudeSamplingDelay;
 	}
-
+	
 	if(newConfig->audioSamplingFrequency != oldConfig->audioSamplingFrequency && newConfig->audioSamplingFrequency != 0)
 	{
-		audioRecorderSetSamplingFrequency(newConfig->audioSamplingFrequency);
 		logMsgVal("Changed sampling frequency ", newConfig->audioSamplingFrequency);
+		audioRecorderSetSamplingFrequency(newConfig->audioSamplingFrequency);
+		oldConfig->audioSamplingFrequency = newConfig->audioSamplingFrequency;
 	}
-
+	
 	if(newConfig->clientPort != oldConfig->clientPort && newConfig->clientPort != 0)
 	{
 		logMsgVal("Changed client port ", newConfig->clientPort);
+		oldConfig->clientPort = newConfig->clientPort;
 	}
-
-	if(strcmp(newConfig->clientIp, oldConfig->clientIp) && strlen(newConfig->clientIp) > 0)
+	
+	if(strcmp(newConfig->clientIp, oldConfig->clientIp) && strlen(newConfig->clientIp) > 0 && strcmp(newConfig->clientIp, "0.0.0.0"))
 	{
 		sprintf(msg, "Changed client IP: %s", newConfig->clientIp);
 		logMsg(msg);
+		strcpy(oldConfig->clientIp, newConfig->clientIp);
 	}
-
-	if(newConfig->windowType != oldConfig->windowType && newConfig->windowType > UNDEFINED && newConfig->windowType <= HANN)
+	
+	if(newConfig->windowType != oldConfig->windowType && newConfig->windowType > UNDEFINED && newConfig->windowType <= FLAT_TOP)
 	{
 		switch(newConfig->windowType)
 		{
@@ -196,8 +176,14 @@ void makeChanges(StmConfig* newConfig, StmConfig* oldConfig) {
 			default:
 			{
 				logErr("Unknown window");
+				knownWindow = FALSE;
 				break;
 			}
+		}
+		
+		if(knownWindow)
+		{
+			oldConfig->windowType = newConfig->windowType;
 		}
 	}
 }

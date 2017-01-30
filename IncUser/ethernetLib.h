@@ -85,10 +85,8 @@ err_t sendSpectrum(SpectrumStr* ampStr, struct netconn *client);
 uint8_t isNetconnStatusOk(err_t status);
 err_t udpSend(struct netconn *client, void* buf, uint32_t buffSize);
 HttpRequestType getRequestType(char* fullMsg);
-err_t sendConfiguration(StmConfig* config, struct netconn* client,
-		char* requestParameters);
-err_t sendHttpResponse(struct netconn* client, char* httpStatus,
-		char* requestParameters, char* content);
+err_t sendConfiguration(StmConfig* config, struct netconn* client, char* requestParameters);
+err_t sendHttpResponse(struct netconn* client, char* httpStatus, char* requestParameters, char* content);
 err_t sendString(struct netconn* client, const char* array);
 void getDataFromBuffer(char* strBuffer, struct netbuf* buf);
 uint8_t isConfigRequest(char* buf);

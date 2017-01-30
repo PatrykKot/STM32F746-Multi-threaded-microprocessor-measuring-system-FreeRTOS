@@ -139,6 +139,12 @@ void soundProcessingCopyAmplitudeInstance(SpectrumStr* source,
 	}
 }
 
+/**
+ * @brief Calculates Hann window value
+ * @param index: sample indes
+ * @param length: all sample length
+ * @retval value of Hann window
+ */
 float32_t calcHann(uint32_t index, uint32_t length)
 {
 	return (float32_t)0.5*((float32_t)1-arm_cos_f32((float32_t)(2*PI*index)/(float32_t)(length-1)));
@@ -146,15 +152,27 @@ float32_t calcHann(uint32_t index, uint32_t length)
 
 static const float32_t flatTopTable[] = {0.21557895, 0.41663158, 0.277263158, 0.083578947, 0.006947368};
 
+/**
+ * @brief Calculates Flat top window value
+ * @param index: sample indes
+ * @param length: all sample length
+ * @retval value of Flat top window
+ */
 float32_t calcFlatTop(uint32_t index, uint32_t length)
 {
 	return flatTopTable[0] - flatTopTable[1] * arm_cos_f32((float32_t)(2*PI*index)/(float32_t)(length-1)) + flatTopTable[2] * arm_cos_f32((float32_t)(4*PI*index)/(float32_t)(length-1)) - flatTopTable[3] * arm_cos_f32((float32_t)(6*PI*index)/(float32_t)(length-1)) + flatTopTable[4] * arm_cos_f32((float32_t)(8*PI*index)/(float32_t)(length-1));
 }
 
+/**
+ * @brief Process audio signal by window
+ * @param windowType: type of signal window
+ * @param soundBuffer: pointer to audio buffer
+ * @param length: audio buffer size
+ */
 void soundProcessingProcessWindow(WindowType windowType, float32_t* soundBuffer, uint32_t length)
 {
 	uint32_t index;
-
+	
 	switch(windowType)
 	{
 		case RECTANGLE:

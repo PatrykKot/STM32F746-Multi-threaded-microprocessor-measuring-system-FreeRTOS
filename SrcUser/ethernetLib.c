@@ -130,30 +130,48 @@ HttpRequestType getRequestType(char* fullMsg) {
 }
 
 /**
- * @brief Sens the device configuration to the client
+ * @brief Sends the device configuration to the client
  * @param config: pointer to \ref StmConfig structure
  * @param client: pointer to \ref netconn structure (represents endpoint client)
+ * @param requestParameters: HTTP request parameters
  * @retval ERR_OK if there are no errors
  */
-err_t sendConfiguration(StmConfig* config, struct netconn* client,
-		char* requestParameters) {
+err_t sendConfiguration(StmConfig* config, struct netconn* client, char* requestParameters) {
 	char configContent[256];
 	stmConfigToString(config, configContent, 256);
 	return sendHttpResponse(client, "200 OK", requestParameters, configContent);
 }
 
-err_t sendHttpResponse(struct netconn* client, char* httpStatus,
-		char* requestParameters, char* content) {
+/**
+ * @brief Sends HTTP response
+ * @param client: pointer \ref netconn network structure
+ * @param httpStatus: HTTP status
+ * @param requestParameters: HTTP request parameters
+ * @param content: HTTP content
+ * @retval ERR_OK if there are no errors
+ */
+err_t sendHttpResponse(struct netconn* client, char* httpStatus, char* requestParameters, char* content) {
 	char response[1024];
 	sprintf(response, httpHeaderPattern, httpStatus, strlen(content),
 			requestParameters, content);
 	return sendString(client, response);
 }
 
+/**
+ * @brief Sends string by TCP
+ * @param client: pointer \ref netconn network structure
+ * @param array: string to send
+ * @retval ERR_OK if there are no errors
+ */
 err_t sendString(struct netconn* client, const char* array) {
 	return netconn_write(client, array, strlen(array), NETCONN_NOCOPY);
 }
 
+/**
+ * @brief Extracts data from network buffer
+ * @param strBuffer: output string data buffer
+ * @param buf: network buffer
+ */
 void getDataFromBuffer(char* strBuffer, struct netbuf* buf)
 {
 	void* data;
@@ -172,6 +190,11 @@ uint8_t isConfigRequest(char* buf) {
 	return (strstr(buf, " /config ")!=NULL);
 }
 
+/**
+ * @brief Check if the request includes '/system' text
+ * @param buf: pointer to \ref netbuf structure
+ * @retval returns 1 if request includes '/system'
+ */
 uint8_t isSystemRequest(char* buf) {
 	return (strstr(buf, " /system ")!=NULL);
 }
